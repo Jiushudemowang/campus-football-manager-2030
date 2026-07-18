@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🏫 校园足球经理 · 华中科技大学新闻学院</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--hust-blue:#1B3A6B;--hust-purple:#6B4C9A;--hust-light-blue:#4A8EC7;--hust-sky:#7BB8E8;--hust-accent:#E8C84A;--hust-bg-dark:#0C1528;--hust-card-bg:linear-gradient(150deg,#111D35,#0A1220);--card-radius:12px;--card-padding:16px;--card-width:310px;--card-gap:20px;--card-height:480px;--radar-size:175px;--stat-sho:#FF6B35;--stat-pac:#4A8EC7;--stat-dri:#8B7BC8;--stat-pas:#E8C84A;--stat-def:#1B3A6B;--stat-phy:#6B4C9A;--font-display:'Oswald',sans-serif;--font-body:'Inter','Noto Sans SC',sans-serif;--font-mono:'JetBrains Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A1628;font-family:var(--font-body);color:#fff;min-height:100vh;background-image:radial-gradient(ellipse at 30% 20%,rgba(74,144,217,0.06) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(123,184,232,0.03) 0%,transparent 50%)}
+.header{text-align:center;padding:36px 20px 20px;position:relative;overflow:hidden}
+.header::after{content:'🏫';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:240px;opacity:0.012;pointer-events:none}
+.header-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(74,144,217,0.15),rgba(0,56,126,0.1));border:1px solid rgba(74,144,217,0.08);border-radius:100px;padding:4px 16px 4px 4px;margin-bottom:12px;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35)}
+.header h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,56px);text-transform:uppercase;letter-spacing:4px;background:linear-gradient(135deg,#4A8EC7 0%,#8B7BC8 60%,#E8C84A 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.header .sub{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.15);margin-top:4px}
+.filter-bar{display:flex;justify-content:center;flex-wrap:wrap;gap:4px;padding:0 12px 16px}
+.filter-btn{padding:4px 10px;border-radius:16px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:rgba(255,255,255,0.3);font-size:10px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:var(--font-body)}
+.filter-btn:hover{border-color:rgba(74,144,217,0.1);color:rgba(255,255,255,0.5)}
+.filter-btn.active{background:linear-gradient(135deg,var(--hust-blue),var(--hust-purple));border-color:transparent;color:#fff}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-width),1fr));gap:var(--card-gap);padding:0 16px 40px;max-width:1320px;margin:0 auto;justify-items:center}
+.flip-container{width:var(--card-width);height:var(--card-height);perspective:1200px}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.0,.2,1);transform-style:preserve-3d}
+.flip-container.flipped .flip-inner{transform:rotateY(180deg)}
+.card-front,.card-back{position:absolute;inset:0;overflow:hidden;clip-path:polygon(3% 0%,97% 0%,100% 2%,100% 98%,97% 100%,3% 100%,0% 98%,0% 2%)}
+.card-back{transform:rotateY(180deg)}
+.card-front{visibility:visible}
+.card-back{visibility:hidden}
+.flip-container.flipped .card-front{visibility:hidden}
+.flip-container.flipped .card-back{visibility:visible}
+.card-front{background:var(--hust-card-bg)}
+.front-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;pointer-events:none}
+.front-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,transparent 30%,rgba(10,22,40,0.3) 60%,rgba(10,22,40,0.7) 100%);pointer-events:none}
+.front-top{position:relative;z-index:3;padding:14px;display:flex;justify-content:space-between;align-items:flex-start}
+.front-num{font-family:var(--font-display);font-weight:700;font-size:52px;line-height:.8;letter-spacing:-2px;color:rgba(255,255,255,0.12);text-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.front-badge{font-size:10px;font-weight:600;letter-spacing:2px;color:rgba(255,255,255,0.08);font-family:var(--font-display);text-transform:uppercase}
+.front-name-bottom{position:relative;z-index:3;margin-top:auto;padding:0 14px 12px}
+.front-name{font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:2px;text-transform:uppercase;line-height:1;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,0.5)}
+.front-sub{font-size:9px;font-weight:300;color:rgba(255,255,255,0.1);letter-spacing:2px;margin-top:1px}
+
+.card-back{background:linear-gradient(160deg,#0D1F38,#091220)}
+.card-back .top-bar{height:3px;width:100%;position:absolute;top:0;left:0;z-index:3;background:linear-gradient(90deg,var(--hust-light-blue),var(--hust-purple),var(--hust-accent))}
+.card-back .inner{padding:var(--card-padding);position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
+.card-back .inner::before{content:'JC';position:absolute;bottom:4px;right:6px;font-family:var(--font-display);font-weight:700;font-size:48px;letter-spacing:-2px;color:rgba(255,255,255,0.02);pointer-events:none;line-height:1;z-index:0}
+.back-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.back-school{display:flex;align-items:center;gap:6px}
+.back-school .badge{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--hust-blue),var(--hust-purple));display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;flex-shrink:0}
+.back-school .name{font-size:8px;font-weight:600;letter-spacing:1.5px;color:rgba(255,255,255,0.12)}
+.back-number{font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:-1px;background:linear-gradient(180deg,var(--hust-accent),var(--hust-light-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.back-identity{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.back-pos-badge{font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:1px;padding:1px 10px 0;border-radius:5px;background:rgba(74,144,217,0.08);border:1px solid rgba(74,144,217,0.03);color:rgba(255,255,255,0.5);min-width:34px;text-align:center}
+.back-name .name-cn{font-size:15px;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,0.85)}
+.back-name .name-en{font-size:9px;font-weight:300;color:rgba(255,255,255,0.12);letter-spacing:1px;text-transform:uppercase;margin-top:-1px}
+.back-bio{display:flex;gap:8px;margin-bottom:6px;font-size:9px;color:rgba(255,255,255,0.12)}
+.back-bio span{background:rgba(255,255,255,0.02);padding:1px 6px;border-radius:3px}
+.back-radar{display:flex;justify-content:center;margin:2px 0 4px;flex:1;min-height:0}
+.back-radar svg{width:var(--radar-size);height:var(--radar-size);filter:drop-shadow(0 4px 16px rgba(74,144,217,0.06))}
+.back-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;margin-top:auto}
+.stat-row{display:flex;align-items:center;gap:4px}
+.stat-row .stat-label{font-size:8px;font-weight:700;letter-spacing:.3px;min-width:20px;font-family:var(--font-mono)}
+.stat-row.sho .stat-label{color:var(--stat-sho)}.stat-row.pac .stat-label{color:var(--stat-pac)}
+.stat-row.dri .stat-label{color:#8B7BC8}.stat-row.pas .stat-label{color:var(--stat-pas)}
+.stat-row.def .stat-label{color:var(--stat-def)}.stat-row.phy .stat-label{color:#6B4C9A}
+.stat-track{flex:1;height:4px;background:rgba(255,255,255,0.02);border-radius:2px;overflow:hidden}
+.stat-fill{height:100%;border-radius:2px;transition:width .8s cubic-bezier(.34,1.56,.64,1)}
+.stat-row.sho .stat-fill{background:linear-gradient(90deg,#D50000,var(--stat-sho))}
+.stat-row.pac .stat-fill{background:linear-gradient(90deg,#00387E,var(--stat-pac))}
+.stat-row.dri .stat-fill{background:linear-gradient(90deg,#0A1628,var(--stat-dri))}
+.stat-row.pas .stat-fill{background:linear-gradient(90deg,#F9A825,var(--stat-pas))}
+.stat-row.def .stat-fill{background:linear-gradient(90deg,#002060,var(--stat-def))}
+.stat-row.phy .stat-fill{background:linear-gradient(90deg,#1A0A30,var(--stat-phy))}
+.stat-value{font-family:var(--font-mono);font-size:9px;font-weight:600;min-width:18px;text-align:right;color:rgba(255,255,255,0.3)}
+.back-footer{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:6px;border-top:1px solid rgba(74,144,217,0.02)}
+.back-footer .skill{font-size:9px;color:rgba(255,255,255,0.1)}
+.back-footer .school-tag{font-size:7px;letter-spacing:1px;color:rgba(255,255,255,0.03)}
+
+.card-back.coach .coach-title{font-size:20px;font-weight:700;font-family:var(--font-display);letter-spacing:3px;text-transform:uppercase;background:linear-gradient(135deg,var(--hust-light-blue),var(--hust-sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:auto;text-align:center}
+.card-back.coach .coach-desc{font-size:10px;color:rgba(255,255,255,0.08);text-align:center;letter-spacing:2px;margin-bottom:8px}
+.card-back.coach .coach-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:auto}
+.card-back.coach .coach-stat{text-align:center;padding:6px;border-radius:6px;background:rgba(74,144,217,0.02);border:1px solid rgba(74,144,217,0.02)}
+.card-back.coach .coach-stat .val{font-family:var(--font-display);font-weight:700;font-size:24px;line-height:1;background:linear-gradient(180deg,var(--hust-accent),var(--hust-light-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.card-back.coach .coach-stat .lbl{font-size:7px;color:rgba(255,255,255,0.1);letter-spacing:1px;margin-top:2px}
+
+.info-panel{max-width:1320px;margin:-10px auto 30px;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.info-card{background:rgba(255,255,255,0.01);border:1px solid rgba(74,144,217,0.02);border-radius:8px;padding:8px 12px}
+.info-card h4{font-family:var(--font-display);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.12);margin-bottom:4px}
+.legend-grid{display:flex;flex-wrap:wrap;gap:3px}
+.legend-item{display:flex;align-items:center;gap:3px;font-size:8px;color:rgba(255,255,255,0.1)}
+.legend-item .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.legend-item .dot.sho{background:var(--stat-sho)}.legend-item .dot.pac{background:var(--stat-pac)}.legend-item .dot.dri{background:var(--stat-dri)}.legend-item .dot.pas{background:var(--stat-pas)}.legend-item .dot.def{background:var(--stat-def)}.legend-item .dot.phy{background:var(--stat-phy)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.flip-container{animation:fadeUp .5s ease backwards}
+@media(max-width:700px){:root{--card-width:270px;--card-padding:14px;--radar-size:170px;--card-height:460px}}
+</style></head><body>
+<header class="header"><div class="header-badge"><span>🏫</span> SCHOOL FOOTBALL MANAGER</div>
+<h1>CAMPUS LEGENDS<br>校园足球经理</h1>
+<p class="sub">华中科技大学 · 新闻与信息传播学院 · 2026</p></header>
+<div class="filter-bar">
+<button class="filter-btn active" data-filter="all">⚽ 全部</button>
+<button class="filter-btn" data-filter="gk">🧤 门将</button>
+<button class="filter-btn" data-filter="def">🛡️ 后卫</button>
+<button class="filter-btn" data-filter="mid">⚙️ 中场</button>
+<button class="filter-btn" data-filter="fwd">⚡ 前锋</button>
+<button class="filter-btn" data-filter="staff">📋 教练/经理</button>
+</div>
+<div class="card-grid" id="cardGrid"></div>
+<div class="info-panel">
+<div class="info-card"><h4>六维数据</h4><div class="legend-grid">
+<span class="legend-item"><span class="dot sho"></span> 射门</span><span class="legend-item"><span class="dot pac"></span> 速度</span><span class="legend-item"><span class="dot dri"></span> 盘带</span>
+<span class="legend-item"><span class="dot pas"></span> 传球</span><span class="legend-item"><span class="dot def"></span> 防守</span><span class="legend-item"><span class="dot phy"></span> 体能</span>
+</div></div>
+<div class="info-card"><h4>配色</h4><div style="font-size:8px;color:rgba(255,255,255,0.08);line-height:1.6">🔵 华科蓝 #00387E<br>💠 浅蓝 #4A90D9</div></div>
+<div class="info-card"><h4>提示</h4><div style="font-size:8px;color:rgba(255,255,255,0.06);line-height:1.6">🔄 悬停翻转查看数据<br>📸 正面球员照片</div></div>
+</div>
+<script>
+const P=[
+{id:1,num:1,name:'吴润泽',pos:'GK',role:'gk',height:192,weight:65,age:19,sho:70,pac:85,pas:55,dri:60,def:60,phy:85,skill:'🧤 高空制霸'},
+{id:2,num:3,name:'康锦烁',pos:'RB',role:'def',height:180,weight:60,age:18,sho:70,pac:88,pas:70,dri:60,def:85,phy:77,skill:'💨 高速往返'},
+{id:3,num:4,name:'伍彦名',pos:'CB',role:'def',height:186,weight:73,age:20,sho:60,pac:55,pas:70,dri:70,def:80,phy:75,skill:'🛡️ 防线铁闸'},
+{id:4,num:5,name:'杨云帆',pos:'CDM',role:'mid',height:182,weight:75,age:21,sho:80,pac:75,pas:80,dri:75,def:80,phy:85,skill:'🎵 中场引擎'},
+{id:5,num:6,name:'吴冠鹏',pos:'CB',role:'def',height:187,weight:68,age:19,sho:68,pac:65,pas:72,dri:70,def:70,phy:61,skill:'🧱 人肉城墙'},
+{id:6,num:7,name:'王楷硕',pos:'FW',role:'fwd',height:174,weight:70,age:19,sho:96,pac:99,pas:80,dri:89,def:43,phy:71,skill:'🔥 锋线尖刀'},
+{id:7,num:8,name:'程晨',pos:'FW',role:'fwd',height:163,weight:49,age:19,sho:75,pac:90,pas:70,dri:75,def:70,phy:70,skill:'⚡ 边路精灵'},
+{id:8,num:9,name:'陈勇旭',pos:'ST',role:'fwd',height:178,weight:69,age:19,sho:74,pac:92,pas:78,dri:64,def:81,phy:81,skill:'🌀 全能翼卫'},
+{id:9,num:10,name:'夏绎博',pos:'LB',role:'def',height:173,weight:75,age:20,sho:63,pac:68,pas:70,dri:62,def:75,phy:65,skill:'🔄 边路稳固'},
+{id:10,num:11,name:'钱文伟',pos:'ST',role:'fwd',height:175,weight:90,age:21,sho:72,pac:65,pas:91,dri:77,def:69,phy:91,skill:'🏋️ 重型支点'},
+{id:11,num:12,name:'刘佳琛',pos:'LB',role:'def',height:183,weight:72,age:19,sho:60,pac:65,pas:65,dri:60,def:70,phy:75,skill:'🛡️ 稳健边卫'},
+{id:12,num:13,name:'吴杨楚涵',pos:'LB',role:'def',height:176,weight:65,age:20,sho:65,pac:85,pas:70,dri:69,def:80,phy:78,skill:'⚡ 冲刺边卫'},
+{id:13,num:14,name:'吾尔肯',pos:'CDM',role:'mid',height:190,weight:94,age:26,sho:95,pac:85,pas:95,dri:90,def:75,phy:95,skill:'💎 中场基石'},
+{id:14,num:15,name:'张明阳',pos:'FW',role:'fwd',height:186,weight:65,age:23,sho:60,pac:99,pas:59,dri:1,def:70,phy:60,skill:'🚀 速度狂魔'},
+{id:15,num:17,name:'谭琦',pos:'FW',role:'fwd',height:171,weight:67,age:20,sho:87,pac:90,pas:85,dri:85,def:85,phy:87,skill:'💫 全能战将'},
+{id:16,num:19,name:'田彬阳',pos:'CB',role:'def',height:181,weight:88,age:20,sho:44,pac:44,pas:22,dri:11,def:66,phy:66,skill:'🧱 肉盾中卫'},
+{id:17,num:20,name:'张洋',pos:'ST',role:'fwd',height:175,weight:75,age:22,sho:60,pac:65,pas:65,dri:60,def:70,phy:75,skill:'🎯 抢点前锋'},
+{id:18,num:21,name:'孙奕文',pos:'CAM',role:'mid',height:170,weight:60,age:21,sho:89,pac:69,pas:78,dri:82,def:58,phy:64,skill:'💡 创意发动机'},
+{id:19,num:22,name:'向家剡',pos:'RB',role:'def',height:165,weight:65,age:21,sho:66,pac:55,pas:33,dri:22,def:6,phy:66,skill:'🔁 边路替补'},
+{id:20,num:24,name:'张子柠',pos:'RB',role:'def',height:165,weight:56,age:18,sho:50,pac:60,pas:60,dri:60,def:70,phy:65,skill:'🛡️ 小型边卫'},
+{id:21,num:32,name:'刘卜方',pos:'LB',role:'def',height:178,weight:69,age:19,sho:1,pac:1,pas:1,dri:1,def:2,phy:1,skill:'📋 候补'},
+{id:22,num:35,name:'徐俊杰',pos:'LB',role:'def',height:177,weight:62,age:20,sho:55,pac:69,pas:62,dri:60,def:73,phy:78,skill:'🔄 边路替补'},
+{id:23,num:36,name:'罗昱轩',pos:'FW',role:'fwd',height:179,weight:66,age:19,sho:22,pac:99,pas:33,dri:22,def:33,phy:55,skill:'🚀 速度冲击'},
+{id:24,num:97,name:'洛桑罗布',pos:'CDM',role:'mid',height:173,weight:65,age:22,sho:0,pac:2,pas:7,dri:6,def:7,phy:1,skill:'📋 替补'},
+];
+const STAFF=[
+{name:'伊靖奇',title:'HEAD COACH',desc:'球队教练',height:191,weight:79,age:20,sho:100,pac:100,pas:100,dri:100,def:100,phy:100,emojis:['🔥','💪','🧠']},
+{name:'陈子豪',title:'MANAGER',desc:'后勤统筹 · 物资管理',height:170,weight:72,age:20},
+{name:'荣佳兴',title:'MANAGER',desc:'宣传摄影 · 新媒体运营',height:185,weight:60,age:0},
+{name:'程诗语',title:'MANAGER',desc:'文案策划 · 队内协调',height:167,weight:49,age:18}
+];
+
+function gR(p){const cx=90,cy=90,mR=72;const lbs=['射门','速度','盘带','传球','防守','体能'];const vs=[p.sho,p.pac,p.dri,p.pas,p.def,p.phy];const cls=['#FF6B35','#4A90D9','#7BB8E8','#FFD700','#00387E','#5B2C8E'];function hp(r,i){const a=(i*60-90)*Math.PI/180;return{x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)};}
+let s='<svg viewBox="0 0 180 180">';for(let r=1;r<=5;r++){const R=mR*(r/5);const pts=Array.from({length:6},(_,i)=>{const P=hp(R,i);return P.x+','+P.y}).join(' ');s+='<polygon points="'+pts+'" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width=".8"/>';}
+for(let i=0;i<6;i++){const P=hp(mR,i);s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+P.x+'" y2="'+P.y+'" stroke="rgba(255,255,255,0.02)" stroke-width=".8"/>';}
+const dP=Array.from({length:6},(_,i)=>{const r=mR*(vs[i]/100)*.95;const P=hp(r,i);return P.x+','+P.y}).join(' ');
+s+='<polygon points="'+dP+'" fill="rgba(74,144,217,0.06)" stroke="#4A90D9" stroke-width="1.5" stroke-linejoin="round"/>';
+for(let i=0;i<6;i++){const r=mR*(vs[i]/100)*.95;const P=hp(r,i);s+='<circle cx="'+P.x+'" cy="'+P.y+'" r="2.5" fill="'+cls[i]+'" stroke="rgba(255,255,255,0.2)" stroke-width=".8"/>';}
+for(let i=0;i<6;i++){const P=hp(mR+15,i);const a=i===0||i===3?'middle':(i<3?'start':'end');s+='<text x="'+P.x+'" y="'+P.y+'" fill="'+cls[i]+'" font-family="\'JetBrains Mono\',monospace" font-size="8" font-weight="600" text-anchor="'+a+'" dominant-baseline="middle">'+lbs[i]+'</text>';}
+s+='</svg>';return s;}
+
+function nameToFile(n){
+const map={'吴润泽':'28','康锦烁':'24','伍彦名':'4','杨云帆':'17','吴冠鹏':'18','王楷硕':'14',
+'程晨':'21','陈勇旭':'6','夏绎博':'15','钱文伟':'22','刘佳琛':'9','吴杨楚涵':'3',
+'吾尔肯':'2','张明阳':'13','谭琦':'20','田彬阳':'1','张洋':'7','孙奕文':'5',
+'向家剡':'12','张子柠':'23','刘卜方':'8','徐俊杰':'11','罗昱轩':'19','洛桑罗布':'16',
+'伊靖奇':'10','陈子豪':'25','荣佳兴':'26','程诗语':'27'};return map[n]||n;}
+
+function rC(f){const grid=document.getElementById('cardGrid');grid.innerHTML='';
+const players=f==='all'?P:(f==='gk'?P.filter(p=>p.role==='gk'):(f==='def'?P.filter(p=>p.role==='def'):(f==='mid'?P.filter(p=>p.role==='mid'):(f==='fwd'?P.filter(p=>p.role==='fwd'):[]))));
+const staff=f==='all'?STAFF:(f==='staff'?STAFF:[]);
+players.forEach(p=>{
+const c=document.createElement('div');c.className='flip-container';
+const fname=nameToFile(p.name);
+c.innerHTML=`<div class="flip-inner">
+<div class="card-front"><img class="front-bg" src="巧克力蛋糕/${p.name}.png" alt="${p.name}" loading="lazy" onerror="this.style.display='none'"><div class="front-overlay"></div><div class="front-top"><span class="front-num">${String(p.num).padStart(2,'0')}</span><span class="front-badge">${p.pos}</span></div><div class="front-name-bottom"><div class="front-name">${p.name}</div></div></div>
+<div class="card-back"><div class="top-bar"></div><div class="inner">
+<div class="back-top"><div class="back-school"><div class="badge">🏫</div><span class="name">HUST·新闻</span></div><div class="back-number">${String(p.num).padStart(2,'0')}</div></div>
+<div class="back-identity"><div class="back-pos-badge">${p.pos}</div><div class="back-name"><div class="name-cn">${p.name}</div><div class="name-en">${p.role==='gk'?'GOALKEEPER':p.role==='def'?'DEFENDER':p.role==='mid'?'MIDFIELDER':'FORWARD'}</div></div></div>
+<div class="back-bio"><span>📏 ${p.height}cm</span><span>⚖️ ${p.weight}kg</span><span>🎂 ${p.age}岁</span></div>
+${p.role==='gk'?`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin:4px 0"><div style="text-align:center;padding:4px;border-radius:4px;background:rgba(74,144,217,0.02)"><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:#4A90D9">${p.sho}</div><div style="font-size:7px;color:rgba(255,255,255,0.08)">反应</div></div>
+<div style="text-align:center;padding:4px;border-radius:4px;background:rgba(74,144,217,0.02)"><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:#7BB8E8">${p.phy}</div><div style="font-size:7px;color:rgba(255,255,255,0.08)">跳起</div></div>
+<div style="text-align:center;padding:4px;border-radius:4px;background:rgba(74,144,217,0.02)"><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:#4A90D9">${p.pac}</div><div style="font-size:7px;color:rgba(255,255,255,0.08)">出击</div></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;margin-bottom:2px">
+<div class="stat-row"><span class="stat-label dri">盘带</span><div class="stat-track"><div class="stat-fill" style="width:${p.dri}%"></div></div><span class="stat-value">${p.dri}</span></div>
+<div class="stat-row"><span class="stat-label pas">传球</span><div class="stat-track"><div class="stat-fill" style="width:${p.pas}%"></div></div><span class="stat-value">${p.pas}</span></div>
+<div class="stat-row"><span class="stat-label def">意识</span><div class="stat-track"><div class="stat-fill" style="width:${p.def}%"></div></div><span class="stat-value">${p.def}</span></div></div>`
+:`<div class="back-radar">${gR(p)}</div><div class="back-stats">
+<div class="stat-row sho"><span class="stat-label">射门</span><div class="stat-track"><div class="stat-fill" style="width:${p.sho}%"></div></div><span class="stat-value">${p.sho}</span></div>
+<div class="stat-row pac"><span class="stat-label">速度</span><div class="stat-track"><div class="stat-fill" style="width:${p.pac}%"></div></div><span class="stat-value">${p.pac}</span></div>
+<div class="stat-row dri"><span class="stat-label">盘带</span><div class="stat-track"><div class="stat-fill" style="width:${p.dri}%"></div></div><span class="stat-value">${p.dri}</span></div>
+<div class="stat-row pas"><span class="stat-label">传球</span><div class="stat-track"><div class="stat-fill" style="width:${p.pas}%"></div></div><span class="stat-value">${p.pas}</span></div>
+<div class="stat-row def"><span class="stat-label">防守</span><div class="stat-track"><div class="stat-fill" style="width:${p.def}%"></div></div><span class="stat-value">${p.def}</span></div>
+<div class="stat-row phy"><span class="stat-label">体能</span><div class="stat-track"><div class="stat-fill" style="width:${p.phy}%"></div></div><span class="stat-value">${p.phy}</span></div>
+</div>`}
+<div class="back-footer"><span class="skill">${p.skill||''}</span><span class="school-tag">HUST·JC</span></div>
+</div></div></div>`;
+grid.appendChild(c);c.addEventListener('mouseenter',()=>c.classList.add('flipped'));c.addEventListener('mouseleave',()=>c.classList.remove('flipped'));
+});
+staff.forEach(s=>{
+const c=document.createElement('div');c.className='flip-container';
+c.innerHTML=`<div class="flip-inner"><div class="card-front"><img class="front-bg" src="巧克力蛋糕/${s.name}.png" alt="${s.name}" loading="lazy" onerror="this.style.display='none'"><div class="front-overlay"></div><div class="front-top"><span class="front-num" style="font-size:28px">STAFF</span></div><div class="front-name-bottom"><div class="front-name">${s.name}</div></div></div>
+<div class="card-back coach"><div class="top-bar"></div><div class="inner" style="justify-content:center;align-items:center">
+${s.title==='HEAD COACH'?`<div style="font-size:28px;margin-bottom:6px">🏆</div><div class="coach-title">${s.title}</div><div class="coach-desc">${s.desc}</div>
+<div style="display:flex;gap:12px;margin-bottom:8px"><div style="text-align:center"><div style="font-size:10px;color:rgba(255,255,255,0.1)">📏</div><div style="font-size:12px;color:rgba(255,255,255,0.25)">${s.height}cm</div></div><div style="text-align:center"><div style="font-size:10px;color:rgba(255,255,255,0.1)">⚖️</div><div style="font-size:12px;color:rgba(255,255,255,0.25)">${s.weight}kg</div></div><div style="text-align:center"><div style="font-size:10px;color:rgba(255,255,255,0.1)">🎂</div><div style="font-size:12px;color:rgba(255,255,255,0.25)">${s.age}岁</div></div></div>
+<div class="coach-stats"><div class="coach-stat"><div class="val">${s.sho}</div><div class="lbl">进攻</div></div><div class="coach-stat"><div class="val">${s.pac}</div><div class="lbl">速度</div></div><div class="coach-stat"><div class="val">${s.phy}</div><div class="lbl">体能</div></div></div>`
+:`<div style="font-size:14px;font-weight:600;font-family:var(--font-display);letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);text-align:center">${s.name}</div>
+<div style="font-size:9px;color:rgba(255,255,255,0.04);letter-spacing:2px;text-transform:uppercase;margin:4px 0 8px">${s.title}</div>
+<div style="font-size:8px;color:rgba(255,255,255,0.07);text-align:center;max-width:200px">${s.desc||''}</div>
+<div style="display:flex;gap:10px;margin-top:8px;justify-content:center">${s.height?`<span style="font-size:9px;color:rgba(255,255,255,0.04)">📏 ${s.height}cm</span>`:''}${s.weight?`<span style="font-size:9px;color:rgba(255,255,255,0.04)">⚖️ ${s.weight}kg</span>`:''}${s.age?`<span style="font-size:9px;color:rgba(255,255,255,0.04)">🎂 ${s.age}岁</span>`:''}</div>`}
+</div></div></div>`;
+grid.appendChild(c);c.addEventListener('mouseenter',()=>c.classList.add('flipped'));c.addEventListener('mouseleave',()=>c.classList.remove('flipped'));
+});}
+document.querySelectorAll('.filter-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');rC(b.dataset.filter);});});
+document.addEventListener('DOMContentLoaded',()=>rC('all'));
+</script></body></html>

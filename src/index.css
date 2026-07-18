@@ -1,0 +1,513 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 像素艺术字体 */
+
+:root {
+  --pixel-black: #0a0a0f;
+  --pixel-white: #f0f0f0;
+  --pixel-green: #4ade80;
+  --pixel-dark-green: #16a34a;
+  --pixel-yellow: #facc15;
+  --pixel-orange: #f97316;
+  --pixel-red: #ef4444;
+  --pixel-blue: #3b82f6;
+  --pixel-purple: #a855f7;
+  --pixel-gray: #64748b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+body {
+  font-family: 'Press Start 2P', system-ui, sans-serif;
+  background-color: var(--pixel-black);
+  color: var(--pixel-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 像素文本样式 */
+.pixel-text {
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.5px;
+  text-shadow: 2px 2px 0px var(--pixel-black);
+}
+
+/* 像素边框效果 */
+.pixel-border {
+  border: 4px solid var(--pixel-white);
+  box-shadow: 
+    inset -4px -4px 0px 0px rgba(0,0,0,0.3),
+    inset 4px 4px 0px 0px rgba(255,255,255,0.2);
+}
+
+/* 像素按钮样式 */
+.pixel-button {
+  background: linear-gradient(180deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
+  border: 4px solid #0a0a0f;
+  box-shadow: 
+    inset -4px -4px 0px 0px #15803d,
+    inset 4px 4px 0px 0px #86efac,
+    4px 4px 0px 0px #0a0a0f;
+  transition: all 0.1s;
+  position: relative;
+}
+
+.pixel-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 
+    inset -4px -4px 0px 0px #15803d,
+    inset 4px 4px 0px 0px #86efac,
+    6px 6px 0px 0px #0a0a0f;
+}
+
+.pixel-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 
+    inset -4px -4px 0px 0px #15803d,
+    inset 4px 4px 0px 0px #86efac,
+    2px 2px 0px 0px #0a0a0f;
+}
+
+/* 像素卡片样式 */
+.pixel-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 4px solid #4ade80;
+  box-shadow: 
+    inset -4px -4px 0px 0px #16a34a,
+    inset 4px 4px 0px 0px #86efac,
+    0 0 0 4px #0a0a0f,
+    0 0 30px rgba(74, 222, 128, 0.2);
+  position: relative;
+}
+
+.pixel-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4ade80, #facc15, #f97316, #4ade80);
+  background-size: 200% 100%;
+  animation: pixelRainbow 3s linear infinite;
+}
+
+@keyframes pixelRainbow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* 像素对话框样式 */
+.pixel-dialog {
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  border: 4px solid #4ade80;
+  box-shadow: 
+    inset -4px -4px 0px 0px #16a34a,
+    inset 4px 4px 0px 0px #86efac,
+    8px 8px 0px 0px #0a0a0f,
+    0 0 40px rgba(74, 222, 128, 0.3);
+}
+
+/* 像素头像框 */
+.pixel-avatar-frame {
+  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  border: 4px solid #0a0a0f;
+  box-shadow: 
+    inset -4px -4px 0px 0px #15803d,
+    inset 4px 4px 0px 0px #86efac;
+}
+
+/* 像素角装饰 */
+.pixel-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #facc15;
+}
+
+.pixel-corner-tl {
+  top: -2px;
+  left: -2px;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.pixel-corner-tr {
+  top: -2px;
+  right: -2px;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.pixel-corner-bl {
+  bottom: -2px;
+  left: -2px;
+  clip-path: polygon(0 100%, 100% 100%, 0 0);
+}
+
+.pixel-corner-br {
+  bottom: -2px;
+  right: -2px;
+  clip-path: polygon(100% 100%, 100% 0, 0 100%);
+}
+
+/* 像素闪烁动画 */
+@keyframes pixelBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.pixel-blink {
+  animation: pixelBlink 1s step-end infinite;
+}
+
+/* 像素弹跳动画 */
+@keyframes pixelBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.pixel-bounce {
+  animation: pixelBounce 0.6s ease-in-out infinite;
+}
+
+/* 像素抖动动画（用于紧张时刻） */
+@keyframes pixelShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.pixel-shake {
+  animation: pixelShake 0.3s ease-in-out;
+}
+
+/* 像素淡入动画 */
+@keyframes pixelFadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+.pixel-fade-in {
+  animation: pixelFadeIn 0.5s ease-out forwards;
+}
+
+/* 像素滑动动画 */
+@keyframes pixelSlideIn {
+  from { 
+    opacity: 0; 
+    transform: translateX(-100px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0);
+  }
+}
+
+.pixel-slide-in {
+  animation: pixelSlideIn 0.4s ease-out forwards;
+}
+
+/* 像素闪烁光标 */
+@keyframes pixelCursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.pixel-cursor {
+  display: inline-block;
+  width: 12px;
+  height: 20px;
+  background: #4ade80;
+  margin-left: 4px;
+  animation: pixelCursor 0.8s step-end infinite;
+}
+
+/* 像素进度条 */
+.pixel-progress {
+  background: #1e293b;
+  border: 3px solid #0a0a0f;
+  box-shadow: inset 0 0 0 2px #334155;
+}
+
+.pixel-progress-bar {
+  background: linear-gradient(90deg, #4ade80, #facc15, #f97316);
+  background-size: 200% 100%;
+  animation: pixelRainbow 2s linear infinite;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+}
+
+/* 像素选择高亮 */
+.pixel-highlight {
+  background: rgba(74, 222, 128, 0.2);
+  border: 2px dashed #4ade80;
+}
+
+/* 滚动条像素风格 */
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+  border: 2px solid #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4ade80, #22c55e);
+  border: 2px solid #0a0a0f;
+  box-shadow: inset -2px -2px 0 #15803d, inset 2px 2px 0 #86efac;
+}
+
+/* 像素星星效果 */
+@keyframes pixelStar {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.pixel-star {
+  animation: pixelStar 2s ease-in-out infinite;
+}
+
+/* 像素旋转动画 */
+@keyframes pixelSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.pixel-spin {
+  animation: pixelSpin 2s linear infinite;
+}
+
+/* 像素脉冲动画 */
+@keyframes pixelPulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 0 20px rgba(74, 222, 128, 0);
+  }
+}
+
+.pixel-pulse {
+  animation: pixelPulse 2s ease-in-out infinite;
+}
+
+/* 像素游戏背景 */
+.pixel-bg-pattern {
+  background-image: 
+    linear-gradient(rgba(74, 222, 128, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74, 222, 128, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* 像素霓虹灯效果 */
+.pixel-neon {
+  text-shadow: 
+    0 0 10px #4ade80,
+    0 0 20px #4ade80,
+    0 0 40px #4ade80;
+}
+
+/* 像素扫描线效果 */
+.pixel-scanlines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+}
+
+/* 像素复古滤镜 */
+.pixel-retro-filter {
+  filter: contrast(1.1) saturate(1.2);
+}
+
+/* 像素游戏标题效果 */
+.pixel-game-title {
+  font-family: 'Press Start 2P', monospace;
+  text-shadow: 
+    4px 4px 0px #000,
+    -2px -2px 0px #000,
+    2px -2px 0px #000,
+    -2px 2px 0px #000;
+  letter-spacing: 4px;
+}
+
+/* 像素闪烁效果 - 用于重要通知 */
+@keyframes pixel-flash {
+  0%, 50% { opacity: 1; transform: scale(1); }
+  25%, 75% { opacity: 0.5; transform: scale(1.02); }
+}
+
+.pixel-flash {
+  animation: pixel-flash 0.5s ease-in-out 3;
+}
+
+/* 像素胜利效果 */
+@keyframes pixel-victory {
+  0% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(-5deg); }
+  50% { transform: scale(1) rotate(0deg); }
+  75% { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.pixel-victory {
+  animation: pixel-victory 0.5s ease-in-out infinite;
+}
+
+/* 像素火花效果 */
+@keyframes pixel-spark {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-20px) scale(0); opacity: 0; }
+}
+
+.pixel-spark {
+  animation: pixel-spark 0.8s ease-out forwards;
+}
+
+/* 像素对话框弹出效果 */
+@keyframes pixel-pop-in {
+  0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+  70% { transform: scale(1.05) translateY(-5px); }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.pixel-pop-in {
+  animation: pixel-pop-in 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* 像素按钮按压效果增强 */
+.pixel-button:active {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 
+    inset -4px -4px 0px 0px #15803d,
+    inset 4px 4px 0px 0px #86efac !important;
+}
+
+/* 像素文字打字机光标 */
+.pixel-text-cursor {
+  display: inline-block;
+  width: 12px;
+  height: 20px;
+  background: #4ade80;
+  margin-left: 4px;
+  animation: pixel-cursor 0.8s step-end infinite;
+}
+
+/* 像素生命值条样式 */
+.pixel-health-bar {
+  background: #1a1a2e;
+  border: 4px solid #0f0f1a;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.pixel-health-fill {
+  background: linear-gradient(180deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+  transition: width 0.3s ease-out;
+}
+
+/* 像素徽章/成就样式 */
+.pixel-badge {
+  background: linear-gradient(135deg, #facc15 0%, #f97316 100%);
+  border: 4px solid #000;
+  box-shadow: 
+    inset -4px -4px 0px 0px #c2410c,
+    inset 4px 4px 0px 0px #fde68a,
+    4px 4px 0px 0px #000;
+}
+
+/* 像素对话框音效指示 */
+.pixel-sound-wave {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #4ade80;
+  border-radius: 50%;
+  animation: pixel-sound 1s ease-out infinite;
+}
+
+@keyframes pixel-sound {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* 像素游戏背景网格 */
+.pixel-grid-bg {
+  background-image: 
+    linear-gradient(rgba(74, 222, 128, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74, 222, 128, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* 像素发光按钮 */
+.pixel-button-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.pixel-button-glow::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(74, 222, 128, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: pixel-glow-sweep 3s linear infinite;
+}
+
+@keyframes pixel-glow-sweep {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* 像素震动效果 - 用于紧张时刻 */
+@keyframes pixel-shake-intense {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-4px, -4px); }
+  20% { transform: translate(4px, 4px); }
+  30% { transform: translate(-4px, 4px); }
+  40% { transform: translate(4px, -4px); }
+  50% { transform: translate(-4px, 0); }
+  60% { transform: translate(4px, 0); }
+  70% { transform: translate(0, -4px); }
+  80% { transform: translate(0, 4px); }
+  90% { transform: translate(-2px, -2px); }
+}
+
+.pixel-shake-intense {
+  animation: pixel-shake-intense 0.5s ease-in-out;
+}

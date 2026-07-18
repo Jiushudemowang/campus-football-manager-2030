@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇧🇷 BRAZIL · 球星基准卡牌 | 校园足球经理 2030</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brazil-green: #00C853;
+  --brazil-yellow: #FEDF00;
+  --brazil-blue: #002776;
+  --brazil-white: #FFFFFF;
+  --card-bg-start: #0D2818;
+  --card-bg-end: #081A0E;
+  --card-bg: linear-gradient(150deg, var(--card-bg-start) 0%, var(--card-bg-end) 100%);
+  --card-radius: 14px;
+  --card-padding: 20px;
+  --card-width: 320px;
+  --card-gap: 24px;
+  --card-height: 540px;
+  --radar-size: 220px;
+  --radar-fill: rgba(0,200,83,0.2);
+  --radar-stroke: var(--brazil-green);
+  --stat-pac: #FEDF00;
+  --stat-sho: #FF1744;
+  --stat-pas: #448AFF;
+  --stat-dri: #FFB300;
+  --stat-def: #00E676;
+  --stat-phy: #002776;
+  --gold: #FFD700;
+  --gold-glow: rgba(255,215,0,0.3);
+  --brazil-gold: #FEDF00;
+  --gold-glow: rgba(254,223,0,0.25);
+  --silver: #E0E0E0;
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #020408;
+  font-family: var(--font-body);
+  color: var(--brazil-white);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(0,200,83,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(254,223,0,0.04) 0%, transparent 50%);
+}
+
+.header { text-align: center; padding: 40px 20px 24px; position: relative; overflow: hidden; }
+.header::after { content: '🇧🇷'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 280px; opacity: 0.015; pointer-events: none; }
+.header-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 100px; padding: 5px 18px 5px 5px; margin-bottom: 14px; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+.header h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(38px,7vw,64px); text-transform: uppercase; letter-spacing: 5px; background: linear-gradient(135deg, #00C853 30%, #FEDF00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; }
+.header .sub { font-size: 12px; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-top: 4px; }
+
+.filter-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; padding: 0 16px 18px; }
+.filter-btn { padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.35); font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; font-family: var(--font-body); }
+.filter-btn:hover { border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+.filter-btn.active { background: var(--brazil-green); border-color: var(--brazil-green); color: #fff; }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr)); gap: 28px; padding: 0 20px 50px; max-width: 1360px; margin: 0 auto; justify-items: center; }
+
+/* FLIP */
+.flip-container { width: var(--card-width); height: var(--card-height); perspective: 1200px; }
+.flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.7s cubic-bezier(0.4,0.0,0.2,1); transform-style: preserve-3d; }
+.flip-container.flipped .flip-inner { transform: rotateY(180deg); }
+.card-front, .card-back { position: absolute; inset: 0; border-radius: var(--card-radius); overflow: hidden; }
+.card-back { transform: rotateY(180deg); }
+.card-front { visibility: visible; }
+.card-back { visibility: hidden; }
+.flip-container.flipped .card-front { visibility: hidden; }
+.flip-container.flipped .card-back { visibility: visible; }
+
+/* FRONT */
+.card-front { background: var(--card-bg); border: 2px solid rgba(254,223,0,0.2); }
+.legendary .card-front { border-color: rgba(255,215,0,0.4); }
+.epic .card-front { border-color: rgba(254,223,0,0.3); }
+.gold .card-front { border-color: rgba(255,255,255,0.12); }
+.silver .card-front { border-color: rgba(255,255,255,0.06); }
+.front-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; pointer-events: none; }
+.front-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, transparent 50%, rgba(0,20,5,0.2) 75%, rgba(0,10,3,0.5) 100%); pointer-events: none; }
+.front-content { position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column; padding: 14px; }
+
+.front-top-bar { display: flex; align-items: center; justify-content: space-between; }
+.front-nation-badge { display: flex; align-items: center; gap: 6px; background: rgba(0,20,8,0.25); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(254,223,0,0.08); border-radius: 6px; padding: 3px 10px 3px 6px; }
+.front-nation-badge .flag { font-size: 22px; line-height: 1; }
+.front-nation-badge .name { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.front-stars { font-size: 11px; letter-spacing: 2px; text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+.legendary .front-stars { color: var(--gold); }
+.epic .front-stars { color: #FEDF00; }
+.gold .front-stars { color: rgba(255,215,0,0.4); }
+.silver .front-stars { color: rgba(255,255,255,0.15); }
+
+.front-ovr-block { display: flex; flex-direction: column; align-items: flex-start; margin-top: 6px; }
+.front-ovr-num { font-family: var(--font-display); font-weight: 700; font-size: 72px; line-height: 0.8; letter-spacing: -4px; text-shadow: 0 2px 20px rgba(0,0,0,0.5); }
+.legendary .front-ovr-num { background: linear-gradient(180deg, #FFD700 30%, #FFA000 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.epic .front-ovr-num { background: linear-gradient(180deg, #FEDF00, #FFC107); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.gold .front-ovr-num { color: #E0E0E0; }
+.silver .front-ovr-num { color: #9E9E9E; }
+.front-pos-text { font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: 3px; color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,0.5); margin-top: -4px; }
+
+.front-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+.front-name { font-family: var(--font-display); font-weight: 700; font-size: 28px; letter-spacing: 2px; text-transform: uppercase; line-height: 1; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
+.front-name-zh { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 2px; text-shadow: 0 1px 6px rgba(0,0,0,0.3); margin-top: 1px; }
+.front-club { font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.12); letter-spacing: 1px; }
+.front-ui-panel { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 6px; background: linear-gradient(135deg, rgba(0,39,118,0.6), rgba(0,20,8,0.4)); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(254,223,0,0.12); }
+.front-skill-icons { display: flex; gap: 5px; }
+.front-skill-icon { width: 26px; height: 26px; border-radius: 6px; background: rgba(254,223,0,0.08); border: 1px solid rgba(254,223,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 13px; color: rgba(255,255,255,0.25); }
+.front-bottom-stars { font-size: 9px; letter-spacing: 1px; margin-left: auto; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.legendary .front-bottom-stars { color: var(--gold); }
+.epic .front-bottom-stars { color: #FEDF00; }
+.gold .front-bottom-stars { color: rgba(255,215,0,0.3); }
+.silver .front-bottom-stars { color: rgba(255,255,255,0.1); }
+.front-captain { font-size: 14px; vertical-align: super; margin-left: -2px; text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
+.front-sub { position: absolute; top: 14px; right: 14px; z-index: 10; font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; backdrop-filter: blur(6px); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.2); }
+
+/* BACK */
+.card-back { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.06); }
+.card-back .top-accent { height: 3px; width: 100%; position: absolute; top: 0; left: 0; z-index: 3; border-radius: var(--card-radius) var(--card-radius) 0 0; }
+.legendary .card-back .top-accent { background: linear-gradient(90deg, var(--gold), #FFE082, var(--gold)); }
+.epic .card-back .top-accent { background: linear-gradient(90deg, #FEDF00, #FFF176, #FEDF00); }
+.gold .card-back .top-accent { background: linear-gradient(90deg, #9E9E9E, #E0E0E0, #9E9E9E); }
+.silver .card-back .top-accent { background: linear-gradient(90deg, #757575, #BDBDBD, #757575); }
+.card-back::before { content: ''; position: absolute; inset: 0; border-radius: var(--card-radius); padding: 1px; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(255,255,255,0.02) 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: 2; }
+.card-back::after { content: ''; position: absolute; inset: 0; border-radius: var(--card-radius); background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 40%); pointer-events: none; z-index: 1; }
+.card-back .card-inner { padding: var(--card-padding); position: relative; z-index: 2; }
+
+.card-back .card-series { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.card-back .card-series .series-name { font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); font-family: var(--font-body); }
+.card-back .card-series .card-type { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); font-family: var(--font-body); }
+.legendary .card-back .card-series .card-type { border-color: rgba(255,215,0,0.3); color: var(--gold); }
+.epic .card-back .card-series .card-type { border-color: rgba(254,223,0,0.25); color: #FEDF00; }
+.card-back .card-identity { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.card-back .card-identity .nation { display: flex; align-items: center; gap: 8px; }
+.card-back .card-identity .nation .flag { font-size: 28px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.card-back .card-identity .nation .nation-name { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+.card-back .ovr-badge { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.card-back .ovr-badge .ovr-number { font-family: var(--font-display); font-weight: 700; font-size: 36px; letter-spacing: -1px; }
+.legendary .card-back .ovr-badge .ovr-number { background: linear-gradient(180deg, var(--gold), #FFE082); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.epic .card-back .ovr-badge .ovr-number { background: linear-gradient(180deg, #FEDF00, #FFF176); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.gold .card-back .ovr-badge .ovr-number { background: linear-gradient(180deg, #E0E0E0, #9E9E9E); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.silver .card-back .ovr-badge .ovr-number { background: linear-gradient(180deg, #BDBDBD, #757575); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.card-back .ovr-badge .ovr-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 2px; }
+.card-back .card-position-name { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.card-back .pos-badge { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: 1px; padding: 2px 12px 0; border-radius: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.04); line-height: 1.4; min-width: 42px; text-align: center; color: rgba(255,255,255,0.7); }
+.card-back .card-player-name { flex: 1; }
+.card-back .card-player-name .name-en { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.2; color: rgba(255,255,255,0.92); }
+.card-back .card-player-name .name-zh { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.3); letter-spacing: 1px; margin-top: 1px; }
+.card-back .card-player-name .club-name { font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.25); letter-spacing: 0.5px; margin-top: 2px; }
+
+/* RADAR */
+.card-back .radar-container { display: flex; justify-content: center; align-items: center; margin: 4px 0 10px; }
+.card-back .radar-container svg { width: var(--radar-size); height: var(--radar-size); filter: drop-shadow(0 4px 20px rgba(0,156,59,0.1)); }
+.legendary .card-back .radar-container svg { filter: drop-shadow(0 4px 20px rgba(255,215,0,0.15)); }
+
+/* STAT BARS */
+.card-back .stat-bars { display: flex; flex-direction: column; gap: 5px; margin: 8px 0 0; }
+.card-back .stat-row { display: flex; align-items: center; gap: 8px; }
+.card-back .stat-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; min-width: 28px; font-family: var(--font-mono); }
+.card-back .stat-label.pac { color: var(--stat-pac); }
+.card-back .stat-label.sho { color: var(--stat-sho); }
+.card-back .stat-label.pas { color: var(--stat-pas); }
+.card-back .stat-label.dri { color: var(--stat-dri); }
+.card-back .stat-label.def { color: var(--stat-def); }
+.card-back .stat-label.phy { color: var(--stat-phy); }
+.card-back .stat-track { flex: 1; height: 6px; background: rgba(255,255,255,0.04); border-radius: 4px; overflow: hidden; }
+.card-back .stat-fill { height: 100%; border-radius: 4px; transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1); position: relative; }
+.card-back .stat-fill::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 100%); border-radius: 4px; }
+.card-back .stat-row.pac .stat-fill { background: linear-gradient(90deg, #FEDF00, #FFC107); }
+.card-back .stat-row.sho .stat-fill { background: linear-gradient(90deg, #D50000, #FF1744); }
+.card-back .stat-row.pas .stat-fill { background: linear-gradient(90deg, #2962FF, #448AFF); }
+.card-back .stat-row.dri .stat-fill { background: linear-gradient(90deg, #FF8F00, #FFB300); }
+.card-back .stat-row.def .stat-fill { background: linear-gradient(90deg, #00C853, #00E676); }
+.card-back .stat-row.phy .stat-fill { background: linear-gradient(90deg, #002776, #2979FF); }
+.card-back .stat-value { font-family: var(--font-mono); font-weight: 600; font-size: 12px; min-width: 26px; text-align: right; color: rgba(255,255,255,0.5); }
+
+/* CARD FOOTER */
+.card-back .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.04); }
+.card-back .skill-badge { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.5); }
+.card-back .skill-badge .skill-icon { font-size: 16px; line-height: 1; }
+.card-back .rarity-stars { font-size: 10px; letter-spacing: 1px; }
+.legendary .card-back .rarity-stars { color: var(--gold); }
+.epic .card-back .rarity-stars { color: #FEDF00; }
+.gold .card-back .rarity-stars { color: #FFD700; }
+.silver .card-back .rarity-stars { color: #9E9E9E; }
+.card-back .rarity-label { font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.legendary .card-back .rarity-label { color: var(--gold); }
+.epic .card-back .rarity-label { color: #FEDF00; }
+.gold .card-back .rarity-label { color: #BDBDBD; }
+.silver .card-back .rarity-label { color: #757575; }
+.card-back .play-style { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.03); margin-top: 10px; }
+.card-back .sub-badge { position: absolute; top: var(--card-padding); right: var(--card-padding); z-index: 5; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.2); }
+
+/* Rare glow */
+.legendary .card-front, .legendary .card-back { box-shadow: 0 0 30px rgba(255,215,0,0.08), inset 0 0 60px rgba(255,215,0,0.02); }
+.flip-container.legendary.flipped .card-front, .flip-container.legendary.flipped .card-back { box-shadow: 0 0 50px rgba(255,215,0,0.18); }
+.epic .card-front, .epic .card-back { box-shadow: 0 0 25px rgba(254,223,0,0.05), inset 0 0 60px rgba(254,223,0,0.01); }
+.flip-container.epic.flipped .card-front, .flip-container.epic.flipped .card-back { box-shadow: 0 0 40px rgba(254,223,0,0.1); }
+
+/* INFO PANEL */
+.info-panel { max-width: 1360px; margin: -10px auto 40px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 10px; }
+.info-card { background: rgba(255,255,255,0.015); border: 1px solid rgba(255,255,255,0.03); border-radius: 8px; padding: 10px 14px; }
+.info-card h4 { font-family: var(--font-display); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.25); margin-bottom: 6px; }
+.legend-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 9px; color: rgba(255,255,255,0.25); }
+.legend-item .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.legend-item .dot.pac { background: var(--stat-pac); }
+.legend-item .dot.sho { background: var(--stat-sho); }
+.legend-item .dot.pas { background: var(--stat-pas); }
+.legend-item .dot.dri { background: var(--stat-dri); }
+.legend-item .dot.def { background: var(--stat-def); }
+.legend-item .dot.phy { background: var(--stat-phy); }
+.rarity-legend { display: flex; flex-direction: column; gap: 2px; }
+.rarity-legend-row { display: flex; align-items: center; gap: 6px; font-size: 9px; color: rgba(255,255,255,0.25); }
+.rarity-legend-row .sw { width: 18px; height: 5px; border-radius: 3px; flex-shrink: 0; }
+.rarity-legend-row .sw.lg { background: linear-gradient(90deg, var(--gold), #FFE082); }
+.rarity-legend-row .sw.ep { background: linear-gradient(90deg, #FEDF00, #FFF176); }
+.rarity-legend-row .sw.gd { background: linear-gradient(90deg, #888, #BBB); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.flip-container { animation: fadeUp 0.5s ease backwards; }
+.flip-container:nth-child(1) { animation-delay: 0.02s; }
+.flip-container:nth-child(2) { animation-delay: 0.04s; }
+.flip-container:nth-child(3) { animation-delay: 0.06s; }
+.flip-container:nth-child(4) { animation-delay: 0.08s; }
+.flip-container:nth-child(5) { animation-delay: 0.10s; }
+.flip-container:nth-child(6) { animation-delay: 0.12s; }
+.flip-container:nth-child(7) { animation-delay: 0.14s; }
+.flip-container:nth-child(8) { animation-delay: 0.16s; }
+.flip-container:nth-child(9) { animation-delay: 0.18s; }
+.flip-container:nth-child(10) { animation-delay: 0.20s; }
+.flip-container:nth-child(11) { animation-delay: 0.22s; }
+.flip-container:nth-child(12) { animation-delay: 0.24s; }
+.flip-container:nth-child(13) { animation-delay: 0.26s; }
+.flip-container:nth-child(14) { animation-delay: 0.28s; }
+@keyframes pulseGlow { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+.legendary .card-back .ovr-badge .ovr-number { animation: pulseGlow 3s ease-in-out infinite; }
+.flip-hint { text-align: center; font-size: 9px; color: rgba(255,255,255,0.08); letter-spacing: 1px; margin-top: -10px; margin-bottom: 20px; }
+
+@media (max-width: 700px) { :root { --card-width: 290px; --card-padding: 16px; --radar-size: 190px; --card-height: 490px; } .card-grid { gap: 16px; } .header { padding: 28px 16px 20px; } .front-name { font-size: 22px; } .front-ovr-num { font-size: 60px; } }
+@media (max-width: 340px) { :root { --card-width: 260px; --card-padding: 14px; --radar-size: 170px; --card-height: 460px; } .card-back .card-player-name .name-en { font-size: 17px; } .card-back .pos-badge { font-size: 17px; min-width: 36px; } .front-name { font-size: 18px; } }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-badge"><span>🇧🇷</span> 2026 WORLD CUP · BRAZIL</div>
+  <h1>SELEÇÃO<br>桑巴军团</h1>
+  <p class="sub">球星基准卡牌 · EA FC 27 OFFICIAL · 校园足球经理 2030</p>
+</header>
+
+<p class="flip-hint">🔄 悬停翻转 · 正面球员肖像 · 背面雷达数据</p>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">⚽ 全部</button>
+  <button class="filter-btn" data-filter="starter">首发 XI</button>
+  <button class="filter-btn" data-filter="sub">替补 SUB</button>
+  <button class="filter-btn" data-filter="epic">⭐⭐⭐⭐ 史诗</button>
+  <button class="filter-btn" data-filter="gold">⭐⭐⭐ 精英</button>
+  <button class="filter-btn" data-filter="silver">⭐⭐ 高级</button>
+</div>
+
+<div class="card-grid" id="cardGrid"></div>
+
+<div class="info-panel">
+  <div class="info-card">
+    <h4>六维能力</h4>
+    <div class="legend-grid">
+      <span class="legend-item"><span class="dot pac"></span> 速度</span>
+      <span class="legend-item"><span class="dot sho"></span> 射门</span>
+      <span class="legend-item"><span class="dot pas"></span> 传球</span>
+      <span class="legend-item"><span class="dot dri"></span> 盘带</span>
+      <span class="legend-item"><span class="dot def"></span> 防守</span>
+      <span class="legend-item"><span class="dot phy"></span> 体能</span>
+    </div>
+  </div>
+  <div class="info-card">
+    <h4>稀有度</h4>
+    <div class="rarity-legend">
+      <div class="rarity-legend-row"><span class="sw lg"></span> ⭐⭐⭐⭐⭐ 神话</div>
+      <div class="rarity-legend-row"><span class="sw ep"></span> ⭐⭐⭐⭐ 史诗</div>
+      <div class="rarity-legend-row"><span class="sw gd"></span> ⭐⭐⭐ 精英</div>
+    </div>
+  </div>
+  <div class="info-card">
+    <h4>翻转提示</h4>
+    <div style="font-size:9px;color:rgba(255,255,255,0.15);line-height:1.6;">悬停/点击卡牌可翻转查看详细数据<br>数据源: EA FC 27 Official</div>
+  </div>
+</div>
+
+<script>
+const PLAYERS = [
+  // ═══ STARTERS ═══
+  { id:'vinicius', nameEn:'Vinícius Jr.', nameZh:'维尼修斯', pos:'ST', club:'Real Madrid CF', ovr:89,
+    pac:95, sho:84, pas:81, dri:91, def:29, phy:69, skill:'⚡ 闪电突破', style:'WINGER · 速度型',
+    rarity:'epic', starter:true },
+  { id:'raphinha', nameEn:'Raphinha', nameZh:'拉菲尼亚', pos:'RW', club:'FC Barcelona', ovr:89,
+    pac:91, sho:84, pas:85, dri:87, def:53, phy:75, skill:'🌀 内切专家', style:'WINGER · 边路核心',
+    rarity:'epic', starter:true },
+  { id:'alisson', nameEn:'Alisson Becker', nameZh:'阿利松', pos:'GK', club:'Liverpool F.C.', ovr:89,
+    pac:65, sho:88, pas:86, dri:85, def:89, phy:80, skill:'🧤 门神降临', style:'SWEEPER KEEPER',
+    rarity:'epic', starter:true, note:'门将六维由GK专属属性映射' },
+  { id:'marquinhos', nameEn:'Marquinhos', nameZh:'马基尼奥斯', pos:'CB', club:'Paris Saint-Germain', ovr:87,
+    pac:78, sho:56, pas:75, dri:74, def:89, phy:80, skill:'🛡️ 后防统帅', style:'BUILDER · 出球后卫',
+    rarity:'epic', starter:true, captain:true },
+  { id:'bruno', nameEn:'Bruno Guimarães', nameZh:'布鲁诺·吉马良斯', pos:'CDM', club:'Newcastle United F.C.', ovr:86,
+    pac:68, sho:72, pas:82, dri:80, def:80, phy:82, skill:'🎵 中场指挥官', style:'ANCHOR · 节拍器',
+    rarity:'epic', starter:true },
+  { id:'neymar', nameEn:'Neymar Jr.', nameZh:'内马尔', pos:'LW', club:'Santos FC', ovr:83,
+    pac:76, sho:79, pas:85, dri:88, def:37, phy:53, skill:'💫 桑巴魔术', style:'CREATIVE · 创意核心',
+    rarity:'gold', starter:true },
+  { id:'casemiro', nameEn:'Casemiro', nameZh:'卡塞米罗', pos:'CDM', club:'Manchester United F.C.', ovr:82,
+    pac:55, sho:70, pas:75, dri:72, def:84, phy:84, skill:'🔨 清扫机器', style:'DESTROYER · 拦截者',
+    rarity:'gold', starter:true },
+  { id:'gabriel', nameEn:'Gabriel Magalhães', nameZh:'加布里埃尔', pos:'CB', club:'Arsenal F.C.', ovr:89,
+    pac:72, sho:55, pas:72, dri:70, def:89, phy:84, skill:'🧱 钢铁防线', style:'BALL-PLAYING CB',
+    rarity:'epic', starter:true },
+  { id:'danilo', nameEn:'Danilo', nameZh:'达尼洛', pos:'RB', club:'Flamengo', ovr:80,
+    pac:78, sho:60, pas:75, dri:74, def:78, phy:76, skill:'📐 稳健防守', style:'FULL-BACK · 边后卫',
+    rarity:'gold', starter:true },
+  { id:'alexsandro', nameEn:'Alex Sandro', nameZh:'阿莱士·桑德罗', pos:'LB', club:'Flamengo', ovr:80,
+    pac:78, sho:60, pas:74, dri:76, def:78, phy:78, skill:'🔄 边路全能', style:'WING-BACK · 边翼卫',
+    rarity:'gold', starter:true },
+  { id:'paqueta', nameEn:'Lucas Paquetá', nameZh:'卢卡斯·帕奎塔', pos:'CM', club:'Flamengo', ovr:80,
+    pac:70, sho:72, pas:78, dri:78, def:60, phy:74, skill:'🎯 精准长传', style:'CREATIVE MID · 创意中场',
+    rarity:'gold', starter:true },
+  // ═══ SUBS ═══
+  { id:'martinelli', nameEn:'Gabriel Martinelli', nameZh:'加布里埃尔·马丁内利', pos:'LW', club:'Arsenal F.C.', ovr:81,
+    pac:90, sho:77, pas:75, dri:83, def:46, phy:72, skill:'⚡ 边路快马', style:'WINGER · 速度型',
+    rarity:'gold', starter:false },
+  { id:'endrick', nameEn:'Endrick', nameZh:'恩德里克', pos:'ST', club:'Olympique Lyonnais', ovr:78,
+    pac:87, sho:77, pas:62, dri:78, def:30, phy:68, skill:'🌟 天才少年', style:'POACHER · 机会主义者',
+    rarity:'silver', starter:false },
+  { id:'cunha', nameEn:'Matheus Cunha', nameZh:'马特乌斯·库尼亚', pos:'ST', club:'Manchester United F.C.', ovr:82,
+    pac:80, sho:78, pas:72, dri:80, def:42, phy:76, skill:'🎪 全能前锋', style:'FORWARD · 全能型',
+    rarity:'gold', starter:false }
+];
+
+function generateRadar(player) {
+  const cx=120, cy=120, maxR=95;
+  const labels=['PAC','SHO','PAS','DEF','PHY','DRI'];
+  const vals=[player.pac,player.sho,player.pas,player.def,player.phy,player.dri];
+  const colors=['#FEDF00','#FF1744','#448AFF','#00E676','#002776','#FFB300'];
+  function hp(r,i){const a=(i*60-90)*Math.PI/180;return{x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)};}
+  let s='<svg viewBox="0 0 240 240">';
+  for(let ring=1;ring<=5;ring++){const r=maxR*(ring/5);const pts=Array.from({length:6},(_,i)=>{const p=hp(r,i);return p.x+','+p.y}).join(' ');s+='<polygon points="'+pts+'" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';}
+  for(let i=0;i<6;i++){const p=hp(maxR,i);s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p.x+'" y2="'+p.y+'" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';}
+  const dPts=Array.from({length:6},(_,i)=>{const r=maxR*(vals[i]/99)*1.05;const p=hp(r,i);return p.x+','+p.y}).join(' ');
+  s+='<polygon points="'+dPts+'" fill="rgba(0,200,83,0.15)" stroke="#00C853" stroke-width="2" stroke-linejoin="round"/>';
+  for(let i=0;i<6;i++){const r=maxR*(vals[i]/99)*1.05;const p=hp(r,i);s+='<circle cx="'+p.x+'" cy="'+p.y+'" r="4" fill="'+colors[i]+'" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>';}
+  for(let i=0;i<6;i++){const p=hp(maxR+22,i);const a=i===0||i===3?'middle':(i<3?'start':'end');s+='<text x="'+p.x+'" y="'+p.y+'" fill="'+colors[i]+'" font-family="\'JetBrains Mono\',monospace" font-size="11" font-weight="600" text-anchor="'+a+'" dominant-baseline="middle">'+labels[i]+'</text>';}
+  s+='<text x="120" y="124" fill="rgba(255,255,255,0.15)" font-family="\'Oswald\',sans-serif" font-size="16" font-weight="700" text-anchor="middle">'+player.ovr+'</text>';
+  s+='<defs><filter id="g-'+player.id+'" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+  s+='</svg>';return s;
+}
+
+function renderCards(filter){
+  const grid=document.getElementById('cardGrid');grid.innerHTML='';
+  const list=filter==='all'?PLAYERS:filter==='starter'?PLAYERS.filter(p=>p.starter):filter==='sub'?PLAYERS.filter(p=>!p.starter):PLAYERS.filter(p=>p.rarity===filter);
+  const sMap={epic:4,gold:3,silver:2};
+  list.forEach(p=>{
+    const stars=sMap[p.rarity]||3;const rCN={epic:'EPIC',gold:'GOLD',silver:'SILVER'}[p.rarity];
+    const starStr=Array(stars).fill('★').join('');
+    const container=document.createElement('div');container.className='flip-container '+p.rarity;
+    const radarSvg=generateRadar(p);
+    container.innerHTML=`
+      <div class="flip-inner">
+        <div class="card-front">
+          <img class="front-bg" src="brazil-cards/${p.id}.jpg" alt="${p.nameEn}" loading="lazy" onerror="this.style.display='none'">
+          <div class="front-overlay"></div>
+          ${!p.starter?'<div class="front-sub">SUB</div>':''}
+          <div class="front-content">
+            <div class="front-top-bar">
+              <div class="front-nation-badge"><span class="flag">🇧🇷</span><span class="name">BRAZIL</span></div>
+              <div class="front-stars">${starStr}</div>
+            </div>
+            <div class="front-ovr-block">
+              <div class="front-ovr-num">${p.ovr}</div>
+              <div class="front-pos-text">${p.pos}</div>
+            </div>
+            <div class="front-bottom">
+              <div><div class="front-name">${p.nameEn}${p.captain?'<span class="front-captain">Ⓒ</span>':''}</div>
+              <div class="front-name-zh">${p.nameZh}</div>
+              <div class="front-club">${p.club}</div></div>
+              <div class="front-ui-panel">
+                <div class="front-skill-icons"><div class="front-skill-icon">${p.skill.split(' ')[0]}</div><div class="front-skill-icon">⚡</div></div>
+                <div class="front-bottom-stars">${starStr}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-back">
+          <div class="top-accent"></div>
+          <div class="card-inner">
+            ${!p.starter?'<div class="sub-badge">SUB</div>':''}
+            <div class="card-series"><span class="series-name">🇧🇷 WORLD CUP 2026</span><span class="card-type">${rCN}</span></div>
+            <div class="card-identity"><div class="nation"><span class="flag">🇧🇷</span><span class="nation-name">BRAZIL</span></div><div class="ovr-badge"><span class="ovr-number">${p.ovr}</span><span class="ovr-label">OVERALL</span></div></div>
+            <div class="card-position-name"><div class="pos-badge">${p.pos}</div><div class="card-player-name"><div class="name-en">${p.nameEn}${p.captain?' Ⓒ':''}</div><div class="name-zh">${p.nameZh}</div><div class="club-name">${p.club}</div></div></div>
+            <div class="radar-container"><svg viewBox="0 0 240 240">${radarSvg}</svg></div>
+            <div class="stat-bars">${['pac','sho','pas','dri','def','phy'].map(s=>'<div class="stat-row '+s+'"><span class="stat-label '+s+'">'+s.toUpperCase()+'</span><div class="stat-track"><div class="stat-fill" style="width:'+p[s]+'%"></div></div><span class="stat-value">'+p[s]+'</span></div>').join('')}</div>
+            <div class="card-footer"><span class="skill-badge"><span class="skill-icon">${p.skill.split(' ')[0]}</span>${p.skill.slice(p.skill.indexOf(' ')+1)}</span><span class="rarity-stars">${starStr}<span class="rarity-label">${p.rarity==='epic'?'史诗':p.rarity==='gold'?'精英':'高级'}</span></span></div>
+            <div class="play-style">${p.style}${p.note?' · '+p.note:''}</div>
+          </div>
+        </div>
+      </div>`;
+    grid.appendChild(container);
+    container.addEventListener('mouseenter',()=>container.classList.add('flipped'));
+    container.addEventListener('mouseleave',()=>container.classList.remove('flipped'));
+  });
+}
+document.querySelectorAll('.filter-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCards(b.dataset.filter);});});
+document.addEventListener('DOMContentLoaded',()=>renderCards('all'));
+</script>
+</body>
+</html>

@@ -1,0 +1,1453 @@
+
+export interface Dialog {
+  speaker: string;
+  text: string;
+  emotion?: 'happy' | 'sad' | 'angry' | 'neutral' | 'excited' | 'confident' | 'serious' | 'tense' | 'encouraging' | 'determined' | 'nostalgic' | 'kind' | 'conflicted' | 'wise' | 'grateful' | 'hopeful' | 'significant' | 'respectful' | 'discouraged' | 'nervous';
+}
+
+export interface Choice {
+  id: string;
+  text: string;
+  nextSceneId: string;
+  weight?: number; // 结局权重: 正→好结局, 零/无→普通, 负→坏结局
+}
+
+export interface Scene {
+  id: string;
+  background: string;
+  dialogs: Dialog[];
+  choices?: Choice[];
+  nextSceneId?: string;
+  triggerMiniGame?: string;
+  endingHint?: 'good' | 'normal' | 'bad'; // 到达此场景时判定结局类型
+}
+
+export interface StoryLine {
+  characterId: string;
+  title: string;
+  scenes: Scene[];
+  endings: {
+    good: string;
+    normal: string;
+    bad: string;
+  };
+}
+
+export const stories: StoryLine[] = [
+  {
+    characterId: 'wuerken',
+    title: '吾尔肯的传奇七年',
+    scenes: [
+      {
+        id: 'wuerken_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2019年秋天，华中科技大学。一位身高190cm的新疆少年踏入了校门。', emotion: 'neutral' },
+          { speaker: '吾尔肯', text: '终于来到华科了！听说这里足球氛围很好。', emotion: 'excited' },
+          { speaker: '旁白', text: '军训结束后的一个夜晚，吾尔肯独自在操场练球。他出色的技术引起了一个人的注意。', emotion: 'neutral' },
+          { speaker: '戴红焰', text: '小伙子，球踢得不错啊！想不想进校队？', emotion: 'kind' }
+        ],
+        choices: [
+          { id: 'wuerken_choice_1', text: '当然想！我一直梦想进校队！', nextSceneId: 'wuerken_2a', weight: 1 },
+          { id: 'wuerken_choice_2', text: '我需要考虑一下...', nextSceneId: 'wuerken_2b', weight: 0 },
+          { id: 'wuerken_choice_3', text: '先让我展示一下实力！', nextSceneId: 'wuerken_2c', weight: 1 }
+        ]
+      },
+      {
+        id: 'wuerken_2a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '戴红焰', text: '好！明天下午来训练！', emotion: 'happy' },
+          { speaker: '吾尔肯', text: '谢谢教练！我一定不会让你失望！', emotion: 'grateful' },
+          { speaker: '旁白', text: '就这样，吾尔肯正式进入华科校队。同年，他随队获得湖北省大学生足球联赛冠军。', emotion: 'significant' },
+          { speaker: '吾尔肯', text: '这只是开始。新闻男足，我来了！', emotion: 'determined' }
+        ],
+        nextSceneId: 'wuerken_3'
+      },
+      {
+        id: 'wuerken_2b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '戴红焰', text: '没问题，给你三天时间考虑。', emotion: 'neutral' },
+          { speaker: '吾尔肯', text: '（当晚）还是决定加入吧，这是难得的机会！', emotion: 'excited' },
+          { speaker: '旁白', text: '第二天，吾尔肯找到教练，正式加入校队。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wuerken_3'
+      },
+      {
+        id: 'wuerken_2c',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吾尔肯', text: '教练，让我踢两脚给你看看！', emotion: 'confident' },
+          { speaker: '旁白', text: '吾尔肯展示了精湛的球技，盘带、传球、射门一气呵成。', emotion: 'excited' },
+          { speaker: '戴红焰', text: '好！好！就冲你这技术，必须加入！', emotion: 'happy' },
+          { speaker: '吾尔肯', text: '谢谢教练！', emotion: 'grateful' }
+        ],
+        nextSceneId: 'wuerken_3'
+      },
+      {
+        id: 'wuerken_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '时间来到2021年春天。新闻男足迎来了历史性的时刻。', emotion: 'neutral' },
+          { speaker: '肖潇', text: '吾尔肯，这次华工杯我们一定要出线！', emotion: 'excited' },
+          { speaker: '吾尔肯', text: '放心，有我在！', emotion: 'confident' },
+          { speaker: '旁白', text: '小组赛第一场面对网安学院，吾尔肯点球破门！', emotion: 'significant' }
+        ],
+        choices: [
+          { id: 'wuerken_choice_4', text: '继续保持进攻！', nextSceneId: 'wuerken_4a', weight: 1 },
+          { id: 'wuerken_choice_5', text: '稳扎稳打防守！', nextSceneId: 'wuerken_4b', weight: 0 }
+        ]
+      },
+      {
+        id: 'wuerken_training_1',
+        background: 'gym',
+        dialogs: [
+          { speaker: '旁白', text: '比赛之外，吾尔肯总是在健身房加练。', emotion: 'neutral' },
+          { speaker: '吾尔肯', text: '只有比别人更努力，才能在场上有更好的表现。', emotion: 'determined' },
+          { speaker: '肖潇', text: '吾尔肯，你也太拼了！', emotion: 'surprised' }
+        ],
+        choices: [
+          { id: 'wuerken_training_choice_1', text: '继续加强体能训练！', nextSceneId: 'wuerken_training_2a', weight: 1 },
+          { id: 'wuerken_training_choice_2', text: '也得多练技术！', nextSceneId: 'wuerken_training_2b', weight: 0 }
+        ]
+      },
+      {
+        id: 'wuerken_training_2a',
+        background: 'gym',
+        dialogs: [
+          { speaker: '吾尔肯', text: '体能是基础，我要跑满全场！', emotion: 'determined' },
+          { speaker: '旁白', text: '吾尔肯的体能越来越好，成为了球队的永动机。', emotion: 'significant' }
+        ],
+        nextSceneId: 'wuerken_team_bonding'
+      },
+      {
+        id: 'wuerken_training_2b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吾尔肯', text: '技术是关键，我要让我的脚法更精准！', emotion: 'determined' },
+          { speaker: '旁白', text: '吾尔肯每天加练任意球，脚法越来越精湛。', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuerken_team_bonding'
+      },
+      {
+        id: 'wuerken_team_bonding',
+        background: 'restaurant',
+        dialogs: [
+          { speaker: '旁白', text: '赛后，球队一起聚餐。', emotion: 'neutral' },
+          { speaker: '肖潇', text: '吾尔肯，多亏了你！', emotion: 'grateful' },
+          { speaker: '吾尔肯', text: '不，这是大家的功劳！足球是团队运动！', emotion: 'kind' },
+          { speaker: '赵凌冬', text: '说得好！我们是一支球队！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'wuerken_bonding_choice_1', text: '今晚好好放松！', nextSceneId: 'wuerken_3', weight: 0 },
+          { id: 'wuerken_bonding_choice_2', text: '明天继续训练！', nextSceneId: 'wuerken_3', weight: 1 }
+        ]
+      },
+      {
+        id: 'wuerken_4a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吾尔肯', text: '进攻！继续进攻！', emotion: 'excited' },
+          { speaker: '旁白', text: '吾尔肯梅开二度！新闻男足以2-1获胜！', emotion: 'excited' },
+          { speaker: '队友', text: '吾尔肯太强了！', emotion: 'happy' },
+          { speaker: '旁白', text: '新闻男足历史上第一次从华工杯小组赛出线！', emotion: 'significant' }
+        ],
+        nextSceneId: 'wuerken_5'
+      },
+      {
+        id: 'wuerken_4b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吾尔肯', text: '稳住！不要着急！', emotion: 'serious' },
+          { speaker: '旁白', text: '新闻男足稳稳地控制着比赛节奏。', emotion: 'neutral' },
+          { speaker: '赵凌冬', text: '很好！就这样打！', emotion: 'encouraging' },
+          { speaker: '旁白', text: '最终新闻男足以1-0小胜，顺利出线！', emotion: 'hopeful' }
+        ],
+        nextSceneId: 'wuerken_5'
+      },
+      {
+        id: 'wuerken_5',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2022年，黄金一代迎来巅峰。', emotion: 'neutral' },
+          { speaker: '赵凌冬', text: '吾尔肯，这场比赛靠你了！', emotion: 'serious' },
+          { speaker: '吾尔肯', text: '教练放心，我会带领球队前进！', emotion: 'confident' },
+          { speaker: '旁白', text: '半决赛面对自动化学院，双方鏖战90分钟0-0，进入点球大战...', emotion: 'tense' }
+        ],
+        choices: [
+          { id: 'wuerken_choice_6', text: '主罚第一个点球！', nextSceneId: 'wuerken_6a', weight: 0 },
+          { id: 'wuerken_choice_7', text: '让队友先罚！', nextSceneId: 'wuerken_6b', weight: -1 },
+          { id: 'wuerken_choice_8', text: '主动承担最后一个点球！', nextSceneId: 'wuerken_6c', weight: 1 }
+        ]
+      },
+      {
+        id: 'wuerken_6a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '吾尔肯站上十二码点，全场寂静。', emotion: 'tense' },
+          { speaker: '吾尔肯', text: '（深呼吸）我一定能进！', emotion: 'confident' },
+          { speaker: '旁白', text: '皮球应声入网！新闻1-0领先！', emotion: 'excited' },
+          { speaker: '旁白', text: '但最终，新闻还是1-3输掉了点球大战...', emotion: 'sad' }
+        ],
+        nextSceneId: 'wuerken_post_2022'
+      },
+      {
+        id: 'wuerken_6b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '刘俊哲', text: '我来罚第一个！', emotion: 'confident' },
+          { speaker: '旁白', text: '刘俊哲的点球被扑出了...', emotion: 'sad' },
+          { speaker: '吾尔肯', text: '没关系，还有机会！', emotion: 'encouraging' },
+          { speaker: '旁白', text: '点球大战新闻1-3告负，无缘决赛。', emotion: 'sad' }
+        ],
+        nextSceneId: 'wuerken_post_2022'
+      },
+      {
+        id: 'wuerken_6c',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吾尔肯', text: '让我来罚最后一个！', emotion: 'determined' },
+          { speaker: '赵凌冬', text: '好！相信你！', emotion: 'encouraging' },
+          { speaker: '旁白', text: '前两轮双方都罚进了...', emotion: 'tense' },
+          { speaker: '旁白', text: '但第三轮队友的点球被扑出了...', emotion: 'sad' },
+          { speaker: '旁白', text: '即使吾尔肯罚进，也无法挽回败局...', emotion: 'sad' }
+        ],
+        nextSceneId: 'wuerken_post_2022'
+      },
+      {
+        id: 'wuerken_post_2022',
+        background: 'locker_room',
+        dialogs: [
+          { speaker: '旁白', text: '更衣室里，气氛有些沉重。', emotion: 'sad' },
+          { speaker: '吾尔肯', text: '大家别灰心！我们明年再来！', emotion: 'encouraging' },
+          { speaker: '肖潇', text: '吾尔肯说得对！我们不能放弃！', emotion: 'hopeful' },
+          { speaker: '赵凌冬', text: '明年，我们会更强！', emotion: 'determined' }
+        ],
+        nextSceneId: 'wuerken_friendship'
+      },
+      {
+        id: 'wuerken_friendship',
+        background: 'park',
+        dialogs: [
+          { speaker: '旁白', text: '比赛后，吾尔肯和队友们在公园散心。', emotion: 'neutral' },
+          { speaker: '肖潇', text: '吾尔肯，谢谢你一直鼓励我们。', emotion: 'grateful' },
+          { speaker: '吾尔肯', text: '我们是队友，也是兄弟！', emotion: 'happy' },
+          { speaker: '肖潇', text: '对！我们永远是兄弟！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'wuerken_friendship_choice_1', text: '回忆我们一起走过的路', nextSceneId: 'wuerken_nostalgia' },
+          { id: 'wuerken_friendship_choice_2', text: '展望未来！', nextSceneId: 'wuerken_future' }
+        ]
+      },
+      {
+        id: 'wuerken_nostalgia',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '时间回到2019年的那个秋天。', emotion: 'nostalgic' },
+          { speaker: '吾尔肯', text: '那时候我刚入学，什么都不懂...', emotion: 'nostalgic' },
+          { speaker: '肖潇', text: '但你来了之后，一切都变了！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuerken_road_to_2026'
+      },
+      {
+        id: 'wuerken_future',
+        background: 'night_city',
+        dialogs: [
+          { speaker: '吾尔肯', text: '未来，新闻男足会更强！', emotion: 'hopeful' },
+          { speaker: '肖潇', text: '我们会成为华科的传奇！', emotion: 'excited' },
+          { speaker: '吾尔肯', text: '对！新闻加油！', emotion: 'determined' }
+        ],
+        nextSceneId: 'wuerken_road_to_2026'
+      },
+      {
+        id: 'wuerken_road_to_2026',
+        background: 'bus',
+        dialogs: [
+          { speaker: '旁白', text: '时间飞逝，转眼到了2026年。十周年。', emotion: 'nostalgic' },
+          { speaker: '吾尔肯', text: '这是我最后一次华工杯了...', emotion: 'nostalgic' },
+          { speaker: '王楷硕', text: '学长，我们会和你一起努力的！', emotion: 'encouraging' }
+        ],
+        nextSceneId: 'wuerken_final_preparation'
+      },
+      {
+        id: 'wuerken_final_preparation',
+        background: 'locker_room',
+        dialogs: [
+          { speaker: '旁白', text: '赛前更衣室。', emotion: 'tense' },
+          { speaker: '吾尔肯', text: '兄弟们！这可能是我最后一次和你们并肩作战了！', emotion: 'emotional' },
+          { speaker: '王楷硕', text: '学长，我们会拼尽全力！', emotion: 'determined' },
+          { speaker: '全队', text: '新闻加油！新闻加油！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'wuerken_final_choice_1', text: '赛前动员，鼓舞士气！', nextSceneId: 'wuerken_final_motivation' },
+          { id: 'wuerken_final_choice_2', text: '保持冷静，专注比赛！', nextSceneId: 'wuerken_final_focus' }
+        ]
+      },
+      {
+        id: 'wuerken_final_motivation',
+        background: 'locker_room',
+        dialogs: [
+          { speaker: '吾尔肯', text: '想想我们一路走来！想想那些付出！今天，我们要创造历史！', emotion: 'passionate' },
+          { speaker: '全队', text: '创造历史！创造历史！', emotion: 'excited' },
+          { speaker: '戴红焰', text: '好！上场！', emotion: 'encouraging' }
+        ],
+        nextSceneId: 'wuerken_7'
+      },
+      {
+        id: 'wuerken_final_focus',
+        background: 'locker_room',
+        dialogs: [
+          { speaker: '吾尔肯', text: '大家保持冷静，按我们训练的来。不要有压力，享受比赛。', emotion: 'calm' },
+          { speaker: '全队', text: '好的，学长！', emotion: 'focused' },
+          { speaker: '戴红焰', text: '好！上场！', emotion: 'encouraging' }
+        ],
+        nextSceneId: 'wuerken_7'
+      },
+      {
+        id: 'wuerken_7',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2026年，十周年。吾尔肯迎来了他的告别赛季。', emotion: 'nostalgic' },
+          { speaker: '吾尔肯', text: '这是我最后一年了，一定要不留遗憾！', emotion: 'determined' },
+          { speaker: '王楷硕', text: '学长，我们会一起努力的！', emotion: 'excited' },
+          { speaker: '旁白', text: '八强战面对化学学院，吾尔肯梅开二度，带领球队晋级四强！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'wuerken_choice_9', text: '争取夺冠！', nextSceneId: 'wuerken_8a', weight: 2 },
+          { id: 'wuerken_choice_10', text: '享受最后时光！', nextSceneId: 'wuerken_8b', weight: 0 }
+        ]
+      },
+      {
+        id: 'wuerken_8a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吾尔肯', text: '我们要夺冠！这是我们的目标！', emotion: 'determined' },
+          { speaker: '队友', text: '跟着学长冲！', emotion: 'excited' },
+          { speaker: '旁白', text: '半决赛面对强大的对手，吾尔肯再次挺身而出！', emotion: 'excited' },
+          { speaker: '解说', text: '吾尔肯！又是吾尔肯！帽子戏法！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuerken_end_good'
+      },
+      {
+        id: 'wuerken_8b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吾尔肯', text: '不管结果如何，这都是我最珍贵的回忆。', emotion: 'nostalgic' },
+          { speaker: '队友', text: '学长，谢谢你！', emotion: 'grateful' },
+          { speaker: '旁白', text: '半决赛虽然输了，但吾尔肯已经成为了传奇。', emotion: 'neutral' },
+          { speaker: '全场', text: '吾尔肯！吾尔肯！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuerken_end_normal'
+      },
+      {
+        id: 'wuerken_end_good',
+        background: 'football_field',
+        endingHint: 'good',
+        dialogs: [
+          { speaker: '旁白', text: '决赛！新闻男足对阵强敌！', emotion: 'excited' },
+          { speaker: '吾尔肯', text: '这是最后一场了！拼了！', emotion: 'determined' },
+          { speaker: '旁白', text: '终场前一分钟，吾尔肯接到传球！', emotion: 'tense' },
+          { speaker: '解说', text: '射门！球进了！！！', emotion: 'excited' },
+          { speaker: '全队', text: '我们是冠军！！！', emotion: 'excited' },
+          { speaker: '旁白', text: '十周年，新闻男足夺冠！这是吾尔肯最完美的告别！', emotion: 'significant' }
+        ]
+      },
+      {
+        id: 'wuerken_end_normal',
+        background: 'football_field',
+        endingHint: 'normal',
+        dialogs: [
+          { speaker: '旁白', text: '十周年的华工杯，新闻男足追平队史最佳成绩。', emotion: 'neutral' },
+          { speaker: '吾尔肯', text: '七年了，从新生到队长，这段旅程值得铭记。', emotion: 'happy' },
+          { speaker: '全队', text: '新闻加油！新闻加油！', emotion: 'excited' },
+          { speaker: '旁白', text: '夕阳下，吾尔肯脱下了14号球衣，交给了新一代的球员。', emotion: 'nostalgic' }
+        ]
+      }
+    ],
+    endings: {
+      good: '传奇延续：吾尔肯带领球队创造历史，赢得十周年冠军，成为新闻男足永远的传奇！',
+      normal: '圆满告别：虽然未能夺冠，但完成了十周年的目标，不留遗憾地告别。',
+      bad: '遗憾落幕：关键比赛失利，带着遗憾结束职业生涯。'
+    }
+  },
+  {
+    characterId: 'wuzhiming',
+    title: '吴志鸣的拓荒岁月',
+    scenes: [
+      {
+        id: 'wuzhiming_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2016年秋天，几位热爱足球的新闻学院新生聚在了一起。', emotion: 'neutral' },
+          { speaker: '吴志鸣', text: '我们组建一支球队吧！不能总是看别的学院比赛！', emotion: 'excited' },
+          { speaker: '刘梦凡', text: '好啊！我加入！', emotion: 'excited' },
+          { speaker: '肖潇', text: '也算我一个！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'wuzhiming_choice_1', text: '我们马上开始训练！', nextSceneId: 'wuzhiming_2a' },
+          { id: 'wuzhiming_choice_2', text: '先凑够人数再说...', nextSceneId: 'wuzhiming_2b' }
+        ]
+      },
+      {
+        id: 'wuzhiming_2a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吴志鸣', text: '好！从今天开始，我们就是新闻男足！', emotion: 'determined' },
+          { speaker: '旁白', text: '就这样，新闻男足成立了。吴志鸣担任首任队长。', emotion: 'significant' },
+          { speaker: '吴志鸣', text: '虽然我们人少，但我们要有梦想！', emotion: 'confident' }
+        ],
+        nextSceneId: 'wuzhiming_3'
+      },
+      {
+        id: 'wuzhiming_2b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴志鸣', text: '我们得多找些人。', emotion: 'serious' },
+          { speaker: '旁白', text: '他们在班级里到处宣传，终于凑齐了一支队伍。', emotion: 'neutral' },
+          { speaker: '吴志鸣', text: '好！新闻男足正式成立！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuzhiming_3'
+      },
+      {
+        id: 'wuzhiming_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2016年10月，新生杯开始了。新闻男足迎来了队史第一场正式比赛，对阵物理学院。', emotion: 'neutral' },
+          { speaker: '吴志鸣', text: '大家不要紧张！享受比赛！', emotion: 'encouraging' },
+          { speaker: '旁白', text: '最终比分0-2，新闻男足队史首败。', emotion: 'sad' }
+        ],
+        choices: [
+          { id: 'wuzhiming_choice_3', text: '没关系，我们继续努力！', nextSceneId: 'wuzhiming_4a' },
+          { id: 'wuzhiming_choice_4', text: '我们是不是不是踢足球的料...', nextSceneId: 'wuzhiming_4b' }
+        ]
+      },
+      {
+        id: 'wuzhiming_4a',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴志鸣', text: '一场比赛而已！我们继续训练！', emotion: 'determined' },
+          { speaker: '肖潇', text: '队长说得对！我们不能放弃！', emotion: 'encouraging' },
+          { speaker: '旁白', text: '第二场对阵社会学院，肖潇打入了新闻男足历史上第一粒正式比赛进球！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuzhiming_5'
+      },
+      {
+        id: 'wuzhiming_4b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴志鸣', text: '也许我们真的不行...', emotion: 'discouraged' },
+          { speaker: '肖潇', text: '队长！不要放弃！我们才刚开始！', emotion: 'encouraging' },
+          { speaker: '吴志鸣', text: '你说得对！我们继续！', emotion: 'determined' }
+        ],
+        nextSceneId: 'wuzhiming_5'
+      },
+      {
+        id: 'wuzhiming_5',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2017年，新闻男足第一次踏上华工杯的赛场。', emotion: 'neutral' },
+          { speaker: '吴志鸣', text: '这是我们第一次华工杯！大家加油！', emotion: 'excited' },
+          { speaker: '旁白', text: '小组赛第一场面对法学院，最终0-10惨败。', emotion: 'sad' }
+        ],
+        choices: [
+          { id: 'wuzhiming_choice_5', text: '我们要变强！不能再这样输下去！', nextSceneId: 'wuzhiming_6a' },
+          { id: 'wuzhiming_choice_6', text: '这差距也太大了...', nextSceneId: 'wuzhiming_6b' }
+        ]
+      },
+      {
+        id: 'wuzhiming_6a',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴志鸣', text: '虽然输了，但我们不能认输！', emotion: 'determined' },
+          { speaker: '旁白', text: '就在这时，一个重要的人物出现了。', emotion: 'neutral' },
+          { speaker: '阿负', text: '你们好，我是阿负。我听说了你们的故事。', emotion: 'kind' }
+        ],
+        nextSceneId: 'wuzhiming_7'
+      },
+      {
+        id: 'wuzhiming_6b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴志鸣', text: '这实力差距也太大了...', emotion: 'sad' },
+          { speaker: '阿负', text: '别灰心，每支强队都是从弱队成长起来的。', emotion: 'encouraging' },
+          { speaker: '吴志鸣', text: '你是...？', emotion: 'curious' }
+        ],
+        nextSceneId: 'wuzhiming_7'
+      },
+      {
+        id: 'wuzhiming_7',
+        background: 'campus',
+        dialogs: [
+          { speaker: '阿负', text: '我来自澳门，一直想支持一支校园足球队。你们的故事打动了我。', emotion: 'kind' },
+          { speaker: '吴志鸣', text: '真的吗？太感谢了！', emotion: 'grateful' },
+          { speaker: '阿负', text: '以后有什么困难，随时找我。', emotion: 'kind' },
+          { speaker: '旁白', text: '从那以后，阿负成了新闻男足最坚定的支持者。', emotion: 'significant' }
+        ],
+        nextSceneId: 'wuzhiming_end_normal'
+      },
+      {
+        id: 'wuzhiming_end_normal',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '几年后，吴志鸣毕业了，但他点燃的火种，一直在新闻男足传承。', emotion: 'nostalgic' },
+          { speaker: '吴志鸣', text: '新闻男足，加油！', emotion: 'encouraging' }
+        ]
+      }
+    ],
+    endings: {
+      good: '火种不灭：吴志鸣建立的球队，在后来创造了辉煌！',
+      normal: '薪火相传：虽然经历了很多失败，但新闻男足坚持了下来。',
+      bad: '遗憾收场：球队最终因人数不足而解散...'
+    }
+  },
+  {
+    characterId: 'xiaoxiao',
+    title: '肖潇的射手之路',
+    scenes: [
+      {
+        id: 'xiaoxiao_1',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2016年新生杯，新闻男足对阵社会学院。', emotion: 'neutral' },
+          { speaker: '吴志鸣', text: '肖潇，看你的了！', emotion: 'encouraging' },
+          { speaker: '肖潇', text: '好！我一定努力！', emotion: 'determined' }
+        ],
+        choices: [
+          { id: 'xiaoxiao_choice_1', text: '大胆进攻！', nextSceneId: 'xiaoxiao_2a' },
+          { id: 'xiaoxiao_choice_2', text: '先做好防守！', nextSceneId: 'xiaoxiao_2b' }
+        ]
+      },
+      {
+        id: 'xiaoxiao_2a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '肖潇', text: '我上了！', emotion: 'excited' },
+          { speaker: '旁白', text: '肖潇抓住机会，射门！', emotion: 'tense' },
+          { speaker: '解说', text: '球进了！新闻男足历史上第一粒正式比赛进球！', emotion: 'excited' },
+          { speaker: '肖潇', text: '我们进球了！！！', emotion: 'excited' }
+        ],
+        nextSceneId: 'xiaoxiao_3'
+      },
+      {
+        id: 'xiaoxiao_2b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '肖潇', text: '大家先稳住防守！', emotion: 'serious' },
+          { speaker: '旁白', text: '防守中，肖潇抓住反击机会！', emotion: 'tense' },
+          { speaker: '解说', text: '肖潇！单刀！球进了！', emotion: 'excited' },
+          { speaker: '肖潇', text: '太棒了！', emotion: 'happy' }
+        ],
+        nextSceneId: 'xiaoxiao_3'
+      },
+      {
+        id: 'xiaoxiao_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '虽然那场比赛最终1-2告负，但肖潇的这粒进球，载入了新闻男足史册。', emotion: 'significant' },
+          { speaker: '肖潇', text: '这只是开始，我要进更多球！', emotion: 'determined' },
+          { speaker: '旁白', text: '几年时间里，肖潇成了新闻男足的射手王。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'xiaoxiao_4'
+      },
+      {
+        id: 'xiaoxiao_4',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2022年，黄金一代的巅峰。', emotion: 'neutral' },
+          { speaker: '肖潇', text: '今年是我们最好的机会！', emotion: 'confident' },
+          { speaker: '吾尔肯', text: '肖潇，我们一起加油！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'xiaoxiao_choice_3', text: '我们要一起创造历史！', nextSceneId: 'xiaoxiao_5a' },
+          { id: 'xiaoxiao_choice_4', text: '享受比赛就好！', nextSceneId: 'xiaoxiao_5b' }
+        ]
+      },
+      {
+        id: 'xiaoxiao_5a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '肖潇', text: '加油！为了新闻学院！', emotion: 'determined' },
+          { speaker: '旁白', text: '小组赛对阵外国语学院，肖潇单刀破门！', emotion: 'excited' },
+          { speaker: '解说', text: '肖潇！精彩的进球！1-1！', emotion: 'excited' }
+        ],
+        nextSceneId: 'xiaoxiao_6'
+      },
+      {
+        id: 'xiaoxiao_5b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '肖潇', text: '不管结果如何，好好享受！', emotion: 'happy' },
+          { speaker: '旁白', text: '肖潇轻松的心态反而让他发挥出色！', emotion: 'excited' },
+          { speaker: '解说', text: '肖潇进球！扳平比分！', emotion: 'excited' }
+        ],
+        nextSceneId: 'xiaoxiao_6'
+      },
+      {
+        id: 'xiaoxiao_6',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '那场比赛新闻男足3-1逆转获胜！', emotion: 'excited' },
+          { speaker: '肖潇', text: '这感觉太棒了！', emotion: 'happy' },
+          { speaker: '旁白', text: '2023年，肖潇毕业了。他把队长袖标交给了下一代。', emotion: 'nostalgic' },
+          { speaker: '肖潇', text: '新闻男足的未来，就交给你们了！', emotion: 'encouraging' }
+        ],
+        nextSceneId: 'xiaoxiao_end_normal'
+      },
+      {
+        id: 'xiaoxiao_end_normal',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '肖潇虽然离开了，但他的进球，永远留在新闻男足的历史中。', emotion: 'nostalgic' },
+          { speaker: '肖潇', text: '新闻男足，加油！', emotion: 'encouraging' }
+        ]
+      }
+    ],
+    endings: {
+      good: '射手传奇：肖潇成了新闻男足历史上最伟大的射手！',
+      normal: '光荣退役：肖潇完成了自己的使命，光荣退役。',
+      bad: '受伤退役：肖潇因伤提前结束了足球生涯...'
+    }
+  },
+  {
+    characterId: 'ouxiang',
+    title: '欧翔的传承之路',
+    scenes: [
+      {
+        id: 'ouxiang_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2017年，新闻男足迎来了新一届队员。', emotion: 'neutral' },
+          { speaker: '吴志鸣', text: '欧翔，以后球队就靠你们了。', emotion: 'serious' },
+          { speaker: '欧翔', text: '队长放心！我会努力的！', emotion: 'determined' }
+        ],
+        choices: [
+          { id: 'ouxiang_choice_1', text: '我要带领球队变强！', nextSceneId: 'ouxiang_2a' },
+          { id: 'ouxiang_choice_2', text: '我先学习一下怎么带队...', nextSceneId: 'ouxiang_2b' }
+        ]
+      },
+      {
+        id: 'ouxiang_2a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '欧翔', text: '大家加油！我们要让新闻男足变强！', emotion: 'confident' },
+          { speaker: '朱家毅', text: '队长，我们一起努力！', emotion: 'excited' },
+          { speaker: '旁白', text: '欧翔担任了新闻男足的第二任队长。', emotion: 'significant' }
+        ],
+        nextSceneId: 'ouxiang_3'
+      },
+      {
+        id: 'ouxiang_2b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '欧翔', text: '吴队长，你教教我怎么带队吧。', emotion: 'respectful' },
+          { speaker: '吴志鸣', text: '好啊！其实就是两个字：坚持。', emotion: 'wise' },
+          { speaker: '欧翔', text: '明白了！', emotion: 'determined' }
+        ],
+        nextSceneId: 'ouxiang_3'
+      },
+      {
+        id: 'ouxiang_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2017年新生杯，新闻男足0-10输给环境学院，0-3输给土木学院，0-5输给机械学院。', emotion: 'sad' },
+          { speaker: '欧翔', text: '没关系，我们还年轻，还有时间成长！', emotion: 'encouraging' },
+          { speaker: '旁白', text: '虽然输了，但这支队伍没有散。', emotion: 'neutral' }
+        ],
+        choices: [
+          { id: 'ouxiang_choice_3', text: '我们要训练得更苦！', nextSceneId: 'ouxiang_4a' },
+          { id: 'ouxiang_choice_4', text: '我们需要更多的友谊赛积累经验！', nextSceneId: 'ouxiang_4b' }
+        ]
+      },
+      {
+        id: 'ouxiang_4a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '欧翔', text: '大家加练！只有变强才能赢！', emotion: 'determined' },
+          { speaker: '旁白', text: '队员们开始了艰苦的训练。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'ouxiang_5'
+      },
+      {
+        id: 'ouxiang_4b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '欧翔', text: '我们多约友谊赛，积累比赛经验！', emotion: 'confident' },
+          { speaker: '旁白', text: '新闻男足开始主动约其他学院比赛。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'ouxiang_5'
+      },
+      {
+        id: 'ouxiang_5',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2018级新生入学，刘俊哲、唐嘉睿、苗雨辰等人加入了球队。', emotion: 'neutral' },
+          { speaker: '欧翔', text: '欢迎你们！新闻男足的未来就靠你们了！', emotion: 'excited' },
+          { speaker: '刘俊哲', text: '学长放心！我们会努力的！', emotion: 'determined' },
+          { speaker: '旁白', text: '欧翔完成了他的使命——把新闻男足的火种，传承了下去。', emotion: 'significant' }
+        ],
+        nextSceneId: 'ouxiang_end_normal'
+      },
+      {
+        id: 'ouxiang_end_normal',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '欧翔毕业了，但他建立的传承体系，让新闻男足一直延续下来。', emotion: 'nostalgic' },
+          { speaker: '欧翔', text: '新闻男足，继续加油！', emotion: 'encouraging' }
+        ]
+      }
+    ],
+    endings: {
+      good: '传承成功：欧翔培养的黄金一代创造了辉煌！',
+      normal: '顺利交接：欧翔完成了队长的使命，顺利交接。',
+      bad: '传承断裂：队伍没能延续下去...'
+    }
+  },
+  {
+    characterId: 'wuyangchuhan',
+    title: '吴杨楚涵的史官之路',
+    scenes: [
+      {
+        id: 'wuyangchuhan_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2023年8月30日，吴杨楚涵来到了华中科技大学。', emotion: 'neutral' },
+          { speaker: '吴杨楚涵', text: '这就是华科！好期待大学生活！', emotion: 'excited' },
+          { speaker: '旁白', text: '当晚，他来到东操，听到了悠扬的歌声。', emotion: 'neutral' }
+        ],
+        choices: [
+          { id: 'wuyangchuhan_choice_1', text: '过去看看是谁在唱歌！', nextSceneId: 'wuyangchuhan_2a' },
+          { id: 'wuyangchuhan_choice_2', text: '在旁边静静地听！', nextSceneId: 'wuyangchuhan_2b' }
+        ]
+      },
+      {
+        id: 'wuyangchuhan_2a',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴杨楚涵', text: '学长，你唱得真好！', emotion: 'happy' },
+          { speaker: '陈子豪', text: '哈哈，谢谢你！你是新生吗？', emotion: 'kind' },
+          { speaker: '吴杨楚涵', text: '是的！我是新闻学院的！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuyangchuhan_3'
+      },
+      {
+        id: 'wuyangchuhan_2b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '吴杨楚涵静静地听着，觉得这歌声太好听了。', emotion: 'neutral' },
+          { speaker: '陈子豪', text: '同学，你也是新闻学院的吗？', emotion: 'kind' },
+          { speaker: '吴杨楚涵', text: '啊！是的！学长好！', emotion: 'nervous' }
+        ],
+        nextSceneId: 'wuyangchuhan_3'
+      },
+      {
+        id: 'wuyangchuhan_3',
+        background: 'campus',
+        dialogs: [
+          { speaker: '陈子豪', text: '要不要加入新闻男足？我们正在招新！', emotion: 'excited' },
+          { speaker: '吴杨楚涵', text: '足球啊...我不太会踢...', emotion: 'nervous' },
+          { speaker: '陈子豪', text: '没关系！我们也需要宣传、记录的人！', emotion: 'encouraging' }
+        ],
+        choices: [
+          { id: 'wuyangchuhan_choice_3', text: '好啊！我加入！', nextSceneId: 'wuyangchuhan_4a' },
+          { id: 'wuyangchuhan_choice_4', text: '让我考虑一下...', nextSceneId: 'wuyangchuhan_4b' }
+        ]
+      },
+      {
+        id: 'wuyangchuhan_4a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '吴杨楚涵', text: '好！我加入！', emotion: 'excited' },
+          { speaker: '陈子豪', text: '太棒了！欢迎加入新闻男足！', emotion: 'happy' },
+          { speaker: '旁白', text: '就这样，吴杨楚涵成了新闻男足的一员。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wuyangchuhan_5'
+      },
+      {
+        id: 'wuyangchuhan_4b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴杨楚涵', text: '让我想想...', emotion: 'conflicted' },
+          { speaker: '旁白', text: '当晚，吴杨楚涵想了很久。他觉得，记录一支球队的成长，是一件很有意义的事。', emotion: 'neutral' },
+          { speaker: '吴杨楚涵', text: '好！我决定了！', emotion: 'determined' }
+        ],
+        nextSceneId: 'wuyangchuhan_5'
+      },
+      {
+        id: 'wuyangchuhan_5',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2023级新生自发组建了球队：谭琦、杨云帆、钱文伟、伍彦名、洛桑罗布...', emotion: 'neutral' },
+          { speaker: '吴杨楚涵', text: '我来记录你们的故事！', emotion: 'excited' },
+          { speaker: '谭琦', text: '好啊！我们一起加油！', emotion: 'happy' },
+          { speaker: '旁白', text: '新生杯上，吴杨楚涵见证了新闻2-0战胜环境学院，打破不胜纪录！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'wuyangchuhan_choice_5', text: '我要把这些都记录下来！', nextSceneId: 'wuyangchuhan_6a' },
+          { id: 'wuyangchuhan_choice_6', text: '这只是开始，未来会更好！', nextSceneId: 'wuyangchuhan_6b' }
+        ]
+      },
+      {
+        id: 'wuyangchuhan_6a',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴杨楚涵', text: '我要运营公众号，记录球队的每一场比赛！', emotion: 'determined' },
+          { speaker: '伍彦名', text: '我来帮你！', emotion: 'excited' },
+          { speaker: '旁白', text: '就这样，新闻男足的公众号开始更新了。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wuyangchuhan_7'
+      },
+      {
+        id: 'wuyangchuhan_6b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '吴杨楚涵', text: '这支球队的故事，才刚刚开始...', emotion: 'hopeful' },
+          { speaker: '旁白', text: '吴杨楚涵开始了他的记录工作。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wuyangchuhan_7'
+      },
+      {
+        id: 'wuyangchuhan_7',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '时间来到2026年，新闻男足十周年。', emotion: 'nostalgic' },
+          { speaker: '吴杨楚涵', text: '是时候写一部完整的队史了！', emotion: 'determined' },
+          { speaker: '旁白', text: '吴杨楚涵开始收集资料，采访老队员，写下了这部《新闻男足简史》。', emotion: 'significant' },
+          { speaker: '吴杨楚涵', text: '新闻男足的故事，还在继续...', emotion: 'hopeful' }
+        ],
+        nextSceneId: 'wuyangchuhan_end_normal'
+      },
+      {
+        id: 'wuyangchuhan_end_normal',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '吴杨楚涵成了新闻男足的史官，记录着这支球队的每一段历史。', emotion: 'neutral' },
+          { speaker: '吴杨楚涵', text: '新闻男足的故事，永远不会结束！', emotion: 'encouraging' }
+        ]
+      }
+    ],
+    endings: {
+      good: '史官传奇：吴杨楚涵写的队史广为流传！',
+      normal: '忠实记录：吴杨楚涵完成了记录球队历史的使命。',
+      bad: '资料丢失：辛苦收集的资料意外丢失...'
+    }
+  },
+  {
+    characterId: 'afu',
+    title: '阿负的十年守护',
+    scenes: [
+      {
+        id: 'afu_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2017年，阿负第一次听说了新闻男足的故事。', emotion: 'neutral' },
+          { speaker: '阿负', text: '这支球队，很有意思...', emotion: 'curious' },
+          { speaker: '旁白', text: '他找到了吴志鸣。', emotion: 'neutral' }
+        ],
+        choices: [
+          { id: 'afu_choice_1', text: '我想支持你们！', nextSceneId: 'afu_2a' },
+          { id: 'afu_choice_2', text: '先了解一下你们的故事...', nextSceneId: 'afu_2b' }
+        ]
+      },
+      {
+        id: 'afu_2a',
+        background: 'campus',
+        dialogs: [
+          { speaker: '阿负', text: '我想支持你们这支球队！', emotion: 'kind' },
+          { speaker: '吴志鸣', text: '真的吗？太感谢了！', emotion: 'grateful' },
+          { speaker: '阿负', text: '以后有什么困难，随时找我。', emotion: 'kind' }
+        ],
+        nextSceneId: 'afu_3'
+      },
+      {
+        id: 'afu_2b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '阿负', text: '给我讲讲你们球队的故事吧。', emotion: 'curious' },
+          { speaker: '吴志鸣', text: '好啊！我们2016年成立...', emotion: 'excited' },
+          { speaker: '阿负', text: '你们的故事很打动我，我决定支持你们！', emotion: 'kind' }
+        ],
+        nextSceneId: 'afu_3'
+      },
+      {
+        id: 'afu_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '阿负给球队带来了足球、训练器材、球衣...', emotion: 'neutral' },
+          { speaker: '吴志鸣', text: '阿负，你真是太好了！', emotion: 'grateful' },
+          { speaker: '阿负', text: '应该的，你们的坚持很不容易。', emotion: 'kind' }
+        ],
+        choices: [
+          { id: 'afu_choice_3', text: '我会一直支持你们的！', nextSceneId: 'afu_4a' },
+          { id: 'afu_choice_4', text: '希望看到你们变强！', nextSceneId: 'afu_4b' }
+        ]
+      },
+      {
+        id: 'afu_4a',
+        background: 'campus',
+        dialogs: [
+          { speaker: '阿负', text: '我会一直支持你们的，不管成绩如何。', emotion: 'kind' },
+          { speaker: '吴志鸣', text: '谢谢你！我们一定不辜负你的期望！', emotion: 'determined' }
+        ],
+        nextSceneId: 'afu_5'
+      },
+      {
+        id: 'afu_4b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '阿负', text: '我期待看到你们变强的那一天！', emotion: 'hopeful' },
+          { speaker: '吴志鸣', text: '我们一定会努力的！', emotion: 'determined' }
+        ],
+        nextSceneId: 'afu_5'
+      },
+      {
+        id: 'afu_5',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '一年年过去，队员们毕业了一批又一批，但阿负的支持从未停止。', emotion: 'nostalgic' },
+          { speaker: '阿负', text: '看到你们一届届传承，真好。', emotion: 'happy' },
+          { speaker: '旁白', text: '2021年，新闻男足第一次华工杯出线！2022年，闯入四强！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'afu_choice_5', text: '这十年没白等！', nextSceneId: 'afu_6a' },
+          { id: 'afu_choice_6', text: '为他们感到骄傲！', nextSceneId: 'afu_6b' }
+        ]
+      },
+      {
+        id: 'afu_6a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '阿负', text: '这十年没白等！你们做到了！', emotion: 'excited' },
+          { speaker: '吾尔肯', text: '阿负，谢谢你一直以来的支持！', emotion: 'grateful' }
+        ],
+        nextSceneId: 'afu_7'
+      },
+      {
+        id: 'afu_6b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '阿负', text: '真为你们感到骄傲！', emotion: 'happy' },
+          { speaker: '赵凌冬', text: '阿负，谢谢你！', emotion: 'grateful' }
+        ],
+        nextSceneId: 'afu_7'
+      },
+      {
+        id: 'afu_7',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2026年，十周年。阿负又来到了现场。', emotion: 'nostalgic' },
+          { speaker: '阿负', text: '十年了，真好。', emotion: 'nostalgic' },
+          { speaker: '全场', text: '阿负！阿负！', emotion: 'excited' },
+          { speaker: '旁白', text: '阿负的守护，是新闻男足最温暖的后盾。', emotion: 'significant' }
+        ],
+        nextSceneId: 'afu_end_normal'
+      },
+      {
+        id: 'afu_end_normal',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '十年守护，阿负见证了新闻男足从弱小到强大的全过程。', emotion: 'nostalgic' },
+          { speaker: '阿负', text: '新闻男足，继续加油！', emotion: 'encouraging' }
+        ]
+      }
+    ],
+    endings: {
+      good: '传奇守护：阿负的故事成了新闻男足的传奇！',
+      normal: '温暖陪伴：阿负十年如一日的支持，让人感动。',
+      bad: '失去联系：后来阿负和球队失去了联系...'
+    }
+  },
+  {
+    characterId: 'wangkaishuo',
+    title: '王楷硕的成长之路',
+    scenes: [
+      {
+        id: 'wangkaishuo_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2024年，王楷硕来到了华中科技大学。', emotion: 'neutral' },
+          { speaker: '谭琦', text: '你好！我是谭琦，要不要加入新闻男足？', emotion: 'excited' },
+          { speaker: '王楷硕', text: '足球？我喜欢！我加入！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'wangkaishuo_choice_1', text: '我要成为主力！', nextSceneId: 'wangkaishuo_2a' },
+          { id: 'wangkaishuo_choice_2', text: '先学习一下！', nextSceneId: 'wangkaishuo_2b' }
+        ]
+      },
+      {
+        id: 'wangkaishuo_2a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '王楷硕', text: '我要成为球队的主力！', emotion: 'determined' },
+          { speaker: '谭琦', text: '好！我看好你！', emotion: 'encouraging' },
+          { speaker: '旁白', text: '王楷硕开始了刻苦训练。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wangkaishuo_3'
+      },
+      {
+        id: 'wangkaishuo_2b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '王楷硕', text: '我先跟着学长们学习！', emotion: 'respectful' },
+          { speaker: '伍彦名', text: '好！我来教你！', emotion: 'kind' },
+          { speaker: '旁白', text: '王楷硕进步飞快。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wangkaishuo_3'
+      },
+      {
+        id: 'wangkaishuo_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '新生杯来了，新闻男足三连败。', emotion: 'sad' },
+          { speaker: '王楷硕', text: '对不起...是我没踢好...', emotion: 'sad' },
+          { speaker: '谭琦', text: '别自责！是我们一起的问题！', emotion: 'encouraging' }
+        ],
+        choices: [
+          { id: 'wangkaishuo_choice_3', text: '我要更努力训练！', nextSceneId: 'wangkaishuo_4a' },
+          { id: 'wangkaishuo_choice_4', text: '我们要更加团结！', nextSceneId: 'wangkaishuo_4b' }
+        ]
+      },
+      {
+        id: 'wangkaishuo_4a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '王楷硕', text: '我要更努力训练！下次一定赢！', emotion: 'determined' },
+          { speaker: '旁白', text: '王楷硕每天都加练到很晚。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wangkaishuo_5'
+      },
+      {
+        id: 'wangkaishuo_4b',
+        background: 'campus',
+        dialogs: [
+          { speaker: '王楷硕', text: '我们要更加团结！一起加油！', emotion: 'encouraging' },
+          { speaker: '队友', text: '好！一起加油！', emotion: 'excited' },
+          { speaker: '旁白', text: '队伍的凝聚力更强了。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wangkaishuo_5'
+      },
+      {
+        id: 'wangkaishuo_5',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2026年，十周年。王楷硕成了球队的核心前锋。', emotion: 'neutral' },
+          { speaker: '王楷硕', text: '今年是十周年，我们要创造历史！', emotion: 'determined' },
+          { speaker: '队友', text: '跟着队长冲！', emotion: 'excited' },
+          { speaker: '旁白', text: '八强战面对化学学院，王楷硕发挥出色！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wangkaishuo_end_normal'
+      },
+      {
+        id: 'wangkaishuo_end_normal',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '王楷硕接过了吾尔肯的衣钵，成了新闻男足新一代的核心。', emotion: 'neutral' },
+          { speaker: '王楷硕', text: '新闻男足的未来，我来守护！', emotion: 'determined' }
+        ]
+      }
+    ],
+    endings: {
+      good: '新一代传奇：王楷硕带领球队创造新的辉煌！',
+      normal: '顺利成长：王楷硕完成了从新生到主力的成长。',
+      bad: '伤病困扰：王楷硕因伤错过了关键比赛...'
+    }
+  },
+  {
+    characterId: 'wuyanming',
+    title: '伍彦名的门将奇迹',
+    scenes: [
+      {
+        id: 'wuyanming_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2023年，伍彦名加入了新闻男足，踢中后卫。', emotion: 'neutral' },
+          { speaker: '伍彦名', text: '我会做好防守的！', emotion: 'determined' },
+          { speaker: '吴杨楚涵', text: '加油！伍彦名！', emotion: 'encouraging' }
+        ],
+        choices: [
+          { id: 'wuyanming_choice_1', text: '好好练防守！', nextSceneId: 'wuyanming_2a' },
+          { id: 'wuyanming_choice_2', text: '也可以练练守门！', nextSceneId: 'wuyanming_2b' }
+        ]
+      },
+      {
+        id: 'wuyanming_2a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '伍彦名', text: '我要好好练习防守！', emotion: 'determined' },
+          { speaker: '旁白', text: '伍彦名成了球队后防线的中坚力量。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wuyanming_3'
+      },
+      {
+        id: 'wuyanming_2b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '伍彦名', text: '闲着也是闲着，我也来练练守门！', emotion: 'happy' },
+          { speaker: '旁白', text: '伍彦名偶尔客串门将，没想到颇有天赋！', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wuyanming_3'
+      },
+      {
+        id: 'wuyanming_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2026年华工杯赛前，主力门将吴润泽受伤了！', emotion: 'tense' },
+          { speaker: '伍彦名', text: '我来！让我试试！', emotion: 'determined' },
+          { speaker: '旁白', text: '就在这时，伍彦名想起了一个人...', emotion: 'neutral' }
+        ],
+        choices: [
+          { id: 'wuyanming_choice_3', text: '找卢子逸学长请教！', nextSceneId: 'wuyanming_4a' },
+          { id: 'wuyanming_choice_4', text: '自己苦练！', nextSceneId: 'wuyanming_4b' }
+        ]
+      },
+      {
+        id: 'wuyanming_4a',
+        background: 'campus',
+        dialogs: [
+          { speaker: '伍彦名', text: '卢学长！教教我怎么守门吧！', emotion: 'respectful' },
+          { speaker: '卢子逸', text: '好啊！我来教你！', emotion: 'kind' },
+          { speaker: '旁白', text: '卢子逸倾囊相授，伍彦名进步神速！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuyanming_5'
+      },
+      {
+        id: 'wuyanming_4b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '伍彦名', text: '我就不信练不好！', emotion: 'determined' },
+          { speaker: '旁白', text: '伍彦名没日没夜地练习守门技术！', emotion: 'neutral' }
+        ],
+        nextSceneId: 'wuyanming_5'
+      },
+      {
+        id: 'wuyanming_5',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '比赛开始了！伍彦名站在了球门前！', emotion: 'tense' },
+          { speaker: '伍彦名', text: '我可以的！', emotion: 'confident' },
+          { speaker: '旁白', text: '伍彦名高接抵挡，力保球门不失！', emotion: 'excited' },
+          { speaker: '解说', text: '伍彦名！精彩的扑救！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'wuyanming_choice_5', text: '坚持住！我们能赢！', nextSceneId: 'wuyanming_6a' },
+          { id: 'wuyanming_choice_6', text: '大家加油！', nextSceneId: 'wuyanming_6b' }
+        ]
+      },
+      {
+        id: 'wuyanming_6a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '伍彦名', text: '坚持住！我们能赢！', emotion: 'determined' },
+          { speaker: '队友', text: '好！冲！', emotion: 'excited' }
+        ],
+        nextSceneId: 'wuyanming_7'
+      },
+      {
+        id: 'wuyanming_6b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '伍彦名', text: '大家加油！进攻交给你们！', emotion: 'encouraging' },
+          { speaker: '队友', text: '放心！后面交给你了！', emotion: 'confident' }
+        ],
+        nextSceneId: 'wuyanming_7'
+      },
+      {
+        id: 'wuyanming_7',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '最终新闻男足赢下了比赛！伍彦名功不可没！', emotion: 'excited' },
+          { speaker: '队友', text: '伍彦名！你太强了！', emotion: 'excited' },
+          { speaker: '伍彦名', text: '哈哈！运气好！', emotion: 'happy' },
+          { speaker: '旁白', text: '伍彦名速成门神的故事，成了新闻男足十周年的一段佳话！', emotion: 'significant' }
+        ],
+        nextSceneId: 'wuyanming_end_normal'
+      },
+      {
+        id: 'wuyanming_end_normal',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '伍彦名不仅是优秀的中后卫，更是关键时刻能站出来的门神！', emotion: 'neutral' },
+          { speaker: '伍彦名', text: '需要我的时候，随时说！', emotion: 'confident' }
+        ]
+      }
+    ],
+    endings: {
+      good: '门神传奇：伍彦名的故事广为流传！',
+      normal: '成功救场：伍彦名完成了临危受命的任务！',
+      bad: '失误遗憾：关键比赛出现失误...'
+    }
+  },
+  {
+    characterId: 'tanqi',
+    title: '谭琦的边路传奇',
+    scenes: [
+      {
+        id: 'tanqi_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2023年军训期间，谭琦就开始自发组建球队了。', emotion: 'neutral' },
+          { speaker: '谭琦', text: '有没有喜欢踢足球的？我们组建一支球队！', emotion: 'excited' },
+          { speaker: '杨云帆', text: '我来！', emotion: 'excited' },
+          { speaker: '钱文伟', text: '也算我一个！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'tanqi_choice_1', text: '我们去扫楼招人！', nextSceneId: 'tanqi_2a' },
+          { id: 'tanqi_choice_2', text: '我们先踢着再说！', nextSceneId: 'tanqi_2b' }
+        ]
+      },
+      {
+        id: 'tanqi_2a',
+        background: 'campus',
+        dialogs: [
+          { speaker: '谭琦', text: '走！我们去扫楼！多招些人！', emotion: 'excited' },
+          { speaker: '旁白', text: '他们一个寝室一个寝室地宣传，招到了吴杨楚涵、伍彦名等人！', emotion: 'neutral' }
+        ],
+        nextSceneId: 'tanqi_3'
+      },
+      {
+        id: 'tanqi_2b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '谭琦', text: '我们先踢着，慢慢招人！', emotion: 'happy' },
+          { speaker: '旁白', text: '几个人踢得不亦乐乎，吸引了更多人加入！', emotion: 'neutral' }
+        ],
+        nextSceneId: 'tanqi_3'
+      },
+      {
+        id: 'tanqi_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '新生杯第一场，对阵环境学院！', emotion: 'neutral' },
+          { speaker: '谭琦', text: '大家加油！这是我们第一场正式比赛！', emotion: 'excited' },
+          { speaker: '旁白', text: '谭琦门前混战破门！新闻1-0领先！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'tanqi_choice_3', text: '进攻！继续进攻！', nextSceneId: 'tanqi_4a' },
+          { id: 'tanqi_choice_4', text: '防守！守住优势！', nextSceneId: 'tanqi_4b' }
+        ]
+      },
+      {
+        id: 'tanqi_4a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '谭琦', text: '进攻！再进一个！', emotion: 'excited' },
+          { speaker: '旁白', text: '杨云帆补射破门！新闻2-0锁定胜局！', emotion: 'excited' }
+        ],
+        nextSceneId: 'tanqi_5'
+      },
+      {
+        id: 'tanqi_4b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '谭琦', text: '大家防守！守住这1-0！', emotion: 'serious' },
+          { speaker: '旁白', text: '新闻男足众志成城，守住了胜果！', emotion: 'excited' }
+        ],
+        nextSceneId: 'tanqi_5'
+      },
+      {
+        id: 'tanqi_5',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '新闻2-0战胜环境学院，打破了不胜纪录！', emotion: 'significant' },
+          { speaker: '谭琦', text: '太棒了！我们赢了！', emotion: 'excited' },
+          { speaker: '旁白', text: '第二场对阵公卫学院，谭琦梅开二度！', emotion: 'excited' }
+        ],
+        nextSceneId: 'tanqi_6'
+      },
+      {
+        id: 'tanqi_6',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '解说', text: '谭琦！又是谭琦！梅开二度！', emotion: 'excited' },
+          { speaker: '旁白', text: '最终新闻6-2大胜！谭琦成了球队的边路发动机！', emotion: 'excited' },
+          { speaker: '谭琦', text: '这只是开始！我们还要更强！', emotion: 'determined' }
+        ],
+        nextSceneId: 'tanqi_end_normal'
+      },
+      {
+        id: 'tanqi_end_normal',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '谭琦是球队的边路快马，更是发掘人才的伯乐！', emotion: 'neutral' },
+          { speaker: '谭琦', text: '新闻男足，继续向前！', emotion: 'encouraging' }
+        ]
+      }
+    ],
+    endings: {
+      good: '边路传奇：谭琦成了新闻男足历史上最好的边锋！',
+      normal: '顺利成长：谭琦完成了从新生到队长的成长。',
+      bad: '伤病困扰：谭琦因伤错过了关键比赛...'
+    }
+  },
+  {
+    characterId: 'qianwenwei',
+    title: '钱文伟的钢铁防线',
+    scenes: [
+      {
+        id: 'qianwenwei_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2023年，钱文伟以高大的身材和强壮的体魄加入了新闻男足。', emotion: 'neutral' },
+          { speaker: '钱文伟', text: '我虽然技术不是最好的，但我会拼尽全力防守！', emotion: 'determined' },
+          { speaker: '谭琦', text: '太好了！我们正需要你这样的中卫！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'qianwenwei_choice_1', text: '苦练防守技术！', nextSceneId: 'qianwenwei_2a' },
+          { id: 'qianwenwei_choice_2', text: '也练练进攻技能！', nextSceneId: 'qianwenwei_2b' }
+        ]
+      },
+      {
+        id: 'qianwenwei_2a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '钱文伟', text: '我要成为球队最可靠的后防线！', emotion: 'determined' },
+          { speaker: '旁白', text: '钱文伟开始了刻苦的防守训练，铲球、争顶、卡位样样精通。', emotion: 'neutral' }
+        ],
+        nextSceneId: 'qianwenwei_3'
+      },
+      {
+        id: 'qianwenwei_2b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '钱文伟', text: '防守是基础，但我也要能得分！', emotion: 'excited' },
+          { speaker: '旁白', text: '钱文伟不仅防守出色，还练就了一手定位球绝技！', emotion: 'significant' }
+        ],
+        nextSceneId: 'qianwenwei_3'
+      },
+      {
+        id: 'qianwenwei_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2026年华工杯，钱文伟成了球队后防线上的定海神针。', emotion: 'neutral' },
+          { speaker: '钱文伟', text: '有我在，球门就在！', emotion: 'confident' },
+          { speaker: '伍彦名', text: '文伟，我们一起守住！', emotion: 'encouraging' }
+        ],
+        choices: [
+          { id: 'qianwenwei_choice_3', text: '全力防守！', nextSceneId: 'qianwenwei_4a' },
+          { id: 'qianwenwei_choice_4', text: '找机会参与进攻！', nextSceneId: 'qianwenwei_4b' }
+        ]
+      },
+      {
+        id: 'qianwenwei_4a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '钱文伟在防线上高接抵挡，力保球门不失！', emotion: 'excited' },
+          { speaker: '解说', text: '钱文伟！关键解围！', emotion: 'excited' }
+        ],
+        nextSceneId: 'qianwenwei_end_normal'
+      },
+      {
+        id: 'qianwenwei_4b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '角球机会！钱文伟冲了上去！', emotion: 'tense' },
+          { speaker: '解说', text: '头球！球进了！钱文伟！', emotion: 'excited' },
+          { speaker: '钱文伟', text: 'YES！！', emotion: 'excited' }
+        ],
+        nextSceneId: 'qianwenwei_end_normal'
+      },
+      {
+        id: 'qianwenwei_end_normal',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '钱文伟成了新闻男足的钢铁后卫，守护着球队的防线。', emotion: 'neutral' },
+          { speaker: '钱文伟', text: '新闻男足的防线，由我来守护！', emotion: 'determined' }
+        ]
+      }
+    ],
+    endings: {
+      good: '钢铁防线：钱文伟成了新闻男足历史上最可靠的后卫！',
+      normal: '顺利成长：钱文伟完成了从新生到主力中卫的成长。',
+      bad: '伤病困扰：钱文伟因伤错过了关键比赛...'
+    }
+  },
+  {
+    characterId: 'luosangluobu',
+    title: '洛桑罗布的雪域雄心',
+    scenes: [
+      {
+        id: 'luosangluobu_1',
+        background: 'campus',
+        dialogs: [
+          { speaker: '旁白', text: '2023年，来自雪域高原的洛桑罗布加入了新闻男足。', emotion: 'neutral' },
+          { speaker: '洛桑罗布', text: '我来自西藏，我会把高原的坚韧带到球场上！', emotion: 'determined' },
+          { speaker: '谭琦', text: '欢迎你！你的体能一定很棒！', emotion: 'excited' }
+        ],
+        choices: [
+          { id: 'luosangluobu_choice_1', text: '发挥体能优势跑满全场！', nextSceneId: 'luosangluobu_2a' },
+          { id: 'luosangluobu_choice_2', text: '磨练技术成为核心！', nextSceneId: 'luosangluobu_2b' }
+        ]
+      },
+      {
+        id: 'luosangluobu_2a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '洛桑罗布', text: '高原赋予我体能，我要跑遍全场！', emotion: 'determined' },
+          { speaker: '旁白', text: '洛桑罗布不知疲倦的奔跑成了球场上的一道风景线！', emotion: 'significant' }
+        ],
+        nextSceneId: 'luosangluobu_3'
+      },
+      {
+        id: 'luosangluobu_2b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '洛桑罗布', text: '体能是基础，技术才是关键！', emotion: 'determined' },
+          { speaker: '旁白', text: '洛桑罗布不仅能跑，技术也越来越出色！', emotion: 'excited' }
+        ],
+        nextSceneId: 'luosangluobu_3'
+      },
+      {
+        id: 'luosangluobu_3',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '2026年华工杯，洛桑罗布在球场上尽情奔跑。', emotion: 'neutral' },
+          { speaker: '洛桑罗布', text: '为了新闻男足，为了所有支持我们的人！', emotion: 'passionate' },
+          { speaker: '队友', text: '洛桑！加油！', emotion: 'encouraging' }
+        ],
+        choices: [
+          { id: 'luosangluobu_choice_3', text: '助攻队友！', nextSceneId: 'luosangluobu_4a' },
+          { id: 'luosangluobu_choice_4', text: '自己射门！', nextSceneId: 'luosangluobu_4b' }
+        ]
+      },
+      {
+        id: 'luosangluobu_4a',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '洛桑罗布边路突破！传中！', emotion: 'tense' },
+          { speaker: '解说', text: '漂亮的传中！王楷硕头球！球进了！', emotion: 'excited' }
+        ],
+        nextSceneId: 'luosangluobu_end_normal'
+      },
+      {
+        id: 'luosangluobu_4b',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '洛桑罗布内切！起脚打门！', emotion: 'tense' },
+          { speaker: '解说', text: '球进了！世界波！洛桑罗布！', emotion: 'excited' }
+        ],
+        nextSceneId: 'luosangluobu_end_normal'
+      },
+      {
+        id: 'luosangluobu_end_normal',
+        background: 'football_field',
+        dialogs: [
+          { speaker: '旁白', text: '洛桑罗布从雪域高原来到华科，用汗水和努力书写了自己的故事。', emotion: 'neutral' },
+          { speaker: '洛桑罗布', text: '新闻男足，加油！扎西德勒！', emotion: 'happy' }
+        ]
+      }
+    ],
+    endings: {
+      good: '雪域雄鹰：洛桑罗布成了新闻男足的中场发动机！',
+      normal: '顺利成长：洛桑罗布完成了从新生到主力的成长。',
+      bad: '伤病困扰：洛桑罗布因伤错过了关键比赛...'
+    }
+  }
+];
+
+export const getStoryByCharacterId = (characterId: string): Story | undefined => {
+  return stories.find(s => s.characterId === characterId);
+};
+
+export const getSceneById = (story: Story, sceneId: string): Scene | undefined => {
+  return story.scenes.find(s => s.id === sceneId);
+};
