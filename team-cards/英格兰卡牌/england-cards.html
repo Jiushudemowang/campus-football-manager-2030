@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏴󠁧󠁢󠁥󠁮󠁧󠁿 ENGLAND · 球星基准卡牌 | 校园足球经理 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ===================================================
+   DESIGN TOKENS — eFootball × England
+   =================================================== */
+:root {
+  /* England FA Official Brand */
+  --eng-red: #EA1F29;
+  --eng-red-dark: #B01720;
+  --eng-navy: #000040;
+  --eng-navy-dark: #000028;
+  --eng-blue: #2B57AC;
+  --eng-white: #FFFFFF;
+
+  /* Card System */
+  --card-bg-start: #0C1530;
+  --card-bg-end: #060A1A;
+  --card-bg: linear-gradient(150deg, var(--card-bg-start) 0%, var(--card-bg-end) 100%);
+  --card-radius: 14px;
+  --card-padding: 20px;
+  --card-width: 320px;
+  --card-gap: 24px;
+  --card-height: 540px;
+
+  /* Radar */
+  --radar-size: 220px;
+  --radar-bg: rgba(11, 22, 58, 0.6);
+  --radar-grid: rgba(255, 255, 255, 0.07);
+  --radar-fill: rgba(234, 31, 41, 0.18);
+  --radar-stroke: var(--eng-red);
+
+  /* Stat Colors */
+  --stat-pac: #00E676;
+  --stat-sho: #FF1744;
+  --stat-pas: #448AFF;
+  --stat-dri: #FFB300;
+  --stat-def: #7C4DFF;
+  --stat-phy: #FF6D00;
+
+  /* Rarity */
+  --gold: #FFD700;
+  --gold-glow: rgba(255, 215, 0, 0.3);
+  --purple: #B388FF;
+  --purple-glow: rgba(179, 136, 255, 0.25);
+  --silver: #E0E0E0;
+  --silver-glow: rgba(224, 224, 224, 0.15);
+
+  /* Type */
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ===================================================
+   BASE
+   =================================================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #020410;
+  font-family: var(--font-body);
+  color: var(--eng-white);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(43, 87, 172, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(234, 31, 41, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(0, 0, 64, 0.3) 0%, transparent 50%);
+}
+
+/* ===================================================
+   HEADER
+   =================================================== */
+.header {
+  text-align: center;
+  padding: 48px 20px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::after {
+  content: '🏴󠁧󠁢󠁥󠁮󠁧󠁿';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 320px;
+  opacity: 0.025;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 100px;
+  padding: 6px 20px 6px 6px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.header-badge .flag { font-size: 18px; }
+
+.header h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(42px, 8vw, 76px);
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #FFFFFF 30%, var(--eng-red) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+}
+
+.header h1 span { color: var(--eng-red); }
+
+.header .sub {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 6px;
+  font-family: var(--font-body);
+}
+
+.header .sub strong {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+/* ===================================================
+   FILTER BAR
+   =================================================== */
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 20px 28px;
+}
+
+.filter-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: var(--font-body);
+}
+
+.filter-btn:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.filter-btn.active {
+  background: var(--eng-red);
+  border-color: var(--eng-red);
+  color: white;
+}
+
+/* ═══════════════════════════════════════════════
+   FLIP CONTAINER — JS toggled class
+   ═══════════════════════════════════════════════ */
+.flip-container {
+  width: var(--card-width);
+  height: var(--card-height);
+  perspective: 1200px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-container.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* ── Both faces: absolute fill ── */
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* Visibility controlled by .flipped class (JS) — immediate, no transition */
+.card-front {
+  visibility: visible;
+}
+
+.card-back {
+  visibility: hidden;
+}
+
+.flip-container.flipped .card-front {
+  visibility: hidden;
+}
+
+.flip-container.flipped .card-back {
+  visibility: visible;
+}
+
+/* ===================================================
+   CARD FRONT — EA Sports FC Legendary Style
+   =================================================== */
+.card-front {
+  background: var(--card-bg);
+  border: 2px solid rgba(255, 215, 0, 0.25);
+}
+.legendary .card-front { border-color: rgba(255, 215, 0, 0.4); }
+.epic .card-front { border-color: rgba(179, 136, 255, 0.3); }
+.gold .card-front { border-color: rgba(255, 255, 255, 0.12); }
+.silver .card-front { border-color: rgba(255, 255, 255, 0.06); }
+
+.front-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  pointer-events: none;
+}
+
+/* Subtle bottom shadow only — image is the main visual */
+.front-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    transparent 50%,
+    rgba(0,0,10,0.2) 75%,
+    rgba(0,0,20,0.5) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Layout ── */
+.front-content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+}
+
+/* ---- TOP BADGE: England Flag + Nation ---- */
+.front-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.front-nation-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,0,20,0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+  padding: 3px 10px 3px 6px;
+}
+
+.front-nation-badge .flag {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.front-nation-badge .name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.front-stars {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+}
+.legendary .front-stars { color: var(--gold); }
+.epic .front-stars { color: var(--purple); }
+.gold .front-stars { color: rgba(255,215,0,0.4); }
+.silver .front-stars { color: rgba(255,255,255,0.15); }
+
+/* ---- OVR + Position ---- */
+.front-ovr-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 6px;
+}
+
+.front-ovr-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 0.8;
+  letter-spacing: -4px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5), 0 0 40px rgba(255,215,0,0.1);
+}
+.legendary .front-ovr-num {
+  background: linear-gradient(180deg, #FFD700 30%, #FFA000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.epic .front-ovr-num {
+  background: linear-gradient(180deg, #B388FF, #7C4DFF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gold .front-ovr-num { color: #E0E0E0; }
+.silver .front-ovr-num { color: #9E9E9E; }
+
+.front-pos-text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 3px;
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+  margin-top: -4px;
+}
+
+/* ---- BOTTOM SECTION ---- */
+.front-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.front-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+}
+
+.front-name-zh {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 2px;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  margin-top: 1px;
+}
+
+.front-club {
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.12);
+  letter-spacing: 1px;
+}
+
+/* Bottom UI Panel — England Navy + Red Accent */
+.front-ui-panel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(0,0,40,0.6), rgba(10,10,50,0.4));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(234,31,41,0.15);
+}
+
+.front-skill-icons {
+  display: flex;
+  gap: 5px;
+}
+
+.front-skill-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(234,31,41,0.08);
+  border: 1px solid rgba(234,31,41,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.25);
+}
+
+.front-bottom-stars {
+  font-size: 9px;
+  letter-spacing: 1px;
+  margin-left: auto;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.legendary .front-bottom-stars { color: var(--gold); }
+.epic .front-bottom-stars { color: var(--purple); }
+.gold .front-bottom-stars { color: rgba(255,215,0,0.3); }
+.silver .front-bottom-stars { color: rgba(255,255,255,0.1); }
+
+.front-captain {
+  font-size: 14px;
+  vertical-align: super;
+  margin-left: -2px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+
+.front-sub {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.2);
+}
+
+/* ===================================================
+   CARD BACK — Radar + Stats (EXACTLY AS BEFORE)
+   =================================================== */
+.card-back {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Card top accent line (back) */
+.card-back .top-accent {
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+}
+
+.legendary .card-back .top-accent { background: linear-gradient(90deg, var(--gold), #FFE082, var(--gold)); }
+.epic .card-back .top-accent { background: linear-gradient(90deg, var(--purple), #D1C4E9, var(--purple)); }
+.gold .card-back .top-accent { background: linear-gradient(90deg, #9E9E9E, #E0E0E0, #9E9E9E); }
+.silver .card-back .top-accent { background: linear-gradient(90deg, #757575, #BDBDBD, #757575); }
+
+.card-back::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(255,255,255,0.02) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-back .card-inner {
+  padding: var(--card-padding);
+  position: relative;
+  z-index: 2;
+}
+
+/* Series Badge */
+.card-back .card-series {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.card-back .card-series .series-name {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: var(--font-body);
+}
+
+.card-back .card-series .card-type {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 2px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.35);
+  font-family: var(--font-body);
+}
+
+.legendary .card-back .card-series .card-type {
+  border-color: rgba(255, 215, 0, 0.3);
+  color: var(--gold);
+}
+.epic .card-back .card-series .card-type {
+  border-color: rgba(179, 136, 255, 0.25);
+  color: var(--purple);
+}
+
+/* Nationality + OVR row */
+.card-back .card-identity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.card-back .card-identity .nation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-back .card-identity .nation .flag {
+  font-size: 28px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.card-back .card-identity .nation .nation-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.card-back .ovr-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.card-back .ovr-badge .ovr-number {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: -1px;
+}
+
+.legendary .card-back .ovr-badge .ovr-number {
+  background: linear-gradient(180deg, var(--gold), #FFE082);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.epic .card-back .ovr-badge .ovr-number {
+  background: linear-gradient(180deg, var(--purple), #D1C4E9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gold .card-back .ovr-badge .ovr-number {
+  background: linear-gradient(180deg, #E0E0E0, #9E9E9E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.silver .card-back .ovr-badge .ovr-number {
+  background: linear-gradient(180deg, #BDBDBD, #757575);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-back .ovr-badge .ovr-label {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 2px;
+}
+
+/* Position + Name */
+.card-back .card-position-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.card-back .pos-badge {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 1px;
+  padding: 2px 12px 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  line-height: 1.4;
+  min-width: 42px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.card-back .card-player-name {
+  flex: 1;
+}
+
+.card-back .card-player-name .name-en {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.card-back .card-player-name .name-zh {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+  margin-top: 1px;
+}
+
+.card-back .card-player-name .club-name {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* ===================================================
+   RADAR CHART
+   =================================================== */
+.card-back .radar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0 10px;
+  position: relative;
+}
+
+.card-back .radar-container svg {
+  width: var(--radar-size);
+  height: var(--radar-size);
+  filter: drop-shadow(0 4px 20px rgba(234, 31, 41, 0.1));
+  transition: filter 0.4s ease;
+}
+
+.legendary .card-back .radar-container svg {
+  filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.15));
+}
+
+/* ===================================================
+   STAT BARS
+   =================================================== */
+.card-back .stat-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 8px 0 0;
+}
+
+.card-back .stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-back .stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 28px;
+  font-family: var(--font-mono);
+}
+
+.card-back .stat-label.pac { color: var(--stat-pac); }
+.card-back .stat-label.sho { color: var(--stat-sho); }
+.card-back .stat-label.pas { color: var(--stat-pas); }
+.card-back .stat-label.dri { color: var(--stat-dri); }
+.card-back .stat-label.def { color: var(--stat-def); }
+.card-back .stat-label.phy { color: var(--stat-phy); }
+
+.card-back .stat-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-back .stat-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.card-back .stat-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 100%);
+  border-radius: 4px;
+}
+
+.card-back .stat-row.pac .stat-fill { background: linear-gradient(90deg, #00C853, var(--stat-pac)); }
+.card-back .stat-row.sho .stat-fill { background: linear-gradient(90deg, #D50000, var(--stat-sho)); }
+.card-back .stat-row.pas .stat-fill { background: linear-gradient(90deg, #2962FF, var(--stat-pas)); }
+.card-back .stat-row.dri .stat-fill { background: linear-gradient(90deg, #FF8F00, var(--stat-dri)); }
+.card-back .stat-row.def .stat-fill { background: linear-gradient(90deg, #651FFF, var(--stat-def)); }
+.card-back .stat-row.phy .stat-fill { background: linear-gradient(90deg, #DD2C00, var(--stat-phy)); }
+
+.card-back .stat-value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 12px;
+  min-width: 26px;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===================================================
+   CARD FOOTER
+   =================================================== */
+.card-back .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.card-back .skill-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.card-back .skill-badge .skill-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.card-back .rarity-stars {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.legendary .card-back .rarity-stars { color: var(--gold); }
+.epic .card-back .rarity-stars { color: var(--purple); }
+.gold .card-back .rarity-stars { color: #FFD700; }
+.silver .card-back .rarity-stars { color: #9E9E9E; }
+
+.card-back .rarity-label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.legendary .card-back .rarity-label { color: var(--gold); }
+.epic .card-back .rarity-label { color: var(--purple); }
+.gold .card-back .rarity-label { color: #BDBDBD; }
+.silver .card-back .rarity-label { color: #757575; }
+
+/* Play Style badge */
+.card-back .play-style {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  margin-top: 10px;
+}
+
+/* SUB badge (back) */
+.card-back .sub-badge {
+  position: absolute;
+  top: var(--card-padding);
+  right: var(--card-padding);
+  z-index: 5;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Rarity glow — applied to card faces */
+.legendary .card-front,
+.legendary .card-back {
+  box-shadow: 0 0 30px rgba(255,215,0,0.08), inset 0 0 60px rgba(255,215,0,0.02);
+}
+.flip-container.legendary.flipped .card-front,
+.flip-container.legendary.flipped .card-back {
+  box-shadow: 0 0 50px rgba(255,215,0,0.18), inset 0 0 60px rgba(255,215,0,0.04);
+}
+.epic .card-front,
+.epic .card-back {
+  box-shadow: 0 0 25px rgba(179,136,255,0.05), inset 0 0 60px rgba(179,136,255,0.01);
+}
+.flip-container.epic.flipped .card-front,
+.flip-container.epic.flipped .card-back {
+  box-shadow: 0 0 40px rgba(179,136,255,0.1), inset 0 0 60px rgba(179,136,255,0.03);
+}
+
+/* ===================================================
+   LEGEND / INFO PANEL
+   =================================================== */
+.info-panel {
+  max-width: 1400px;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.info-card h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 10px;
+}
+
+.legend-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.legend-item .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-item .dot.pac { background: var(--stat-pac); }
+.legend-item .dot.sho { background: var(--stat-sho); }
+.legend-item .dot.pas { background: var(--stat-pas); }
+.legend-item .dot.dri { background: var(--stat-dri); }
+.legend-item .dot.def { background: var(--stat-def); }
+.legend-item .dot.phy { background: var(--stat-phy); }
+
+.rarity-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rarity-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.rarity-legend-row .swatch {
+  width: 24px;
+  height: 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.rarity-legend-row .swatch.legendary { background: linear-gradient(90deg, var(--gold), #FFE082); }
+.rarity-legend-row .swatch.epic { background: linear-gradient(90deg, var(--purple), #D1C4E9); }
+.rarity-legend-row .swatch.gold { background: linear-gradient(90deg, #E0E0E0, #9E9E9E); }
+.rarity-legend-row .swatch.silver { background: linear-gradient(90deg, #BDBDBD, #757575); }
+
+/* ===================================================
+   RESPONSIVE
+   =================================================== */
+@media (max-width: 700px) {
+  :root {
+    --card-width: 290px;
+    --card-padding: 16px;
+    --radar-size: 190px;
+    --card-height: 490px;
+  }
+  .card-grid { gap: 16px; }
+  .header { padding: 32px 16px 24px; }
+  .front-name { font-size: 22px; }
+  .front-ovr .num { font-size: 36px; }
+}
+
+@media (max-width: 340px) {
+  :root {
+    --card-width: 260px;
+    --card-padding: 14px;
+    --radar-size: 170px;
+    --card-height: 460px;
+  }
+  .card-back .card-player-name .name-en { font-size: 17px; }
+  .card-back .pos-badge { font-size: 17px; min-width: 36px; }
+  .front-name { font-size: 18px; }
+}
+
+/* ===================================================
+   ANIMATIONS
+   =================================================== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.flip-container {
+  animation: fadeUp 0.6s ease backwards;
+}
+
+.flip-container:nth-child(1) { animation-delay: 0.02s; }
+.flip-container:nth-child(2) { animation-delay: 0.04s; }
+.flip-container:nth-child(3) { animation-delay: 0.06s; }
+.flip-container:nth-child(4) { animation-delay: 0.08s; }
+.flip-container:nth-child(5) { animation-delay: 0.10s; }
+.flip-container:nth-child(6) { animation-delay: 0.12s; }
+.flip-container:nth-child(7) { animation-delay: 0.14s; }
+.flip-container:nth-child(8) { animation-delay: 0.16s; }
+.flip-container:nth-child(9) { animation-delay: 0.18s; }
+.flip-container:nth-child(10) { animation-delay: 0.20s; }
+.flip-container:nth-child(11) { animation-delay: 0.22s; }
+.flip-container:nth-child(12) { animation-delay: 0.24s; }
+.flip-container:nth-child(13) { animation-delay: 0.26s; }
+.flip-container:nth-child(14) { animation-delay: 0.28s; }
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.legendary .card-back .ovr-badge .ovr-number {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Flip hint */
+.flip-hint {
+  text-align: center;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.08);
+  letter-spacing: 1px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-badge">
+    <span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+    2026 WORLD CUP · SQUAD
+  </div>
+  <h1>ENGLAND<br>三狮军团</h1>
+  <p class="sub"><strong>球星基准卡牌</strong> · EA FC 27 OFFICIAL RATINGS · 校园足球经理 2026</p>
+</header>
+
+<p class="flip-hint">🔄 悬停翻转 · 正面球员肖像 · 背面雷达数据</p>
+
+<!-- FILTER -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">ALL · 全部</button>
+  <button class="filter-btn" data-filter="starter">首发 · XI</button>
+  <button class="filter-btn" data-filter="sub">替补 · SUB</button>
+  <button class="filter-btn" data-filter="legendary">⭐⭐⭐⭐⭐ 神话</button>
+  <button class="filter-btn" data-filter="epic">⭐⭐⭐⭐ 史诗</button>
+  <button class="filter-btn" data-filter="gold">⭐⭐⭐ 精英</button>
+  <button class="filter-btn" data-filter="silver">⭐⭐ 高级</button>
+</div>
+
+<!-- CARD GRID -->
+<div class="card-grid" id="cardGrid"></div>
+
+<!-- INFO PANEL -->
+<div class="info-panel">
+  <div class="info-card">
+    <h3>六维能力</h3>
+    <div class="legend-grid">
+      <span class="legend-item"><span class="dot pac"></span> PAC 速度</span>
+      <span class="legend-item"><span class="dot sho"></span> SHO 射门</span>
+      <span class="legend-item"><span class="dot pas"></span> PAS 传球</span>
+      <span class="legend-item"><span class="dot dri"></span> DRI 盘带</span>
+      <span class="legend-item"><span class="dot def"></span> DEF 防守</span>
+      <span class="legend-item"><span class="dot phy"></span> PHY 体能</span>
+    </div>
+  </div>
+  <div class="info-card">
+    <h3>卡牌稀有度</h3>
+    <div class="rarity-legend">
+      <div class="rarity-legend-row"><span class="swatch legendary"></span> ⭐⭐⭐⭐⭐ 神话 — 90+ OVR（金边烈焰）</div>
+      <div class="rarity-legend-row"><span class="swatch epic"></span> ⭐⭐⭐⭐ 史诗 — 85-89 OVR（紫晶辉光）</div>
+      <div class="rarity-legend-row"><span class="swatch gold"></span> ⭐⭐⭐ 精英 — 80-84 OVR（银白流光）</div>
+      <div class="rarity-legend-row"><span class="swatch silver"></span> ⭐⭐ 高级 — 79- OVR</div>
+    </div>
+  </div>
+  <div class="info-card">
+    <h3>操作提示</h3>
+    <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">
+      🖱️ 鼠标悬停卡牌 → 翻转查看背面数据<br>
+      🖼️ 正面: AI生成球员肖像<br>
+      📊 背面: 六维雷达 + 详细数据
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================================================
+// PLAYER DATA — FC 27 Official + England 2026 WC Squad
+// ===================================================
+const PLAYERS = [
+  // ── ST ──
+  {
+    id: 'kane', nameEn: 'Harry Kane', nameZh: '哈里·凯恩', pos: 'ST',
+    club: 'FC Bayern München', flag: '🇬🇧', isStarter: true,
+    ovr: 90, pac: 64, sho: 93, pas: 83, dri: 82, def: 49, phy: 83,
+    skill: '🎯 重炮轰门', skillDesc: '射门判定+25%',
+    style: 'POACHER · 禁区之狐', rarity: 'legendary', captain: true
+  },
+  // ── CAM ──
+  {
+    id: 'bellingham', nameEn: 'Jude Bellingham', nameZh: '裘德·贝林厄姆', pos: 'CAM',
+    club: 'Real Madrid CF', flag: '🇬🇧', isStarter: true,
+    ovr: 89, pac: 80, sho: 85, pas: 83, dri: 89, def: 79, phy: 85,
+    skill: '⚡ 全能推进', skillDesc: '盘带后射门+20%',
+    style: 'BOX-TO-BOX · 全能中场', rarity: 'epic'
+  },
+  // ── CDM ──
+  {
+    id: 'rice', nameEn: 'Declan Rice', nameZh: '德克兰·赖斯', pos: 'CDM',
+    club: 'Arsenal F.C.', flag: '🇬🇧', isStarter: true,
+    ovr: 88, pac: 72, sho: 73, pas: 86, dri: 81, def: 84, phy: 84,
+    skill: '🛡️ 拦截屏障', skillDesc: '拦截判定范围+2格',
+    style: 'ANCHOR · 后场节拍器', rarity: 'epic'
+  },
+  // ── RW ──
+  {
+    id: 'saka', nameEn: 'Bukayo Saka', nameZh: '布卡约·萨卡', pos: 'RW',
+    club: 'Arsenal F.C.', flag: '🇬🇧', isStarter: true,
+    ovr: 87, pac: 83, sho: 82, pas: 85, dri: 87, def: 60, phy: 76,
+    skill: '🌀 内切魔术', skillDesc: '右路内切射门+25%',
+    style: 'WINGER · 边路核心', rarity: 'epic'
+  },
+  // ── GK ──
+  {
+    id: 'pickford', nameEn: 'Jordan Pickford', nameZh: '乔丹·皮克福德', pos: 'GK',
+    club: 'Everton F.C.', flag: '🇬🇧', isStarter: true,
+    ovr: 85, pac: 78, sho: 88, pas: 86, dri: 82, def: 86, phy: 80,
+    skill: '🧤 远射克星', skillDesc: '远距离射门扑救+30%',
+    style: 'SWEEPER KEEPER · 清道夫门将', rarity: 'epic',
+    note: '门将六维由GK专属属性映射'
+  },
+  // ── RB ──
+  {
+    id: 'james', nameEn: 'Reece James', nameZh: '里斯·詹姆斯', pos: 'RB',
+    club: 'Chelsea', flag: '🇬🇧', isStarter: true,
+    ovr: 84, pac: 76, sho: 71, pas: 83, dri: 78, def: 83, phy: 82,
+    skill: '📐 弧线传中', skillDesc: '传中落点精确锁定',
+    style: 'ATTACKING FULL-BACK · 进攻型边卫', rarity: 'gold'
+  },
+  // ── CB ──
+  {
+    id: 'guehi', nameEn: 'Marc Guéhi', nameZh: '马克·格希', pos: 'CB',
+    club: 'Manchester City F.C.', flag: '🇬🇧', isStarter: true,
+    ovr: 84, pac: 71, sho: 42, pas: 69, dri: 73, def: 85, phy: 81,
+    skill: '🧱 贴身紧逼', skillDesc: '盯人抢断成功率+20%',
+    style: 'BUILDER · 出球后卫', rarity: 'gold'
+  },
+  // ── CB ──
+  {
+    id: 'stones', nameEn: 'John Stones', nameZh: '约翰·斯通斯', pos: 'CB',
+    club: 'Manchester City F.C.', flag: '🇬🇧', isStarter: true,
+    ovr: 82, pac: 64, sho: 58, pas: 74, dri: 75, def: 84, phy: 72,
+    skill: '🏗️ 出球核心', skillDesc: '后场组织传球+20%',
+    style: 'BALL-PLAYING CB · 出球中卫', rarity: 'gold'
+  },
+  // ── LW ──
+  {
+    id: 'gordon', nameEn: 'Anthony Gordon', nameZh: '安东尼·戈登', pos: 'LW',
+    club: 'Newcastle United F.C.', flag: '🇬🇧', isStarter: true,
+    ovr: 82, pac: 91, sho: 78, pas: 76, dri: 82, def: 50, phy: 72,
+    skill: '⚡ 边路爆点', skillDesc: '启动瞬间速度+30%',
+    style: 'WINGER · 速度型边锋', rarity: 'gold'
+  },
+  // ── CM ──
+  {
+    id: 'anderson', nameEn: 'Elliot Anderson', nameZh: '埃利奥特·安德森', pos: 'CM',
+    club: 'Nottingham Forest F.C.', flag: '🇬🇧', isStarter: true,
+    ovr: 82, pac: 71, sho: 68, pas: 81, dri: 81, def: 80, phy: 79,
+    skill: '🎵 节奏控制', skillDesc: '传球精准度+15%',
+    style: 'REGISTA · 中场节拍器', rarity: 'gold'
+  },
+  // ── LB ──
+  {
+    id: 'oreilly', nameEn: 'Nico O\'Reilly', nameZh: '尼科·奥赖利', pos: 'LB',
+    club: 'Manchester City F.C.', flag: '🇬🇧', isStarter: true,
+    ovr: 81, pac: 83, sho: 70, pas: 78, dri: 80, def: 79, phy: 79,
+    skill: '🔄 两翼齐飞', skillDesc: '边路往返体能消耗减半',
+    style: 'WING-BACK · 边翼卫', rarity: 'gold'
+  },
+  // ── SUB: CAM ──
+  {
+    id: 'rogers', nameEn: 'Morgan Rogers', nameZh: '摩根·罗杰斯', pos: 'CAM',
+    club: 'Aston Villa F.C.', flag: '🇬🇧', isStarter: false,
+    ovr: 84, pac: 77, sho: 81, pas: 81, dri: 85, def: 67, phy: 78,
+    skill: '🌀 变向大师', skillDesc: '过人判定-15%',
+    style: 'CREATIVE MID · 创意中场', rarity: 'gold'
+  },
+  // ── SUB: ST ──
+  {
+    id: 'watkins', nameEn: 'Ollie Watkins', nameZh: '奥利·沃特金斯', pos: 'ST',
+    club: 'Aston Villa F.C.', flag: '🇬🇧', isStarter: false,
+    ovr: 82, pac: 77, sho: 82, pas: 72, dri: 78, def: 50, phy: 80,
+    skill: '🚀 反越位', skillDesc: '单刀概率+25%',
+    style: 'POACHER · 机会主义者', rarity: 'gold'
+  },
+  // ── SUB: CM ──
+  {
+    id: 'mainoo', nameEn: 'Kobbie Mainoo', nameZh: '科比·梅努', pos: 'CM',
+    club: 'Manchester United F.C.', flag: '🇬🇧', isStarter: false,
+    ovr: 79, pac: 68, sho: 66, pas: 79, dri: 83, def: 74, phy: 75,
+    skill: '🌱 少年老成', skillDesc: '落后时全队士气+10%',
+    style: 'BOX-TO-BOX · 全能中场', rarity: 'silver'
+  }
+];
+
+// ===================================================
+// RADAR CHART (SVG) — UNCHANGED
+// ===================================================
+function generateRadar(player) {
+  const cx = 120, cy = 120, maxR = 95;
+  // Order: clockwise from top — PAC→SHO→PAS→DEF→PHY→DRI (matches game spec)
+  const labels = ['PAC', 'SHO', 'PAS', 'DEF', 'PHY', 'DRI'];
+  const values = [player.pac, player.sho, player.pas, player.def, player.phy, player.dri];
+  const labelZh = ['速度', '射门', '传球', '防守', '体能', '盘带'];
+  const colors = [
+    getComputedStyle(document.documentElement).getPropertyValue('--stat-pac').trim(),
+    getComputedStyle(document.documentElement).getPropertyValue('--stat-sho').trim(),
+    getComputedStyle(document.documentElement).getPropertyValue('--stat-pas').trim(),
+    getComputedStyle(document.documentElement).getPropertyValue('--stat-dri').trim(),
+    getComputedStyle(document.documentElement).getPropertyValue('--stat-def').trim(),
+    getComputedStyle(document.documentElement).getPropertyValue('--stat-phy').trim()
+  ];
+
+  // Compute hex points: 0=PAC(top),1=SHO(60°),2=PAS(120°),3=DEF(180°),4=DRI(240°),5=PHY(300°) [clockwise from top]
+  function hexPoint(r, i) {
+    const angle = (i * 60 - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+  }
+
+  // Build SVG
+  let svg = '';
+  let radarFillColor = getComputedStyle(document.documentElement).getPropertyValue('--radar-fill').trim();
+  let radarStrokeColor = getComputedStyle(document.documentElement).getPropertyValue('--radar-stroke').trim();
+
+  // Grid rings (20% intervals)
+  for (let ring = 1; ring <= 5; ring++) {
+    const r = maxR * (ring / 5);
+    const pts = [];
+    for (let i = 0; i < 6; i++) {
+      const p = hexPoint(r, i);
+      pts.push(`${p.x},${p.y}`);
+    }
+    svg += `<polygon points="${pts.join(' ')}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+  }
+
+  // Axis lines
+  for (let i = 0; i < 6; i++) {
+    const p = hexPoint(maxR, i);
+    svg += `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+  }
+
+  // Data polygon
+  const dataPts = [];
+  for (let i = 0; i < 6; i++) {
+    const r = maxR * (values[i] / 99) * 1.05; // slight scale to make radar fuller
+    const p = hexPoint(r, i);
+    dataPts.push(`${p.x},${p.y}`);
+  }
+  svg += `<polygon points="${dataPts.join(' ')}" fill="${radarFillColor}" stroke="${radarStrokeColor}" stroke-width="2" stroke-linejoin="round"/>`;
+
+  // Data points
+  for (let i = 0; i < 6; i++) {
+    const r = maxR * (values[i] / 99) * 1.05;
+    const p = hexPoint(r, i);
+    svg += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${colors[i]}" stroke="#fff" stroke-width="1.5" filter="url(#glow-${player.id})"/>`;
+  }
+
+  // Labels (outside the hexagon)
+  for (let i = 0; i < 6; i++) {
+    const p = hexPoint(maxR + 22, i);
+    const anchor = i === 0 || i === 3 ? 'middle' : (i < 3 ? 'start' : 'end');
+    svg += `<text x="${p.x}" y="${p.y}" fill="${colors[i]}" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="600" text-anchor="${anchor}" dominant-baseline="middle">${labels[i]}</text>`;
+    // Value inside near the data point
+    if (values[i] > 20) {
+      const vp = hexPoint(maxR * (values[i] / 99) * 1.05 - 14, i);
+      // Don't put value text on the chart, it's shown below
+    }
+  }
+
+  // Center OVR small
+  svg += `<text x="${cx}" y="${cy + 4}" fill="rgba(255,255,255,0.15)" font-family="'Oswald',sans-serif" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle">${player.ovr}</text>`;
+
+  // Glow filter
+  svg += `<defs><filter id="glow-${player.id}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+
+  return svg;
+}
+
+// ===================================================
+// RENDER CARDS — WITH FLIP
+// ===================================================
+function renderCards(filter = 'all') {
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = '';
+
+  const filtered = filter === 'all' ? PLAYERS :
+    filter === 'starter' ? PLAYERS.filter(p => p.isStarter) :
+    filter === 'sub' ? PLAYERS.filter(p => !p.isStarter) :
+    PLAYERS.filter(p => p.rarity === filter);
+
+  filtered.forEach((player, idx) => {
+    const container = document.createElement('div');
+    container.className = `flip-container ${player.rarity}`;
+
+    const radarSvg = generateRadar(player);
+
+    const starCount = player.rarity === 'legendary' ? '★★★★★' :
+      player.rarity === 'epic' ? '★★★★' :
+      player.rarity === 'gold' ? '★★★' : '★★';
+
+    const rarityCN = player.rarity === 'legendary' ? 'LEGENDARY' :
+      player.rarity === 'epic' ? 'EPIC' :
+      player.rarity === 'gold' ? 'GOLD' : 'SILVER';
+
+    container.innerHTML = `
+      <div class="flip-inner">
+        <!-- ═══ FRONT: EA SPORTS FC LEGENDARY CARD ═══ -->
+        <div class="card-front">
+          <img class="front-bg" src="england-cards/${player.id}.jpg" alt="${player.nameEn}" loading="lazy" onerror="this.style.display='none'">
+          <div class="front-overlay"></div>
+          ${!player.isStarter ? '<div class="front-sub">SUB</div>' : ''}
+
+          <div class="front-content">
+            <!-- Top bar: England badge + Stars -->
+            <div class="front-top-bar">
+              <div class="front-nation-badge">
+                <span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="name">ENGLAND</span>
+              </div>
+              <div class="front-stars">${starCount}</div>
+            </div>
+
+            <!-- OVR + Position -->
+            <div class="front-ovr-block">
+              <div class="front-ovr-num">${player.ovr}</div>
+              <div class="front-pos-text">${player.pos}</div>
+            </div>
+
+            <!-- Bottom section -->
+            <div class="front-bottom">
+              <div>
+                <div class="front-name">${player.nameEn}${player.captain ? '<span class="front-captain">Ⓒ</span>' : ''}</div>
+                <div class="front-name-zh">${player.nameZh}</div>
+                <div class="front-club">${player.club}</div>
+              </div>
+
+              <!-- Bottom UI Panel: skills + stars -->
+              <div class="front-ui-panel">
+                <div class="front-skill-icons">
+                  <div class="front-skill-icon">⚡</div>
+                  <div class="front-skill-icon">🎯</div>
+                </div>
+                <div class="front-bottom-stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ BACK: Radar + Stats (EXACTLY AS BEFORE) ═══ -->
+        <div class="card-back">
+          <div class="top-accent"></div>
+          <div class="card-inner">
+            ${!player.isStarter ? '<div class="sub-badge">SUB</div>' : ''}
+            <div class="card-series">
+              <span class="series-name">🏴󠁧󠁢󠁥󠁮󠁧󠁿 WORLD CUP 2026</span>
+              <span class="card-type">${rarityCN}</span>
+            </div>
+
+            <div class="card-identity">
+              <div class="nation">
+                <span class="flag">${player.flag}</span>
+                <span class="nation-name">ENGLAND</span>
+              </div>
+              <div class="ovr-badge">
+                <span class="ovr-number">${player.ovr}</span>
+                <span class="ovr-label">OVERALL</span>
+              </div>
+            </div>
+
+            <div class="card-position-name">
+              <div class="pos-badge">${player.pos}</div>
+              <div class="card-player-name">
+                <div class="name-en">${player.nameEn}${player.captain ? ' Ⓒ' : ''}</div>
+                <div class="name-zh">${player.nameZh}</div>
+                <div class="club-name">${player.club}</div>
+              </div>
+            </div>
+
+            <div class="radar-container">
+              <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+                ${radarSvg}
+              </svg>
+            </div>
+
+            <div class="stat-bars">
+              ${['pac','sho','pas','dri','def','phy'].map(s => `
+                <div class="stat-row ${s}">
+                  <span class="stat-label ${s}">${s.toUpperCase()}</span>
+                  <div class="stat-track">
+                    <div class="stat-fill" style="width:${player[s]}%"></div>
+                  </div>
+                  <span class="stat-value">${player[s]}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="card-footer">
+              <span class="skill-badge">
+                <span class="skill-icon">${player.skill.split(' ')[0]}</span>
+                ${player.skill.slice(player.skill.indexOf(' ') + 1)}
+              </span>
+              <span class="rarity-stars">
+                ${starCount}
+                <span class="rarity-label">
+                  ${player.rarity === 'legendary' ? '神话' :
+                    player.rarity === 'epic' ? '史诗' :
+                    player.rarity === 'gold' ? '精英' : '高级'}
+                </span>
+              </span>
+            </div>
+
+            <div class="play-style">
+              ${player.style}${player.note ? ' · ' + player.note : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(container);
+
+    // ── JS-driven flip: toggle .flipped class on hover ──
+    container.addEventListener('mouseenter', () => container.classList.add('flipped'));
+    container.addEventListener('mouseleave', () => container.classList.remove('flipped'));
+  });
+}
+
+// ===================================================
+// FILTER
+// ===================================================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCards(btn.dataset.filter);
+  });
+});
+
+// ===================================================
+// INIT
+// ===================================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderCards('all');
+});
+</script>
+</body>
+</html>

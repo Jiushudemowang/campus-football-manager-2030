@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🇦🇷 ARGENTINA · 球星基准卡牌 | 校园足球经理 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--arg-celeste:#75AADB;--arg-white:#FFFFFF;--arg-gold:#FFD700;--arg-dark:#003366;--card-bg-start:#D4E6F5;--card-bg-end:#B8D4EA;--card-radius:14px;--card-padding:20px;--card-width:320px;--card-gap:24px;--card-height:540px;--radar-size:220px;--radar-fill:rgba(117,170,219,0.2);--radar-stroke:var(--arg-dark);--stat-pac:#003366;--stat-sho:#E84326;--stat-pas:#2E7D32;--stat-dri:#FFD700;--stat-def:#1565C0;--stat-phy:#003366;--gold:#FFD700;--font-display:'Oswald',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#E8F1FA;font-family:var(--font-body);color:var(--arg-dark);min-height:100vh;background-image:radial-gradient(ellipse at 30% 20%,rgba(117,170,219,0.12) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(255,215,0,0.03) 0%,transparent 50%)}
+.header{text-align:center;padding:40px 20px 24px;position:relative;overflow:hidden}
+.header::after{content:'🇦🇷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:280px;opacity:0.025;pointer-events:none}
+.header-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.4);border:1px solid rgba(117,170,219,0.15);border-radius:100px;padding:5px 18px 5px 5px;margin-bottom:14px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--arg-dark)}
+.header h1{font-family:var(--font-display);font-weight:700;font-size:clamp(38px,7vw,64px);text-transform:uppercase;letter-spacing:5px;background:linear-gradient(135deg,#75AADB 0%,#003366 50%,#FFD700 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.header .sub{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,51,102,0.3);margin-top:4px}
+.filter-bar{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;padding:0 16px 18px}
+.filter-btn{padding:4px 12px;border-radius:20px;border:1px solid rgba(0,51,102,0.06);background:rgba(255,255,255,0.4);color:rgba(0,51,102,0.35);font-size:10px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:var(--font-body)}
+.filter-btn:hover{border-color:rgba(0,51,102,0.15);color:rgba(0,51,102,0.6)}
+.filter-btn.active{background:var(--arg-celeste);border-color:var(--arg-celeste);color:white}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-width),1fr));gap:28px;padding:0 20px 50px;max-width:1360px;margin:0 auto;justify-items:center}
+.flip-container{width:var(--card-width);height:var(--card-height);perspective:1200px}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.0,.2,1);transform-style:preserve-3d}
+.flip-container.flipped .flip-inner{transform:rotateY(180deg)}
+.card-front,.card-back{position:absolute;inset:0;border-radius:var(--card-radius);overflow:hidden}
+.card-back{transform:rotateY(180deg)}
+.card-front{visibility:visible}
+.card-back{visibility:hidden}
+.flip-container.flipped .card-front{visibility:hidden}
+.flip-container.flipped .card-back{visibility:visible}
+.card-front{background:linear-gradient(150deg,#D4E6F5,#FFFFFF);border:2px solid rgba(117,170,219,0.15)}
+.legendary .card-front{border-color:rgba(255,215,0,0.3)}
+.epic .card-front{border-color:rgba(0,51,102,0.12)}
+.front-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;pointer-events:none}
+.front-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.1) 0%,rgba(255,255,255,0.02) 40%,rgba(117,170,219,0.1) 65%,rgba(117,170,219,0.2) 100%);pointer-events:none}
+.front-content{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;padding:14px}
+.front-top-bar{display:flex;align-items:center;justify-content:space-between}
+.front-nation-badge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.4);backdrop-filter:blur(6px);border:1px solid rgba(117,170,219,0.1);border-radius:6px;padding:3px 10px 3px 6px}
+.front-nation-badge .flag{font-size:22px}
+.front-nation-badge .name{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--arg-dark)}
+.front-stars{font-size:11px;letter-spacing:2px}
+.legendary .front-stars{color:var(--arg-gold)}
+.epic .front-stars{color:var(--arg-dark)}
+.gold .front-stars{color:rgba(0,51,102,0.2)}
+.front-ovr-block{display:flex;flex-direction:column;align-items:flex-start;margin-top:6px}
+.front-ovr-num{font-family:var(--font-display);font-weight:700;font-size:72px;line-height:.8;letter-spacing:-4px}
+.legendary .front-ovr-num{color:var(--arg-gold);text-shadow:0 2px 12px rgba(255,215,0,0.15)}
+.epic .front-ovr-num{color:var(--arg-dark)}
+.gold .front-ovr-num{color:#555}
+.front-pos-text{font-family:var(--font-display);font-weight:600;font-size:24px;letter-spacing:3px;color:var(--arg-dark);margin-top:-4px}
+.front-bottom{margin-top:auto;display:flex;flex-direction:column;gap:6px}
+.front-name{font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:2px;text-transform:uppercase;line-height:1;color:var(--arg-dark)}
+.front-name-zh{font-size:11px;font-weight:300;color:rgba(0,51,102,0.25);letter-spacing:2px;margin-top:1px}
+.front-club{font-size:10px;font-weight:400;color:rgba(0,51,102,0.12);letter-spacing:1px}
+.front-ui-panel{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:6px;background:linear-gradient(135deg,rgba(117,170,219,0.2),rgba(255,255,255,0.5));backdrop-filter:blur(8px);border:1px solid rgba(117,170,219,0.1)}
+.front-skill-icons{display:flex;gap:5px}.front-skill-icon{width:26px;height:26px;border-radius:6px;background:rgba(117,170,219,0.08);border:1px solid rgba(117,170,219,0.08);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--arg-dark)}
+.front-bottom-stars{font-size:9px;letter-spacing:1px;margin-left:auto}
+.legendary .front-bottom-stars{color:var(--arg-gold)}
+.epic .front-bottom-stars{color:var(--arg-dark)}
+.gold .front-bottom-stars{color:rgba(0,51,102,0.2)}
+.front-captain{font-size:14px;vertical-align:super}
+.front-sub{position:absolute;top:14px;right:14px;z-index:10;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 8px;border-radius:4px;backdrop-filter:blur(6px);background:rgba(255,255,255,0.2);border:1px solid rgba(117,170,219,0.1);color:rgba(0,51,102,0.2)}
+.card-back{background:linear-gradient(160deg,#75AADB 0%,#8BC4E0 40%,#A8D0E8 100%);border:1px solid rgba(0,51,102,0.04)}
+.card-back .top-accent{height:3px;width:100%;position:absolute;top:0;left:0;z-index:3;border-radius:var(--card-radius) var(--card-radius) 0 0}
+.legendary .card-back .top-accent{background:linear-gradient(90deg,#FFD700,#FFE082,#FFD700)}
+.epic .card-back .top-accent{background:linear-gradient(90deg,#003366,#75AADB,#003366)}
+.gold .card-back .top-accent{background:linear-gradient(90deg,#999,#CCC,#999)}
+.card-back::before{content:'';position:absolute;inset:0;border-radius:var(--card-radius);padding:1px;background:linear-gradient(135deg,rgba(255,255,255,0.15) 0%,transparent 40%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:2}
+.card-back::after{content:'';position:absolute;inset:0;border-radius:var(--card-radius);background:linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 40%);pointer-events:none;z-index:1}
+.card-back .card-inner{padding:var(--card-padding);position:relative;z-index:2}
+.card-back .card-series{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-back .card-series .series-name{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(0,51,102,0.25)}
+.card-back .card-series .card-type{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 10px;border-radius:4px;border:1px solid rgba(0,51,102,0.06);color:var(--arg-dark)}
+.legendary .card-back .card-series .card-type{border-color:rgba(255,215,0,0.25);color:#B8860B}
+.epic .card-back .card-series .card-type{border-color:rgba(0,51,102,0.1);color:var(--arg-dark)}
+.card-back .card-identity{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-back .card-identity .nation{display:flex;align-items:center;gap:8px}
+.card-back .card-identity .nation .flag{font-size:28px}
+.card-back .card-identity .nation .nation-name{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--arg-dark)}
+.card-back .ovr-badge{display:flex;flex-direction:column;align-items:center;line-height:1}
+.card-back .ovr-badge .ovr-number{font-family:var(--font-display);font-weight:700;font-size:36px;letter-spacing:-1px}
+.legendary .card-back .ovr-badge .ovr-number{color:#B8860B}
+.epic .card-back .ovr-badge .ovr-number{color:var(--arg-dark)}
+.gold .card-back .ovr-badge .ovr-number{color:#555}
+.card-back .ovr-badge .ovr-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(0,51,102,0.2);margin-top:2px}
+.card-back .card-position-name{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.card-back .pos-badge{font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:1px;padding:2px 12px 0;border-radius:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(0,51,102,0.04);color:var(--arg-dark);min-width:42px;text-align:center}
+.card-back .card-player-name{flex:1}
+.card-back .card-player-name .name-en{font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:1.5px;text-transform:uppercase;line-height:1.2;color:var(--arg-dark)}
+.card-back .card-player-name .name-zh{font-size:12px;font-weight:300;color:rgba(0,51,102,0.25);letter-spacing:1px;margin-top:1px}
+.card-back .card-player-name .club-name{font-size:10px;font-weight:500;color:rgba(0,51,102,0.15);letter-spacing:.5px;margin-top:2px}
+.card-back .radar-container{display:flex;justify-content:center;align-items:center;margin:4px 0 10px}
+.card-back .radar-container svg{width:var(--radar-size);height:var(--radar-size);filter:drop-shadow(0 4px 12px rgba(0,51,102,0.04))}
+.card-back .stat-bars{display:flex;flex-direction:column;gap:5px;margin:8px 0 0}
+.card-back .stat-row{display:flex;align-items:center;gap:8px}
+.card-back .stat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;min-width:28px;font-family:var(--font-mono);color:var(--arg-dark)}
+.card-back .stat-track{flex:1;height:6px;background:rgba(255,255,255,0.2);border-radius:4px;overflow:hidden}
+.card-back .stat-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.34,1.56,.64,1);position:relative}
+.card-back .stat-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.25) 100%);border-radius:4px}
+.card-back .stat-row.pac .stat-fill{background:linear-gradient(90deg,#003366,#1565C0)}
+.card-back .stat-row.sho .stat-fill{background:linear-gradient(90deg,#C62828,#E84326)}
+.card-back .stat-row.pas .stat-fill{background:linear-gradient(90deg,#1B5E20,#2E7D32)}
+.card-back .stat-row.dri .stat-fill{background:linear-gradient(90deg,#F9A825,#FFD700)}
+.card-back .stat-row.def .stat-fill{background:linear-gradient(90deg,#0D47A1,#1565C0)}
+.card-back .stat-row.phy .stat-fill{background:linear-gradient(90deg,#003366,#1A237E)}
+.card-back .stat-value{font-family:var(--font-mono);font-weight:600;font-size:12px;min-width:26px;text-align:right;color:var(--arg-dark)}
+.card-back .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,51,102,0.04)}
+.card-back .skill-badge{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--arg-dark)}
+.card-back .rarity-stars{font-size:10px;letter-spacing:1px}
+.legendary .card-back .rarity-stars{color:#B8860B}
+.epic .card-back .rarity-stars{color:var(--arg-dark)}
+.gold .card-back .rarity-stars{color:#555}
+.card-back .rarity-label{font-size:8px;letter-spacing:1.5px;text-transform:uppercase}
+.legendary .card-back .rarity-label{color:#B8860B}
+.epic .card-back .rarity-label{color:var(--arg-dark)}
+.gold .card-back .rarity-label{color:#777}
+.card-back .play-style{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:rgba(0,51,102,0.1);padding:2px 8px;border-radius:4px;background:rgba(255,255,255,0.03);margin-top:10px}
+.card-back .sub-badge{position:absolute;top:var(--card-padding);right:var(--card-padding);z-index:5;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(0,51,102,0.02);color:rgba(0,51,102,0.15)}
+.legendary .card-front,.legendary .card-back{box-shadow:0 0 30px rgba(255,215,0,0.06)}
+.epic .card-front,.epic .card-back{box-shadow:0 0 20px rgba(0,51,102,0.02)}
+.info-panel{max-width:1360px;margin:-10px auto 40px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.info-card{background:rgba(255,255,255,0.3);border:1px solid rgba(117,170,219,0.06);border-radius:8px;padding:10px 14px}
+.info-card h4{font-family:var(--font-display);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--arg-dark);margin-bottom:6px}
+.legend-grid{display:flex;flex-wrap:wrap;gap:4px}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:9px;color:rgba(0,51,102,0.25)}
+.legend-item .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.legend-item .dot.pac{background:#003366}.legend-item .dot.sho{background:#E84326}.legend-item .dot.pas{background:#2E7D32}.legend-item .dot.dri{background:#FFD700}.legend-item .dot.def{background:#1565C0}.legend-item .dot.phy{background:#003366}
+.rarity-legend{display:flex;flex-direction:column;gap:2px}
+.rarity-legend-row{display:flex;align-items:center;gap:6px;font-size:9px;color:rgba(0,51,102,0.25)}
+.rarity-legend-row .sw{width:18px;height:5px;border-radius:3px;flex-shrink:0}
+.rarity-legend-row .sw.lg{background:linear-gradient(90deg,#FFD700,#FFE082)}
+.rarity-legend-row .sw.ep{background:linear-gradient(90deg,#003366,#75AADB)}
+.rarity-legend-row .sw.gd{background:linear-gradient(90deg,#888,#BBB)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.flip-container{animation:fadeUp .5s ease backwards}
+.flip-hint{text-align:center;font-size:9px;color:rgba(0,51,102,0.08);letter-spacing:1px;margin-top:-10px;margin-bottom:20px}
+@keyframes pulseGlow{0%,100%{opacity:.6}50%{opacity:1}}
+.legendary .card-back .ovr-badge .ovr-number{animation:pulseGlow 3s ease-in-out infinite}
+@media(max-width:700px){:root{--card-width:290px;--card-padding:16px;--radar-size:190px;--card-height:490px}}
+</style></head><body>
+<header class="header"><div class="header-badge"><span>🇦🇷</span> 2026 WORLD CUP · ARGENTINA</div>
+<h1>LA ALBICELESTE<br>潘帕斯雄鹰</h1>
+<p class="sub">球星基准卡牌 · EA FC 27 OFFICIAL · 校园足球经理 2026</p></header>
+<p class="flip-hint">🔄 悬停翻转 · 正面球员肖像 · 背面浅蓝天数据</p>
+<div class="filter-bar">
+<button class="filter-btn active" data-filter="all">⚽ 全部</button>
+<button class="filter-btn" data-filter="starter">首发 XI</button>
+<button class="filter-btn" data-filter="sub">替补 SUB</button>
+<button class="filter-btn" data-filter="legendary">🌟 神话</button>
+<button class="filter-btn" data-filter="epic">🔵 史诗</button>
+<button class="filter-btn" data-filter="gold">⭐ 精英</button>
+</div>
+<div class="card-grid" id="cardGrid"></div>
+<div class="info-panel">
+<div class="info-card"><h4>六维能力</h4><div class="legend-grid">
+<span class="legend-item"><span class="dot pac"></span> 速度</span><span class="legend-item"><span class="dot sho"></span> 射门</span><span class="legend-item"><span class="dot pas"></span> 传球</span>
+<span class="legend-item"><span class="dot dri"></span> 盘带</span><span class="legend-item"><span class="dot def"></span> 防守</span><span class="legend-item"><span class="dot phy"></span> 体能</span>
+</div></div>
+<div class="info-card"><h4>稀有度</h4><div class="rarity-legend">
+<div class="rarity-legend-row"><span class="sw lg"></span> 🌟 神话 — 金色</div>
+<div class="rarity-legend-row"><span class="sw ep"></span> 🔵 史诗 — 深蓝</div>
+<div class="rarity-legend-row"><span class="sw gd"></span> ⭐ 精英</div>
+</div></div>
+<div class="info-card"><h4>设计</h4><div style="font-size:9px;color:rgba(0,51,102,0.15);line-height:1.6;">阿根廷🇦🇷 国旗配色<br>🔵 天蓝 · ⚪ 白 · 🌟 金</div></div>
+</div>
+<script>
+const P=[{id:'messi',nameEn:'Lionel Messi',nameZh:'里奥·梅西',pos:'RW',club:'Inter Miami CF',ovr:86,pac:78,sho:85,pas:85,dri:90,def:35,phy:60,skill:'🌟 足球之神',style:'PLAYMAKER · 进攻核心',rarity:'legendary',starter:true,captain:true},
+{id:'lautaro',nameEn:'Lautaro Martínez',nameZh:'劳塔罗·马丁内斯',pos:'ST',club:'Inter Milan',ovr:88,pac:81,sho:88,pas:75,dri:84,def:51,phy:83,skill:'🎯 禁区杀手',style:'POACHER · 禁区之王',rarity:'epic',starter:true},
+{id:'alvarez',nameEn:'Julián Álvarez',nameZh:'胡利安·阿尔瓦雷斯',pos:'LW',club:'Atlético Madrid',ovr:86,pac:83,sho:84,pas:78,dri:85,def:45,phy:76,skill:'⚡ 全能前锋',style:'FORWARD · 全能型',rarity:'epic',starter:true},
+{id:'emimartinez',nameEn:'Emiliano Martínez',nameZh:'埃米利亚诺·马丁内斯',pos:'GK',club:'Aston Villa F.C.',ovr:87,pac:65,sho:80,pas:82,dri:82,def:87,phy:78,skill:'🧤 点球死神',style:'PENALTY SAVER',rarity:'epic',starter:true,note:'门将六维由GK专属属性映射'},
+{id:'romero',nameEn:'Cristian Romero',nameZh:'克里斯蒂安·罗梅罗',pos:'CB',club:'Tottenham Hotspur F.C.',ovr:85,pac:74,sho:55,pas:72,dri:72,def:87,phy:82,skill:'🛡️ 铁血后卫',style:'DESTROYER · 破坏者',rarity:'epic',starter:true},
+{id:'enzo',nameEn:'Enzo Fernández',nameZh:'恩佐·费尔南德斯',pos:'CDM',club:'Chelsea F.C.',ovr:85,pac:72,sho:76,pas:85,dri:82,def:76,phy:78,skill:'🎵 中场大脑',style:'REGISTA · 节拍器',rarity:'epic',starter:true},
+{id:'macallister',nameEn:'Alexis Mac Allister',nameZh:'亚历克西斯·麦卡利斯特',pos:'CM',club:'Liverpool F.C.',ovr:85,pac:74,sho:78,pas:83,dri:84,def:70,phy:76,skill:'⚡ 全能中场',style:'BOX-TO-BOX · 全能',rarity:'epic',starter:true},
+{id:'depaul',nameEn:'Rodrigo De Paul',nameZh:'罗德里戈·德保罗',pos:'CM',club:'Inter Miami CF',ovr:83,pac:76,sho:74,pas:82,dri:80,def:72,phy:78,skill:'🎭 中场引擎',style:'BOX-TO-BOX · 全能',rarity:'gold',starter:true},
+{id:'lisandro',nameEn:'Lisandro Martínez',nameZh:'利桑德罗·马丁内斯',pos:'CB',club:'Manchester United F.C.',ovr:84,pac:72,sho:50,pas:74,dri:74,def:85,phy:78,skill:'🧱 钢铁之盾',style:'BUILDER · 出球后卫',rarity:'gold',starter:true},
+{id:'molina',nameEn:'Nahuel Molina',nameZh:'纳韦尔·莫利纳',pos:'RB',club:'Atlético Madrid',ovr:82,pac:82,sho:62,pas:74,dri:76,def:78,phy:76,skill:'📐 边路尖刀',style:'WING-BACK · 进攻边卫',rarity:'gold',starter:true},
+{id:'tagliafico',nameEn:'Nicolás Tagliafico',nameZh:'尼古拉斯·塔利亚菲科',pos:'LB',club:'Olympique Lyonnais',ovr:81,pac:78,sho:65,pas:74,dri:76,def:78,phy:76,skill:'🔄 永动机',style:'FULL-BACK · 防守边卫',rarity:'gold',starter:true},
+{id:'locelso',nameEn:'Giovani Lo Celso',nameZh:'吉奥瓦尼·洛塞尔索',pos:'CM',club:'Real Betis',ovr:82,pac:72,sho:74,pas:80,dri:82,def:64,phy:70,skill:'🎯 精准传球',style:'CREATIVE MID · 创意中场',rarity:'gold',starter:false},
+{id:'almada',nameEn:'Thiago Almada',nameZh:'蒂亚戈·阿尔马达',pos:'CAM',club:'Atlético Madrid',ovr:81,pac:84,sho:74,pas:78,dri:85,def:40,phy:65,skill:'💫 魔术脚',style:'CREATIVE · 创意核心',rarity:'gold',starter:false},
+{id:'nicogonzalez',nameEn:'Nico González',nameZh:'尼科·冈萨雷斯',pos:'LW',club:'Atlético Madrid',ovr:82,pac:84,sho:78,pas:74,dri:82,def:45,phy:72,skill:'⚡ 边路快马',style:'WINGER · 速度型',rarity:'gold',starter:false}
+];
+
+function gR(p){const cx=120,cy=120,mR=95;const lbs=['PAC','SHO','PAS','DEF','PHY','DRI'];const vs=[p.pac,p.sho,p.pas,p.def,p.phy,p.dri];const cls=['#003366','#E84326','#2E7D32','#1565C0','#003366','#FFD700'];function hp(r,i){const a=(i*60-90)*Math.PI/180;return{x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)};}
+let s='<svg viewBox="0 0 240 240">';for(let r=1;r<=5;r++){const R=mR*(r/5);const pts=Array.from({length:6},(_,i)=>{const P=hp(R,i);return P.x+','+P.y}).join(' ');s+='<polygon points="'+pts+'" fill="none" stroke="rgba(0,51,102,0.06)" stroke-width="1"/>';}
+for(let i=0;i<6;i++){const P=hp(mR,i);s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+P.x+'" y2="'+P.y+'" stroke="rgba(0,51,102,0.06)" stroke-width="1"/>';}
+const dP=Array.from({length:6},(_,i)=>{const r=mR*(vs[i]/99)*1.05;const P=hp(r,i);return P.x+','+P.y}).join(' ');s+='<polygon points="'+dP+'" fill="rgba(0,51,102,0.06)" stroke="#003366" stroke-width="2" stroke-linejoin="round"/>';
+for(let i=0;i<6;i++){const r=mR*(vs[i]/99)*1.05;const P=hp(r,i);s+='<circle cx="'+P.x+'" cy="'+P.y+'" r="4" fill="'+cls[i]+'" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>';}
+for(let i=0;i<6;i++){const P=hp(mR+22,i);const a=i===0||i===3?'middle':(i<3?'start':'end');s+='<text x="'+P.x+'" y="'+P.y+'" fill="'+cls[i]+'" font-family="\'JetBrains Mono\',monospace" font-size="11" font-weight="600" text-anchor="'+a+'" dominant-baseline="middle">'+lbs[i]+'</text>';}
+s+='<text x="120" y="124" fill="rgba(0,51,102,0.1)" font-family="\'Oswald\',sans-serif" font-size="16" font-weight="700" text-anchor="middle">'+p.ovr+'</text>';
+s+='<defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';s+='</svg>';return s;}
+
+function rC(f){const g=document.getElementById('cardGrid');g.innerHTML='';const l=f==='all'?P:f==='starter'?P.filter(p=>p.starter):f==='sub'?P.filter(p=>!p.starter):P.filter(p=>p.rarity===f);
+const sM={legendary:5,epic:4,gold:3};l.forEach(p=>{const st=sM[p.rarity]||3;const ss=Array(st).fill('★').join('');const rN={legendary:'LEGENDARY',epic:'EPIC',gold:'GOLD'}[p.rarity];
+const c=document.createElement('div');c.className='flip-container '+p.rarity;c.innerHTML=`
+<div class="flip-inner"><div class="card-front"><img class="front-bg" src="argentina-cards/${p.id}.jpg" alt="${p.nameEn}" loading="lazy" onerror="this.style.display='none'"><div class="front-overlay"></div>${!p.starter?'<div class="front-sub">SUB</div>':''}
+<div class="front-content"><div class="front-top-bar"><div class="front-nation-badge"><span class="flag">🇦🇷</span><span class="name">ARGENTINA</span></div><div class="front-stars">${ss}</div></div>
+<div class="front-ovr-block"><div class="front-ovr-num">${p.ovr}</div><div class="front-pos-text">${p.pos}</div></div>
+<div class="front-bottom"><div><div class="front-name">${p.nameEn}${p.captain?'<span class="front-captain">Ⓒ</span>':''}</div><div class="front-name-zh">${p.nameZh}</div><div class="front-club">${p.club}</div></div>
+<div class="front-ui-panel"><div class="front-skill-icons"><div class="front-skill-icon">${p.skill.split(' ')[0]}</div><div class="front-skill-icon">⚽</div></div><div class="front-bottom-stars">${ss}</div></div></div></div></div>
+<div class="card-back"><div class="top-accent"></div><div class="card-inner">${!p.starter?'<div class="sub-badge">SUB</div>':''}
+<div class="card-series"><span class="series-name">🇦🇷 WORLD CUP 2026</span><span class="card-type">${rN}</span></div>
+<div class="card-identity"><div class="nation"><span class="flag">🇦🇷</span><span class="nation-name">ARGENTINA</span></div><div class="ovr-badge"><span class="ovr-number">${p.ovr}</span><span class="ovr-label">OVERALL</span></div></div>
+<div class="card-position-name"><div class="pos-badge">${p.pos}</div><div class="card-player-name"><div class="name-en">${p.nameEn}${p.captain?' Ⓒ':''}</div><div class="name-zh">${p.nameZh}</div><div class="club-name">${p.club}</div></div></div>
+<div class="radar-container"><svg viewBox="0 0 240 240">${gR(p)}</svg></div>
+<div class="stat-bars">${['pac','sho','pas','dri','def','phy'].map(s=>'<div class="stat-row '+s+'"><span class="stat-label '+s+'">'+s.toUpperCase()+'</span><div class="stat-track"><div class="stat-fill" style="width:'+p[s]+'%"></div></div><span class="stat-value">'+p[s]+'</span></div>').join('')}</div>
+<div class="card-footer"><span class="skill-badge"><span class="skill-icon">${p.skill.split(' ')[0]}</span>${p.skill.slice(p.skill.indexOf(' ')+1)}</span><span class="rarity-stars">${ss}<span class="rarity-label">${p.rarity==='legendary'?'神话':p.rarity==='epic'?'史诗':'精英'}</span></span></div>
+<div class="play-style">${p.style}${p.note?' · '+p.note:''}</div></div></div></div>`;
+g.appendChild(c);c.addEventListener('mouseenter',()=>c.classList.add('flipped'));c.addEventListener('mouseleave',()=>c.classList.remove('flipped'));});}
+document.querySelectorAll('.filter-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');rC(b.dataset.filter);});});
+document.addEventListener('DOMContentLoaded',()=>rC('all'));
+</script></body></html>

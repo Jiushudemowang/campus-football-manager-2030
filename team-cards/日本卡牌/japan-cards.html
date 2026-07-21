@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🇯🇵 JAPAN · 球星基准卡牌 | 校园足球经理 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--jpn-red:#BC002D;--jpn-white:#FFFFFF;--jpn-dark:#1A1A2E;--card-bg-start:#F5F0EB;--card-bg-end:#E8E0D8;--card-radius:14px;--card-padding:20px;--card-width:320px;--card-gap:24px;--card-height:540px;--radar-size:220px;--radar-fill:rgba(188,0,45,0.1);--radar-stroke:var(--jpn-red);--stat-pac:#BC002D;--stat-sho:#E65100;--stat-pas:#1A237E;--stat-dri:#BC002D;--stat-def:#1A1A2E;--stat-phy:#37474F;--gold:#FFD700;--font-display:'Oswald',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F0EB;font-family:var(--font-body);color:var(--jpn-dark);min-height:100vh;background-image:radial-gradient(ellipse at 30% 20%,rgba(188,0,45,0.03) 0%,transparent 50%)}
+.header{text-align:center;padding:40px 20px 24px;position:relative;overflow:hidden}
+.header::after{content:'🇯🇵';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:280px;opacity:0.015;pointer-events:none}
+.header-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(188,0,45,0.04);border:1px solid rgba(188,0,45,0.06);border-radius:100px;padding:5px 18px 5px 5px;margin-bottom:14px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(26,26,46,0.4)}
+.header h1{font-family:var(--font-display);font-weight:700;font-size:clamp(38px,7vw,64px);text-transform:uppercase;letter-spacing:5px;background:linear-gradient(135deg,#1A1A2E 0%,#BC002D 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.header .sub{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:rgba(26,26,46,0.2);margin-top:4px}
+.filter-bar{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;padding:0 16px 18px}
+.filter-btn{padding:4px 12px;border-radius:20px;border:1px solid rgba(188,0,45,0.04);background:rgba(255,255,255,0.4);color:rgba(26,26,46,0.3);font-size:10px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:var(--font-body)}
+.filter-btn:hover{border-color:rgba(188,0,45,0.1);color:rgba(26,26,46,0.6)}
+.filter-btn.active{background:var(--jpn-red);border-color:var(--jpn-red);color:#fff}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-width),1fr));gap:28px;padding:0 20px 50px;max-width:1360px;margin:0 auto;justify-items:center}
+.flip-container{width:var(--card-width);height:var(--card-height);perspective:1200px}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.0,.2,1);transform-style:preserve-3d}
+.flip-container.flipped .flip-inner{transform:rotateY(180deg)}
+.card-front,.card-back{position:absolute;inset:0;border-radius:var(--card-radius);overflow:hidden}
+.card-back{transform:rotateY(180deg)}
+.card-front{visibility:visible}
+.card-back{visibility:hidden}
+.flip-container.flipped .card-front{visibility:hidden}
+.flip-container.flipped .card-back{visibility:visible}
+.card-front{background:linear-gradient(150deg,#F5F0EB,#FFFFFF);border:2px solid rgba(188,0,45,0.04)}
+.gold .card-front{border-color:rgba(188,0,45,0.06)}
+.front-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;pointer-events:none}
+.front-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 40%,rgba(188,0,45,0.02) 65%,rgba(188,0,45,0.06) 100%);pointer-events:none}
+.front-content{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;padding:14px}
+.front-top-bar{display:flex;align-items:center;justify-content:space-between}
+.front-nation-badge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.3);border:1px solid rgba(188,0,45,0.04);border-radius:6px;padding:3px 10px 3px 6px}
+.front-nation-badge .flag{font-size:22px}
+.front-nation-badge .name{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--jpn-dark)}
+.front-stars{font-size:11px;letter-spacing:2px}
+.gold .front-stars{color:rgba(188,0,45,0.6)}
+.silver .front-stars{color:rgba(26,26,46,0.2)}
+.front-ovr-block{display:flex;flex-direction:column;align-items:flex-start;margin-top:6px}
+.front-ovr-num{font-family:var(--font-display);font-weight:700;font-size:72px;line-height:.8;letter-spacing:-4px;color:var(--jpn-dark)}
+.gold .front-ovr-num{color:var(--jpn-dark)}
+.silver .front-ovr-num{color:#666}
+.front-pos-text{font-family:var(--font-display);font-weight:600;font-size:24px;letter-spacing:3px;color:var(--jpn-dark);margin-top:-4px}
+.front-bottom{margin-top:auto;display:flex;flex-direction:column;gap:6px}
+.front-name{font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:2px;text-transform:uppercase;line-height:1;color:var(--jpn-dark)}
+.front-name-zh{font-size:11px;font-weight:300;color:rgba(26,26,46,0.25);letter-spacing:2px;margin-top:1px}
+.front-club{font-size:10px;font-weight:400;color:rgba(26,26,46,0.12);letter-spacing:1px}
+.front-ui-panel{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:6px;background:linear-gradient(135deg,rgba(188,0,45,0.04),rgba(255,255,255,0.3));border:1px solid rgba(188,0,45,0.03)}
+.front-skill-icons{display:flex;gap:5px}.front-skill-icon{width:26px;height:26px;border-radius:6px;background:rgba(188,0,45,0.02);border:1px solid rgba(188,0,45,0.03);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--jpn-dark)}
+.front-bottom-stars{font-size:9px;letter-spacing:1px;margin-left:auto}
+.gold .front-bottom-stars{color:rgba(188,0,45,0.6)}
+.silver .front-bottom-stars{color:rgba(26,26,46,0.2)}
+.front-sub{position:absolute;top:14px;right:14px;z-index:10;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:rgba(188,0,45,0.02);border:1px solid rgba(188,0,45,0.02);color:rgba(26,26,46,0.12)}
+.card-back{background:linear-gradient(180deg,#FFFFFF 0%,#F5F0EB 50%,#BC002D 100%)}
+.card-back .top-accent{height:3px;width:100%;position:absolute;top:0;left:0;z-index:3;border-radius:var(--card-radius) var(--card-radius) 0 0}
+.gold .card-back .top-accent{background:linear-gradient(90deg,#BC002D,#FFFFFF,#BC002D)}
+.silver .card-back .top-accent{background:linear-gradient(90deg,#999,#CCC,#999)}
+.card-back::before{content:'';position:absolute;inset:0;border-radius:var(--card-radius);padding:1px;background:linear-gradient(135deg,rgba(255,255,255,0.1) 0%,transparent 40%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:2}
+.card-back::after{content:'';position:absolute;inset:0;border-radius:var(--card-radius);background:linear-gradient(180deg,rgba(255,255,255,0.04) 0%,transparent 40%);pointer-events:none;z-index:1}
+.card-back .card-inner{padding:var(--card-padding);position:relative;z-index:2}
+.card-back .card-series{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-back .card-series .series-name{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(26,26,46,0.15)}
+.card-back .card-series .card-type{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 10px;border-radius:4px;border:1px solid rgba(188,0,45,0.04);color:var(--jpn-dark)}
+.card-back .card-identity{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-back .card-identity .nation{display:flex;align-items:center;gap:8px}
+.card-back .card-identity .nation .flag{font-size:28px}
+.card-back .card-identity .nation .nation-name{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(26,26,46,0.3)}
+.card-back .ovr-badge{display:flex;flex-direction:column;align-items:center;line-height:1}
+.card-back .ovr-badge .ovr-number{font-family:var(--font-display);font-weight:700;font-size:36px;letter-spacing:-1px;color:var(--jpn-dark)}
+.gold .card-back .ovr-badge .ovr-number{color:var(--jpn-dark)}
+.silver .card-back .ovr-badge .ovr-number{color:#555}
+.card-back .ovr-badge .ovr-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(26,26,46,0.15);margin-top:2px}
+.card-back .card-position-name{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.card-back .pos-badge{font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:1px;padding:2px 12px 0;border-radius:6px;background:rgba(188,0,45,0.02);border:1px solid rgba(188,0,45,0.02);color:var(--jpn-dark);min-width:42px;text-align:center}
+.card-back .card-player-name{flex:1}
+.card-back .card-player-name .name-en{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:1px;text-transform:uppercase;line-height:1.2;color:var(--jpn-dark)}
+.card-back .card-player-name .name-zh{font-size:11px;font-weight:300;color:rgba(26,26,46,0.2);letter-spacing:1px;margin-top:1px}
+.card-back .card-player-name .club-name{font-size:10px;font-weight:500;color:rgba(26,26,46,0.1);letter-spacing:.5px;margin-top:2px}
+.card-back .radar-container{display:flex;justify-content:center;align-items:center;margin:4px 0 10px}
+.card-back .radar-container svg{width:var(--radar-size);height:var(--radar-size);filter:drop-shadow(0 4px 12px rgba(188,0,45,0.02))}
+.card-back .stat-bars{display:flex;flex-direction:column;gap:5px;margin:8px 0 0}
+.card-back .stat-row{display:flex;align-items:center;gap:8px}
+.card-back .stat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;min-width:28px;font-family:var(--font-mono);color:var(--jpn-dark)}
+.card-back .stat-track{flex:1;height:6px;background:rgba(26,26,46,0.02);border-radius:4px;overflow:hidden}
+.card-back .stat-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.34,1.56,.64,1);position:relative}
+.card-back .stat-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 100%);border-radius:4px}
+.card-back .stat-row.pac .stat-fill{background:linear-gradient(90deg,#BC002D,#E53935)}
+.card-back .stat-row.sho .stat-fill{background:linear-gradient(90deg,#E65100,#FF6B00)}
+.card-back .stat-row.pas .stat-fill{background:linear-gradient(90deg,#1A237E,#5C6BC0)}
+.card-back .stat-row.dri .stat-fill{background:linear-gradient(90deg,#BC002D,#E53935)}
+.card-back .stat-row.def .stat-fill{background:linear-gradient(90deg,#1A1A2E,#37474F)}
+.card-back .stat-row.phy .stat-fill{background:linear-gradient(90deg,#37474F,#607D8B)}
+.card-back .stat-value{font-family:var(--font-mono);font-weight:600;font-size:12px;min-width:26px;text-align:right;color:var(--jpn-dark)}
+.card-back .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid rgba(26,26,46,0.02)}
+.card-back .skill-badge{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--jpn-dark)}
+.card-back .rarity-stars{font-size:10px;letter-spacing:1px}
+.gold .card-back .rarity-stars{color:var(--jpn-dark)}
+.silver .card-back .rarity-stars{color:#555}
+.card-back .rarity-label{font-size:8px;letter-spacing:1.5px;text-transform:uppercase}
+.gold .card-back .rarity-label{color:var(--jpn-dark)}
+.silver .card-back .rarity-label{color:#555}
+.card-back .play-style{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:rgba(26,26,46,0.06);padding:2px 8px;border-radius:4px;background:rgba(188,0,45,0.005);margin-top:10px}
+.card-back .sub-badge{position:absolute;top:var(--card-padding);right:var(--card-padding);z-index:5;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:rgba(188,0,45,0.01);border:1px solid rgba(188,0,45,0.01);color:rgba(26,26,46,0.06)}
+.info-panel{max-width:1360px;margin:-10px auto 40px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.info-card{background:rgba(255,255,255,0.2);border:1px solid rgba(188,0,45,0.02);border-radius:8px;padding:10px 14px}
+.info-card h4{font-family:var(--font-display);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--jpn-dark);margin-bottom:6px}
+.legend-grid{display:flex;flex-wrap:wrap;gap:4px}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:9px;color:rgba(26,26,46,0.2)}
+.legend-item .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.legend-item .dot.pac{background:#BC002D}.legend-item .dot.sho{background:#E65100}.legend-item .dot.pas{background:#1A237E}.legend-item .dot.dri{background:#BC002D}.legend-item .dot.def{background:#1A1A2E}.legend-item .dot.phy{background:#37474F}
+.rarity-legend{display:flex;flex-direction:column;gap:2px}
+.rarity-legend-row{display:flex;align-items:center;gap:6px;font-size:9px;color:rgba(26,26,46,0.2)}
+.rarity-legend-row .sw{width:18px;height:5px;border-radius:3px;flex-shrink:0}
+.rarity-legend-row .sw.gd{background:linear-gradient(90deg,#BC002D,#FFF)}
+.rarity-legend-row .sw.sv{background:linear-gradient(90deg,#888,#BBB)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.flip-container{animation:fadeUp .5s ease backwards}
+.flip-hint{text-align:center;font-size:9px;color:rgba(26,26,46,0.05);letter-spacing:1px;margin-top:-10px;margin-bottom:20px}
+@media(max-width:700px){:root{--card-width:290px;--card-padding:16px;--radar-size:190px;--card-height:490px}}
+</style></head><body>
+<header class="header"><div class="header-badge"><span>🇯🇵</span> 2026 WORLD CUP · JAPAN</div>
+<h1>SAMURAI BLUE<br>蓝武士</h1>
+<p class="sub">球星基准卡牌 · EA FC 27 OFFICIAL · 校园足球经理 2026</p></header>
+<p class="flip-hint">🔄 悬停翻转 · 正面球员肖像 · 背面数据</p>
+<div class="filter-bar">
+<button class="filter-btn active" data-filter="all">⚽ 全部</button>
+<button class="filter-btn" data-filter="starter">首发 XI</button>
+<button class="filter-btn" data-filter="sub">替补 SUB</button>
+<button class="filter-btn" data-filter="gold">⭐⭐⭐ 精英</button>
+<button class="filter-btn" data-filter="silver">⭐⭐ 高级</button>
+</div>
+<div class="card-grid" id="cardGrid"></div>
+<div class="info-panel">
+<div class="info-card"><h4>六维能力</h4><div class="legend-grid">
+<span class="legend-item"><span class="dot pac"></span> 速度</span><span class="legend-item"><span class="dot sho"></span> 射门</span><span class="legend-item"><span class="dot pas"></span> 传球</span>
+<span class="legend-item"><span class="dot dri"></span> 盘带</span><span class="legend-item"><span class="dot def"></span> 防守</span><span class="legend-item"><span class="dot phy"></span> 体能</span>
+</div></div>
+<div class="info-card"><h4>稀有度</h4><div class="rarity-legend">
+<div class="rarity-legend-row"><span class="sw gd"></span> ⭐⭐⭐ 精英</div>
+<div class="rarity-legend-row"><span class="sw sv"></span> ⭐⭐ 高级</div>
+</div></div>
+<div class="info-card"><h4>设计</h4><div style="font-size:9px;color:rgba(26,26,46,0.1);line-height:1.6;">日本🇯🇵 国旗配色<br>⚪ 白 · 🔴 红</div></div>
+</div>
+<script>
+const P=[{id:'kubo',nameEn:'Takefusa Kubo',nameZh:'久保建英',pos:'RW',club:'Real Sociedad',ovr:82,pac:86,sho:77,pas:78,dri:85,def:40,phy:64,skill:'💫 魔术师',style:'PLAYMAKER · 创造核心',rarity:'gold',starter:true},
+{id:'doan',nameEn:'Ritsu Doan',nameZh:'堂安律',pos:'RW',club:'Eintracht Frankfurt',ovr:82,pac:82,sho:71,pas:78,dri:85,def:41,phy:64,skill:'⚡ 边路突击',style:'WINGER · 边路',rarity:'gold',starter:true},
+{id:'kamada',nameEn:'Daichi Kamada',nameZh:'鎌田大地',pos:'LW',club:'Crystal Palace',ovr:80,pac:74,sho:76,pas:80,dri:82,def:55,phy:68,skill:'🎯 精准射门',style:'CREATIVE · 创意',rarity:'gold',starter:true},
+{id:'tomiyasu',nameEn:'Takehiro Tomiyasu',nameZh:'富安健洋',pos:'CB',club:'Ajax',ovr:79,pac:64,sho:56,pas:58,dri:70,def:81,phy:74,skill:'🧱 铁壁防守',style:'BUILDER · 出球后卫',rarity:'silver',starter:true},
+{id:'itakura',nameEn:'Ko Itakura',nameZh:'板仓滉',pos:'CB',club:'Ajax',ovr:80,pac:70,sho:55,pas:72,dri:70,def:82,phy:78,skill:'🛡️ 防线核心',style:'BALL-PLAYING CB',rarity:'gold',starter:true},
+{id:'endo',nameEn:'Wataru Endo',nameZh:'远藤航',pos:'CDM',club:'Liverpool F.C.',ovr:79,pac:58,sho:68,pas:71,dri:77,def:79,phy:73,skill:'🎵 中场节拍',style:'ANCHOR · 后场支柱',rarity:'silver',starter:true},
+{id:'tanaka',nameEn:'Ao Tanaka',nameZh:'田中碧',pos:'CM',club:'Leeds United',ovr:76,pac:72,sho:70,pas:76,dri:78,def:72,phy:74,skill:'🔁 全能引擎',style:'BOX-TO-BOX · 全能',rarity:'silver',starter:true},
+{id:'ito',nameEn:'Hiroki Ito',nameZh:'伊藤洋辉',pos:'CB',club:'FC Bayern München',ovr:78,pac:74,sho:57,pas:71,dri:72,def:80,phy:72,skill:'🔄 稳固防守',style:'BALL-PLAYING CB',rarity:'silver',starter:true},
+{id:'sugawara',nameEn:'Yukinari Sugawara',nameZh:'菅原由势',pos:'RB',club:'Werder Bremen',ovr:78,pac:80,sho:62,pas:74,dri:74,def:76,phy:74,skill:'📐 精准传中',style:'WING-BACK · 边翼卫',rarity:'silver',starter:true},
+{id:'suzuki',nameEn:'Zion Suzuki',nameZh:'铃木彩艳',pos:'GK',club:'Parma',ovr:79,pac:78,sho:76,pas:74,dri:80,def:19,phy:76,skill:'🧤 新星门神',style:'SHOT STOPPER',rarity:'silver',starter:true},
+{id:'ueda',nameEn:'Ayase Ueda',nameZh:'上田绮世',pos:'ST',club:'Feyenoord',ovr:78,pac:70,sho:78,pas:67,dri:77,def:46,phy:67,skill:'🎯 禁区猎手',style:'POACHER · 抢点型',rarity:'silver',starter:true},
+{id:'nakamura',nameEn:'Keito Nakamura',nameZh:'中村敬斗',pos:'LW',club:'Stade de Reims',ovr:78,pac:82,sho:76,pas:72,dri:78,def:42,phy:66,skill:'⚡ 边路快马',style:'WINGER · 速度型',rarity:'silver',starter:false},
+{id:'maeda',nameEn:'Daizen Maeda',nameZh:'前田大然',pos:'ST',club:'Celtic F.C.',ovr:79,pac:92,sho:79,pas:70,dri:76,def:65,phy:79,skill:'🏃 永动机',style:'FORWARD · 跑动型',rarity:'silver',starter:false},
+{id:'junya',nameEn:'Junya Ito',nameZh:'伊东纯也',pos:'RW',club:'Genk',ovr:78,pac:84,sho:72,pas:76,dri:78,def:44,phy:66,skill:'⚡ 边路飞翼',style:'WINGER · 速度型',rarity:'silver',starter:false}
+];
+
+function gR(p){const cx=120,cy=120,mR=95;const lbs=['PAC','SHO','PAS','DEF','PHY','DRI'];const vs=[p.pac,p.sho,p.pas,p.def,p.phy,p.dri];const cls=['#BC002D','#E65100','#1A237E','#1A1A2E','#37474F','#BC002D'];function hp(r,i){const a=(i*60-90)*Math.PI/180;return{x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)};}
+let s='<svg viewBox="0 0 240 240">';for(let r=1;r<=5;r++){const R=mR*(r/5);const pts=Array.from({length:6},(_,i)=>{const P=hp(R,i);return P.x+','+P.y}).join(' ');s+='<polygon points="'+pts+'" fill="none" stroke="rgba(26,26,46,0.02)" stroke-width="1"/>';}
+for(let i=0;i<6;i++){const P=hp(mR,i);s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+P.x+'" y2="'+P.y+'" stroke="rgba(26,26,46,0.02)" stroke-width="1"/>';}
+const dP=Array.from({length:6},(_,i)=>{const r=mR*(vs[i]/99)*1.05;const P=hp(r,i);return P.x+','+P.y}).join(' ');s+='<polygon points="'+dP+'" fill="rgba(188,0,45,0.04)" stroke="#BC002D" stroke-width="2" stroke-linejoin="round"/>';
+for(let i=0;i<6;i++){const r=mR*(vs[i]/99)*1.05;const P=hp(r,i);s+='<circle cx="'+P.x+'" cy="'+P.y+'" r="4" fill="'+cls[i]+'" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>';}
+for(let i=0;i<6;i++){const P=hp(mR+22,i);const a=i===0||i===3?'middle':(i<3?'start':'end');s+='<text x="'+P.x+'" y="'+P.y+'" fill="'+cls[i]+'" font-family="\'JetBrains Mono\',monospace" font-size="11" font-weight="600" text-anchor="'+a+'" dominant-baseline="middle">'+lbs[i]+'</text>';}
+s+='<text x="120" y="124" fill="rgba(26,26,46,0.06)" font-family="\'Oswald\',sans-serif" font-size="16" font-weight="700" text-anchor="middle">'+p.ovr+'</text>';
+s+='<defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';s+='</svg>';return s;}
+
+function rC(f){const g=document.getElementById('cardGrid');g.innerHTML='';const l=f==='all'?P:f==='starter'?P.filter(p=>p.starter):f==='sub'?P.filter(p=>!p.starter):P.filter(p=>p.rarity===f);
+const sM={gold:3,silver:2};l.forEach(p=>{const st=sM[p.rarity]||3;const ss=Array(st).fill('★').join('');const rN={gold:'GOLD',silver:'SILVER'}[p.rarity];
+const c=document.createElement('div');c.className='flip-container '+p.rarity;c.innerHTML=`
+<div class="flip-inner"><div class="card-front"><img class="front-bg" src="japan-cards/${p.id}.jpg" alt="${p.nameEn}" loading="lazy" onerror="this.style.display='none'"><div class="front-overlay"></div>${!p.starter?'<div class="front-sub">SUB</div>':''}
+<div class="front-content"><div class="front-top-bar"><div class="front-nation-badge"><span class="flag">🇯🇵</span><span class="name">JAPAN</span></div><div class="front-stars">${ss}</div></div>
+<div class="front-ovr-block"><div class="front-ovr-num">${p.ovr}</div><div class="front-pos-text">${p.pos}</div></div>
+<div class="front-bottom"><div><div class="front-name">${p.nameEn}</div><div class="front-name-zh">${p.nameZh}</div><div class="front-club">${p.club}</div></div>
+<div class="front-ui-panel"><div class="front-skill-icons"><div class="front-skill-icon">${p.skill.split(' ')[0]}</div><div class="front-skill-icon">⚽</div></div><div class="front-bottom-stars">${ss}</div></div></div></div></div>
+<div class="card-back"><div class="top-accent"></div><div class="card-inner">${!p.starter?'<div class="sub-badge">SUB</div>':''}
+<div class="card-series"><span class="series-name">🇯🇵 WORLD CUP 2026</span><span class="card-type">${rN}</span></div>
+<div class="card-identity"><div class="nation"><span class="flag">🇯🇵</span><span class="nation-name">JAPAN</span></div><div class="ovr-badge"><span class="ovr-number">${p.ovr}</span><span class="ovr-label">OVERALL</span></div></div>
+<div class="card-position-name"><div class="pos-badge">${p.pos}</div><div class="card-player-name"><div class="name-en">${p.nameEn}</div><div class="name-zh">${p.nameZh}</div><div class="club-name">${p.club}</div></div></div>
+<div class="radar-container"><svg viewBox="0 0 240 240">${gR(p)}</svg></div>
+<div class="stat-bars">${['pac','sho','pas','dri','def','phy'].map(s=>'<div class="stat-row '+s+'"><span class="stat-label '+s+'">'+s.toUpperCase()+'</span><div class="stat-track"><div class="stat-fill" style="width:'+p[s]+'%"></div></div><span class="stat-value">'+p[s]+'</span></div>').join('')}</div>
+<div class="card-footer"><span class="skill-badge"><span class="skill-icon">${p.skill.split(' ')[0]}</span>${p.skill.slice(p.skill.indexOf(' ')+1)}</span><span class="rarity-stars">${ss}<span class="rarity-label">${p.rarity==='gold'?'精英':'高级'}</span></span></div>
+<div class="play-style">${p.style}${p.note?' · '+p.note:''}</div></div></div></div>`;
+g.appendChild(c);c.addEventListener('mouseenter',()=>c.classList.add('flipped'));c.addEventListener('mouseleave',()=>c.classList.remove('flipped'));});}
+document.querySelectorAll('.filter-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');rC(b.dataset.filter);});});
+document.addEventListener('DOMContentLoaded',()=>rC('all'));
+</script></body></html>
