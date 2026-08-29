@@ -4,13 +4,87 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>校园足球经理·2030 | 第二届 AIGC 应用大赛</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+    <title>校园足球经理·2026 | 第二届 AIGC 应用大赛</title>
     <meta name="description" content="基于华科新闻男足真实数据的 AIGC 足球卡牌战棋游戏，将象棋棋盘改造为足球场，AI 球星对标，模拟成长，挑战世界杯传奇队。" />
-    <script type="module" crossorigin src="./assets/index-Clcv5mG5.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-0GzF9egq.css">
+    <script type="module" crossorigin src="./assets/index-CI4IJCZW.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CWk7izXj.css">
   </head>
   <body>
     <div id="root"></div>
-  </body>
+    <!-- BGM 全局音频：在React外面，页面切换不销毁 -->
+    <audio id="global-bgm" loop preload="auto" style="display:none"></audio>
+<!-- 预加载池：页面空闲时偷偷加载所有曲目 -->
+<script>
+(function(){
+  var _pool={},_vol=0.4,_current='',_rdy=false,_preloaded=0,_tries=0;
+  var TRACKS={dai_dai:'./audio/dai_dai.mp3',sirius:'./audio/sirius.mp3',titanium:'./audio/titanium.mp3',fifa_anthem:'./audio/fifa_anthem.mp3'};
+  var main=document.getElementById('global-bgm');
+
+  // ★ 设置曲目并尝试播放（可能被浏览器拦截，记住目标等待解锁）
+  function _setAndPlay(key){
+    _current=key;
+    if(!TRACKS[key])return;
+    var wasPaused=main.paused;
+    if(main.getAttribute('data-src')!==key){
+      main.src=TRACKS[key];
+      main.setAttribute('data-src',key);
+    }
+    main.volume=_vol;
+    main.play().then(function(){_rdy=true;})['catch'](function(e){
+      // 浏览器拦截了 — 记下目标，等首次用户交互时恢复
+      _current=key;
+    });
+  }
+
+  // ★ 首次用户交互时解锁并播放
+  function _unlock(){
+    if(_rdy)return;
+    // 预加载全部曲目
+    for(var k in TRACKS){
+      if(!_pool[k]){
+        var a=document.createElement('audio');
+        a.preload='auto';a.src=TRACKS[k];a.load();_pool[k]=a;
+      }
+    }
+    // 播放被拦截的曲目
+    if(_current && TRACKS[_current] && main.paused){
+      main.src=TRACKS[_current];
+      main.setAttribute('data-src',_current);
+      main.volume=_vol;
+      main.play().then(function(){_rdy=true;})['catch'](function(){});
+    }
+  }
+  document.addEventListener('click',_unlock,{once:true});
+  document.addEventListener('touchstart',_unlock,{once:true});
+
+  // 全局重试
+  function _retry(){if(!_rdy&&_current&&!main.paused)return;if(main.paused&&_current)_setAndPlay(_current);else _unlock();}
+  document.addEventListener('click',_retry);
+  document.addEventListener('touchstart',_retry);
+
+  window.__bgm=function(src){
+    var key=src.replace('./audio/','').replace('.mp3','');
+    if(_current===key&&!main.paused)return;
+    _setAndPlay(key);
+    // 后台预加载其余曲目
+    if(_preloaded===0)setTimeout(_bgPreload,800);
+  };
+  window.__bgmStop=function(){if(main){main.pause();main.currentTime=0;}};
+  window.__bgmPause=function(){if(main)main.pause();};
+  window.__bgmResume=function(){if(main&&_rdy)main.play()['catch'](function(){});};
+  window.__bgmVol=function(v){_vol=Math.max(0,Math.min(1,v/100));if(main)main.volume=_vol;};
+
+  function _bgPreload(){
+    var keys=Object.keys(TRACKS);
+    if(_preloaded>=keys.length)return;
+    var k=keys[_preloaded];_preloaded++;
+    if(!_pool[k]){var a=document.createElement('audio');a.preload='auto';a.src=TRACKS[k];a.load();_pool[k]=a;}
+    if(_preloaded<keys.length)requestIdleCallback?requestIdleCallback(_bgPreload):setTimeout(_bgPreload,1500);
+  }
+})();
+</script>
+  <!-- 1787973815751 --></body>
 </html>
- 
